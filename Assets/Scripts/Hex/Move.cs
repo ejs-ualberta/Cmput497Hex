@@ -7,7 +7,7 @@ public class Move{
 
     //Note that the move location is the upper left location of the tile.
     //i.e. if the tile is vertical is the location of the top half of the tile.
-    public Vector2Int Location { get; private set; }    
+    public Vector2Int Location { get; private set; }        
 
     public Move(Vector2Int location)
     {

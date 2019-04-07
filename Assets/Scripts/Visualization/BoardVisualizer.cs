@@ -125,9 +125,24 @@ public class BoardVisualizer : MonoBehaviour
         newPiece.GetComponent<MeshRenderer>().material =
             (tileState == TileState.Black) ? _blackPieceMaterial : _whitePieceMaterial;
         newPiece.transform.position = GetWorldPositionFromGridLocation(location + Vector2Int.one) + _upPieceDistance;
-        newPiece.GetComponent<Piece>().PlayerName =
-            (tileState == TileState.Black) ? PlayerName.Black : PlayerName.White;
+        newPiece.GetComponent<Piece>().PlayerColours =
+            (tileState == TileState.Black) ? PlayerColours.Black : PlayerColours.White;
+        newPiece.GetComponent<Piece>().Location = location;
         return newPiece;
+    }
+
+    internal void RemovePiece(Vector2Int location)
+    {
+        foreach (Transform piece in _piecesRoot)
+        {
+            var pieceComp = piece.GetComponent<Piece>();
+            if (pieceComp.Location.x == location.x && pieceComp.Location.y == location.y)
+            {
+                Destroy(pieceComp.gameObject);
+                return;
+            }
+        }
+            
     }
 
     private Vector3 GetWorldPositionFromGridLocation(Vector2Int location)
@@ -166,17 +181,17 @@ public class BoardVisualizer : MonoBehaviour
     }
 
 
-    public void ShowWinner(List<Vector2Int> winningLine,PlayerName winnerName)
+    public void ShowWinner(List<Vector2Int> winningLine,PlayerColours winnerColours)
     {
 
         foreach (Transform piece in _piecesRoot)
         {
-            if (piece.GetComponent<Piece>().PlayerName == winnerName)
+            if (piece.GetComponent<Piece>().PlayerColours == winnerColours)
                 piece.GetComponent<Animator>().SetTrigger(FlashPiecesHash);
         }
         foreach (var location in winningLine)
             _tiles[_board.GetBoardIndexFromLocation(location)].GetComponent<MeshRenderer>().material =
-                (winnerName == PlayerName.White) ? _whiteTileBorderMaterial : _blackTileBorderMaterial;
+                (winnerColours == PlayerColours.White) ? _whiteTileBorderMaterial : _blackTileBorderMaterial;
 
 
 

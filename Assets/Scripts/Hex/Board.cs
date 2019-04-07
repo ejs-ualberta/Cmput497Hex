@@ -27,11 +27,20 @@ public class Board
 
     public bool IsLeftPlayerMove { get; private set; } //i.e. left or right
 
+    //The list of current possible moves
     private List<Move> _cachedMoveList = null;
     
+    //The moves searched that formed a winning line
     private readonly List<Vector2Int> _winningLine = new List<Vector2Int>();
 
+    //Storage used to track whether a node has been found in DFS/BFS winning search
     private readonly Dictionary<Vector2Int,bool> _winningSearchState = new Dictionary<Vector2Int, bool>();
+
+    //Records the moves played this game.
+    private readonly Stack<MoveHistoryEntry> _elapsedMoves = new Stack<MoveHistoryEntry>();
+
+    //Records the moves that have been undone
+    private readonly Stack<MoveHistoryEntry> _undoneMoves = new Stack<MoveHistoryEntry>();
 
     private bool _isGameOver = false;
 
@@ -40,9 +49,9 @@ public class Board
         get { return _isGameOver; }
     }
 
-    public PlayerName PlayerToMove
+    public PlayerColours PlayerToMove
     {
-        get { return (IsLeftPlayerMove) ? PlayerName.Black : PlayerName.White; }
+        get { return (IsLeftPlayerMove) ? PlayerColours.Black : PlayerColours.White; }
     }
 
     public List<Vector2Int> WinningLine
@@ -51,6 +60,11 @@ public class Board
         {
             return _winningLine;
         }
+    }
+
+    public Move LastMove
+    {
+        get { return new Move(_elapsedMoves.Peek().Location); }
     }
 
     public Board(Vector2Int dimensions)
@@ -84,7 +98,8 @@ public class Board
         _cachedMoveList = null;
         BoardState = Enumerable.Repeat(TileState.Empty, Dimensions.x * Dimensions.y).ToList();
         IsLeftPlayerMove = true;
-        
+        _elapsedMoves.Clear();
+        _undoneMoves.Clear();
     }
 
 
@@ -199,6 +214,11 @@ public class Board
             return;
         }
 
+        //If a new move is played it doesn't make sense to be able to redo moves                 
+        _undoneMoves.Clear();
+        
+
+
         ForceMove(move, (IsLeftPlayerMove ? TileState.Black : TileState.White));
 
         foreach (var key in _winningSearchState.Keys.ToList())
@@ -219,16 +239,30 @@ public class Board
 
         BoardState[moveIndex] = tileState;
 
-        RemoveMovesFromCache(move);
+        RemoveMoveFromCache(move);
 
+        _elapsedMoves.Push(new MoveHistoryEntry()
+        {
+            Location = move.Location,
+            TileState = tileState
+        });
     }
 
-    public void ForcePlayerToPlay(PlayerName player)
+    public void ForcePlayerToPlay(PlayerColours player)
     {
-        IsLeftPlayerMove = (player == PlayerName.Black);
+        IsLeftPlayerMove = (player == PlayerColours.Black);
     }
 
-    private void RemoveMovesFromCache(Move move)
+    private void AddMoveToCache(Move move)
+    {
+        if (_cachedMoveList == null)
+            return;
+
+
+        _cachedMoveList.Add(move);
+    }
+
+    private void RemoveMoveFromCache(Move move)
     {
         //Update cached moves
         if (_cachedMoveList == null)
@@ -236,6 +270,45 @@ public class Board
 
 
         _cachedMoveList.Remove(move);
+    }
+
+    public Move UndoMove()
+    {
+        if (_elapsedMoves.Count == 0)
+            return null;
+        var lastMoveHistory = _elapsedMoves.Pop();
+        var move = new Move(lastMoveHistory.Location);
+        
+        _undoneMoves.Push(lastMoveHistory);
+
+        var moveIndex = GetBoardIndexFromLocation(move.Location);
+        
+        BoardState[moveIndex] = TileState.Empty;
+        
+        
+        AddMoveToCache(move);
+        return move;
+    }
+
+    public Move RedoMove()
+    {
+        if (_undoneMoves.Count == 0)
+            return null;
+            
+        var redoneMoveHistory = _undoneMoves.Pop();
+        var move = new Move(redoneMoveHistory.Location);
+
+
+        IsLeftPlayerMove = redoneMoveHistory.TileState == TileState.White;
+        ForceMove(move, redoneMoveHistory.TileState);
+        
+        return move;
+    }
+
+    
+    public void InvalidateUndoableMoves()
+    {
+        _elapsedMoves.Clear();
     }
 
     public bool IsLocationWithinBoard(Vector2Int location)
@@ -396,4 +469,11 @@ public class Board
         return new[]{ hasConnectionOne, hasConnectionTwo };
     }
     #endregion
+
+    private struct MoveHistoryEntry
+    {
+        internal Vector2Int Location { get; set; }
+        internal TileState TileState { get; set; }        
+
+    }
 }

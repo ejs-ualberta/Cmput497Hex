@@ -16,9 +16,9 @@ public class GameManager : MonoBehaviour
         {
             _paintMode = value;
             if (_paintMode == PaintMode.PaintWhite)
-                Board.ForcePlayerToPlay(PlayerName.White);
+                Board.ForcePlayerToPlay(PlayerColours.White);
             else if(_paintMode == PaintMode.PaintBlack)
-                Board.ForcePlayerToPlay(PlayerName.Black);
+                Board.ForcePlayerToPlay(PlayerColours.Black);
         }
     }
 
@@ -91,6 +91,25 @@ public class GameManager : MonoBehaviour
     {
         _currentBoard = new Board(boardString);
         Init();
+        _currentBoard.InvalidateUndoableMoves();
+    }
+
+    public void UndoMove()
+    {
+        var undoneMove = _currentBoard.UndoMove();
+        if (undoneMove == null)
+            return;
+        _boardVisualization.RemovePiece(undoneMove.Location);
+    }
+
+    public void RedoMove()
+    {
+        var redoneMove = _currentBoard.RedoMove();
+        if (redoneMove == null)
+            return;        
+        _boardVisualization.GenerateNewPiece(redoneMove.Location,
+            _currentBoard.IsLeftPlayerMove ? TileState.White : TileState.Black);
+
     }
 
     private void Init()
@@ -106,7 +125,7 @@ public class GameManager : MonoBehaviour
         _agentIndex = 0;
         GetNextMoveFromAgent();
         if (PaintMode == PaintMode.PaintWhite)
-            _currentBoard.ForcePlayerToPlay(PlayerName.White);
+            _currentBoard.ForcePlayerToPlay(PlayerColours.White);
     }
 
     private void GetNextMoveFromAgent()
@@ -124,7 +143,7 @@ public class GameManager : MonoBehaviour
 
         if (_currentBoard.IsGameOver)
         {
-            var winner = _currentBoard.IsLeftPlayerMove ? PlayerName.White : PlayerName.Black;
+            var winner = _currentBoard.IsLeftPlayerMove ? PlayerColours.White : PlayerColours.Black;
             var winnerIndex = _currentBoard.IsLeftPlayerMove ? 1 : 0;
 
 
@@ -140,10 +159,10 @@ public class GameManager : MonoBehaviour
         switch (PaintMode)
         {
             case PaintMode.PaintBlack:
-                _currentBoard.ForcePlayerToPlay(PlayerName.Black);
+                _currentBoard.ForcePlayerToPlay(PlayerColours.Black);
                 break;
             case PaintMode.PaintWhite:
-                _currentBoard.ForcePlayerToPlay(PlayerName.White);
+                _currentBoard.ForcePlayerToPlay(PlayerColours.White);
                 break;
         }
         GetNextMoveFromAgent();

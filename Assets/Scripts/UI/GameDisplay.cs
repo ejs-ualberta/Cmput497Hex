@@ -13,4 +13,14 @@ public class GameDisplay : Display
     {
         DisplaysManager.instance.ShowDisplay(DisplaysManager.instance.EditDisplay);
     }
+
+    public void Undo()
+    {
+        _gameManager.UndoMove();
+    }
+
+    public void Redo()
+    {
+        _gameManager.RedoMove();
+    }
 }
