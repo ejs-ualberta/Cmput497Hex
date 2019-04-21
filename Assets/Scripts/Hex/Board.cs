@@ -285,7 +285,8 @@ public class Board
         
         BoardState[moveIndex] = TileState.Empty;
         
-        
+        ForcePlayerToPlay(lastMoveHistory.TileState == TileState.Black? PlayerColours.Black : PlayerColours.White);
+
         AddMoveToCache(move);
         return move;
     }
