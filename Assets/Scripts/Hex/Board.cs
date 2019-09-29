@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Experimental.UIElements;
 using Random = UnityEngine.Random;
 
 //This class holds the Hex game logic.
@@ -64,7 +63,11 @@ public class Board
 
     public Move LastMove
     {
-        get { return new Move(_elapsedMoves.Peek().Location); }
+        get { 
+            if(_elapsedMoves.Count == 0)
+                return null;            
+            return new Move(_elapsedMoves.Peek().Location);            
+        }
     }
 
     public Board(Vector2Int dimensions)
