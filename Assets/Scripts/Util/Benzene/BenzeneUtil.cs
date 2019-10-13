@@ -39,6 +39,7 @@ public static class BenzeneUtil
         var stdIn = process.StandardInput;
         stdIn.WriteLine(command);
         stdIn.Flush();
+
         string result = "";
 
         while (!process.StandardOutput.EndOfStream) {
@@ -49,8 +50,22 @@ public static class BenzeneUtil
             
             result += line;            
         }
-        if(result.Contains("="))
-            return result.Split('=')[1].Trim();
-        return "";
+
+        return result.Trim();
+    }
+
+    public static Vector2Int HexPointToLocation(string hexpoint){
+        return new Vector2Int(hexpoint[0] - 'a',int.Parse(hexpoint.Substring(1)) - 1);
+    }
+
+    public static Move TryToParseMove(string commandStr){
+    
+        if(commandStr.Contains("="))
+            commandStr = commandStr.Split('=')[1].Trim();
+
+        if(commandStr == "resign")
+            return null;
+
+        return new Move(HexPointToLocation(commandStr));
     }
 }

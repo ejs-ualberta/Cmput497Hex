@@ -20,7 +20,7 @@ public class BoardVisualizer : MonoBehaviour
     [SerializeField] private Material _blackTileBorderMaterial;    
     [SerializeField] private Material _blackPieceMaterial;
     [SerializeField] private Material _whitePieceMaterial;
-
+    [SerializeField] private Material[] _patternHighlightMaterials;
     //These gameobjects hold all the tiles and pieces as children respectively
     [SerializeField] private Transform _tilesRoot;
     [SerializeField] private Transform _piecesRoot;
@@ -42,6 +42,7 @@ public class BoardVisualizer : MonoBehaviour
     private Vector2Int _dimensionsWithBorders;
     private readonly List<GameObject> _tiles = new List<GameObject>();
     private readonly Dictionary<Vector2Int,GameObject> _selectedMoves = new Dictionary<Vector2Int, GameObject>();
+    private readonly List<Tile> _highlightedTiles = new List<Tile>();
     private Board _board;
 
     
@@ -102,7 +103,7 @@ public class BoardVisualizer : MonoBehaviour
                 var isPlayable = x != 0 && y != 0 && x != _dimensionsWithBorders.x - 1 &&
                                  y != _dimensionsWithBorders.y - 1;
 
-                newTile.GetComponentInChildren<MeshRenderer>().material = tileMaterial;
+                newTile.GetComponent<Tile>().CanonicalMaterial = tileMaterial;
                 newTile.GetComponent<Tile>().IsPlayable = isPlayable;
                 newTile.GetComponent<Tile>().Location = playableLocation;
 
@@ -155,7 +156,9 @@ public class BoardVisualizer : MonoBehaviour
 
     public void SelectMove(Vector2Int move, TileState tileState)
     {
-        ClearAllSelectedMoves();
+        //At most one piece visualized per location
+        if(_selectedMoves.ContainsKey(move))
+            ClearSelectedMove(move);
 
         var newPiece = GenerateNewPiece(move,tileState);
         var material = newPiece.GetComponent<MeshRenderer>().material;
@@ -179,6 +182,31 @@ public class BoardVisualizer : MonoBehaviour
 
         _selectedMoves.Clear();        
     }
+
+    public void HighlightTile(Vector2Int location,int patternIndex){
+        var tile = _tiles[_board.Dimensions.x * location.y + location.x];
+        if(tile.GetComponent<Tile>().Location.x != location.x || tile.GetComponent<Tile>().Location.y != location.y){
+            Debug.LogError("Wrong tile highlighted!");
+        }
+        if(patternIndex > _patternHighlightMaterials.Length)
+            Debug.LogWarning("Insufficient materials to draw all pattens at once.");
+        tile.GetComponent<Tile>().Material = _patternHighlightMaterials[patternIndex % _patternHighlightMaterials.Length];
+        _highlightedTiles.Add(tile.GetComponent<Tile>());
+    }
+
+    public void RemoveHighlight(Vector2Int location){
+        var tile = _tiles[_board.Dimensions.x * location.y + location.x];
+        var tileComp = tile.GetComponent<Tile>();
+        tileComp.Material = tileComp.CanonicalMaterial;
+        _highlightedTiles.Remove(tileComp);
+    }
+
+    public void RemoveAllHighlights(){
+        foreach(var tileComp in _highlightedTiles)
+            tileComp.Material = tileComp.CanonicalMaterial;
+        _highlightedTiles.Clear();
+    }
+
 
 
     public void ShowWinner(List<Vector2Int> winningLine,PlayerColours winnerColours)

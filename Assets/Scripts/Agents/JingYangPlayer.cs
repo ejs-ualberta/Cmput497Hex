@@ -10,7 +10,7 @@ public class JingYangPlayer : Agent
 
     private void Start(){
         Debug.Log(BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.name));
-        if("JY" != BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.name)){
+        if("= JY" != BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.name)){
             Debug.LogError("Failed to start jingyang player");
             return;
         }
@@ -35,22 +35,22 @@ public class JingYangPlayer : Agent
     public override void OnMyMoveEvent(Board board, MoveChoiceCallback moveChoiceCallback)
     {
 
-        Debug.LogFormat("Move of opponent: {0}",board.LastMove);
+        
         //Ensure states are consistent
         if(board.LastMove != null)
             BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.play(PlayerColours.White, board.LastMove));
 
         var moveStr = BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.genmove(PlayerColours.Black));   
-        Debug.LogFormat("Move of jingyang: {0}",moveStr);
-        //This code assumes board is 9x9 therefore 1 digit values for x,y
-        var x =  moveStr[0] - 'a';
-        var y = moveStr[1] - '0' - 1;
         
-        var move = new Move(new Vector2Int(x,y));
+
+        var move = BenzeneUtil.TryToParseMove(moveStr);
 
         Debug.Log(move);
 
         moveChoiceCallback(move);
     }
 
+    private void OnApplicationExit(){
+        BenzeneUtil.JingYang.Kill();
+    }
 }

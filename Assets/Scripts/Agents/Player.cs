@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Player : Agent
 {    
-    [SerializeField] private Camera _camera;
-    [SerializeField] private BoardVisualizer _visualization;    
-    [SerializeField] private Board _board;
-    private Vector2Int _visualizedLocation = new Vector2Int(-1,-1);
-    private List<Move> _validMoves = null;
-    private Move _visualizedMove = null;
+    [SerializeField] protected Camera _camera;
+    [SerializeField] protected BoardVisualizer _visualization;    
+    [SerializeField] protected Board _board;
+    protected Vector2Int _visualizedLocation = new Vector2Int(-1,-1);
+    protected List<Move> _validMoves = null;
+    protected Move _visualizedMove = null;
 
-    private bool _isSelectingMove = false;
+    protected bool _isSelectingMove = false;
 
-    private MoveChoiceCallback _moveChoiceCallback = null;
+    protected MoveChoiceCallback _moveChoiceCallback = null;
 
     public override AgentType Type
     {
@@ -31,6 +31,12 @@ public class Player : Agent
     void Update ()
 	{
     
+
+        VisualizeMove();
+	}
+
+    public virtual void VisualizeMove(){
+            
 
 	    if (_visualizedMove != null)
 	    {
@@ -79,7 +85,7 @@ public class Player : Agent
 
 	        _visualizedMove = null;
 	    }   
-	}
+    }
 
     public override void OnMyMoveEvent(Board board, MoveChoiceCallback moveChoiceCallback)
     {

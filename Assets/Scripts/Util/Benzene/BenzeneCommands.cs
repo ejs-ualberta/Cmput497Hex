@@ -14,6 +14,7 @@ public static class BenzeneCommands {
     public readonly static string compute_reversible = "compute-reversible";
     public readonly static string compute_vulnerable = "compute-vulnerable";
 
+    public readonly static string play_game = "play-game";
     public static string play(PlayerColours colour, Move move){
         string moveStr = "";
         moveStr += (char)('a' + move.Location.x);
@@ -26,7 +27,9 @@ public static class BenzeneCommands {
         return string.Format("genmove {0}", (colour == PlayerColours.Black) ? "b" : "w");
     }
 
+    public readonly static string show_jypattern_list = "show_jypattern_list";
     public readonly static string showboard = "showboard";
     public readonly static string name = "name";
+    public readonly static string undo = "undo";
 }
 
