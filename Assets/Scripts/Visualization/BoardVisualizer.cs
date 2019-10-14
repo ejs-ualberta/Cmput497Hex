@@ -56,6 +56,7 @@ public class BoardVisualizer : MonoBehaviour
     private void GenerateNewBoard(Board board)
     {
         _tiles.Clear();
+        _highlightedTiles.Clear();
         var dimensions = board.Dimensions;
 
         _downTileDistance = _downTile.transform.position - _originTile.transform.position;

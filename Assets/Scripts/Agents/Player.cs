@@ -22,6 +22,10 @@ public class Player : Agent
 
     void OnEnable()
     {        
+
+    }
+
+    public override void Reset(){
         _visualizedMove = null;
         _isSelectingMove = false;
         _validMoves = null;

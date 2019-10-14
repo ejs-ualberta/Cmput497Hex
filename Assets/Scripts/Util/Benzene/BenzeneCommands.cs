@@ -14,12 +14,10 @@ public static class BenzeneCommands {
     public readonly static string compute_reversible = "compute-reversible";
     public readonly static string compute_vulnerable = "compute-vulnerable";
 
-    public readonly static string play_game = "play-game";
     public static string play(PlayerColours colour, Move move){
         string moveStr = "";
         moveStr += (char)('a' + move.Location.x);
         moveStr += (char)('0' + move.Location.y + 1);
-        Debug.LogFormat("Sent {0} to jingyang",moveStr);
         return string.Format("play {0} {1}",(colour == PlayerColours.Black) ? "b" : "w",moveStr);
     } 
 

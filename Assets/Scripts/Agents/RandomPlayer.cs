@@ -31,4 +31,7 @@ public class RandomPlayer : Agent
         
     }
 
+    public override void Reset(){
+        
+    }
 }

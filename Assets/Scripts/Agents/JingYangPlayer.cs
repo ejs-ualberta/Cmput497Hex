@@ -17,6 +17,10 @@ public class JingYangPlayer : Agent
         BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.boardsize(new Vector2Int(9,9)));
     }
 
+    public override void Reset(){
+        BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.clear_board);
+    }
+
     public override AgentType Type
     {
         get { return AgentType.JingYang; }
@@ -45,7 +49,6 @@ public class JingYangPlayer : Agent
 
         var move = BenzeneUtil.TryToParseMove(moveStr);
 
-        Debug.Log(move);
 
         moveChoiceCallback(move);
     }

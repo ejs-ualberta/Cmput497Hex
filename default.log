@@ -1,54 +1,391 @@
-a4ad7 config: JY v2.0.CMake Sep 18 2019.
-a4ad7 config: ============ InitializeSystem ============
-a4ad7 config: BenzeneProgram::InitRandom()
-a4ad7 config: Seed = 1571006214
-a4ad7 config: IcePatternSet: reading from '/home/d/benzene-vanilla-cmake/share/ice-patterns.txt'.
-a4ad7 config: IcePatternSet: parsed 708 patterns.
-a4ad7 config: VCS: reading captured set patterns from '/home/d/benzene-vanilla-cmake/share/vc-captured-set.txt'.
-a4ad7 config: VCS:: parsed 2 patterns.
-a4ad7 config: VCS: reading captured set patterns from '/home/d/benzene-vanilla-cmake/share/vc-captured-set.txt'.
-a4ad7 config: VCS:: parsed 2 patterns.
-a4ad7 config: IcePatternSet: reading from '/home/d/benzene-vanilla-cmake/share/ice-patterns.txt'.
-a4ad7 config: IcePatternSet: parsed 708 patterns.
-a4ad7 config: VCS: reading captured set patterns from '/home/d/benzene-vanilla-cmake/share/vc-captured-set.txt'.
-a4ad7 config: VCS:: parsed 2 patterns.
-a4ad7 config: VCS: reading captured set patterns from '/home/d/benzene-vanilla-cmake/share/vc-captured-set.txt'.
-a4ad7 config: VCS:: parsed 2 patterns.
-a4ad7 info: boardsize: 9
-a4ad7 info: Num of loaded patterns: 715
-a4ad7 info: Current pattern list:{1,}
-a4ad7 info: 
+77e77 config: JY v2.0.CMake Sep 18 2019.
+77e77 config: ============ InitializeSystem ============
+77e77 config: BenzeneProgram::InitRandom()
+77e77 config: Seed = 1571070926
+77e77 config: IcePatternSet: reading from '/home/d/benzene-vanilla-cmake/share/ice-patterns.txt'.
+77e77 config: IcePatternSet: parsed 708 patterns.
+77e77 config: VCS: reading captured set patterns from '/home/d/benzene-vanilla-cmake/share/vc-captured-set.txt'.
+77e77 config: VCS:: parsed 2 patterns.
+77e77 config: VCS: reading captured set patterns from '/home/d/benzene-vanilla-cmake/share/vc-captured-set.txt'.
+77e77 config: VCS:: parsed 2 patterns.
+77e77 config: IcePatternSet: reading from '/home/d/benzene-vanilla-cmake/share/ice-patterns.txt'.
+77e77 config: IcePatternSet: parsed 708 patterns.
+77e77 config: VCS: reading captured set patterns from '/home/d/benzene-vanilla-cmake/share/vc-captured-set.txt'.
+77e77 config: VCS:: parsed 2 patterns.
+77e77 config: VCS: reading captured set patterns from '/home/d/benzene-vanilla-cmake/share/vc-captured-set.txt'.
+77e77 config: VCS:: parsed 2 patterns.
+77e77 info: boardsize: 9
+77e77 info: Num of loaded patterns: 715
+77e77 info: Current pattern list:{1,}
+77e77 info: 
 Default pattern file: /home/d/benzene-vanilla-cmake/share/hex99-3.txt
-a4ad7 info: 
+77e77 info: 
 Num of lines in pattern file:26231
-a4ad7 config: VCS: reading captured set patterns from '/home/d/benzene-vanilla-cmake/share/vc-captured-set.txt'.
-a4ad7 config: VCS:: parsed 2 patterns.
-a4ad7 config: VCS: reading captured set patterns from '/home/d/benzene-vanilla-cmake/share/vc-captured-set.txt'.
-a4ad7 config: VCS:: parsed 2 patterns.
-a4ad7 config: VCS: reading captured set patterns from '/home/d/benzene-vanilla-cmake/share/vc-captured-set.txt'.
-a4ad7 config: VCS:: parsed 2 patterns.
-a4ad7 config: VCS: reading captured set patterns from '/home/d/benzene-vanilla-cmake/share/vc-captured-set.txt'.
-a4ad7 config: VCS:: parsed 2 patterns.
-a4ad7 info: last point:g3
-a4ad7 info: Pattern to decompose:1 BN:1 Decompos into:{
-a4ad7 info: 21 33 32 31 30 29 24 23 22 21 20 16 15 14 13 12 11 8 7 6 5 4 3 2 39 
-a4ad7 info: 21 47 48 49 50 51 56 57 58 59 60 64 65 66 67 68 69 72 73 74 75 76 77 78 41 
-a4ad7 info: }
-a4ad7 info: last point:d8
-a4ad7 info: Pattern to decompose:21 BN:5 Decompos into:{
-a4ad7 info: 28 1 2 4 5 6 7 8 9 10 12 14 15 16 18 19 20 21 22 23 
-a4ad7 info: }
-a4ad7 info: last point:e2
-a4ad7 info: Pattern to decompose:21 BN:5 Decompos into:{
-a4ad7 info: 28 1 2 4 5 6 7 8 9 10 12 14 15 16 18 19 20 21 22 23 
-a4ad7 info: }
-a4ad7 info: last point:c7
-a4ad7 info: Pattern to decompose:28 BN:0 Decompos into:{
-a4ad7 info: 2 3 7 
-a4ad7 info: 5 9 11 12 13 16 17 18 19 
-a4ad7 info: }
-a4ad7 info: last point:c3
-a4ad7 info: Pattern to decompose:28 BN:1 Decompos into:{
-a4ad7 info: 2 14 15 
-a4ad7 info: 13 5 1 2 6 
-a4ad7 info: }
+77e77 config: VCS: reading captured set patterns from '/home/d/benzene-vanilla-cmake/share/vc-captured-set.txt'.
+77e77 config: VCS:: parsed 2 patterns.
+77e77 config: VCS: reading captured set patterns from '/home/d/benzene-vanilla-cmake/share/vc-captured-set.txt'.
+77e77 config: VCS:: parsed 2 patterns.
+77e77 config: VCS: reading captured set patterns from '/home/d/benzene-vanilla-cmake/share/vc-captured-set.txt'.
+77e77 config: VCS:: parsed 2 patterns.
+77e77 config: VCS: reading captured set patterns from '/home/d/benzene-vanilla-cmake/share/vc-captured-set.txt'.
+77e77 config: VCS:: parsed 2 patterns.
+77e77 info: last point:f4
+77e77 info: Pattern to decompose:1 BN:10 Decompos into:{
+77e77 info: 370 80 79 78 77 76 75 74 73 72 71 70 69 68 67 66 65 64 63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 
+77e77 info: }
+77e77 info: last point:g3
+77e77 info: Pattern to decompose:1 BN:1 Decompos into:{
+77e77 info: 21 33 32 31 30 29 24 23 22 21 20 16 15 14 13 12 11 8 7 6 5 4 3 2 39 
+77e77 info: 21 47 48 49 50 51 56 57 58 59 60 64 65 66 67 68 69 72 73 74 75 76 77 78 41 
+77e77 info: }
+77e77 info: last point:f4
+77e77 info: Pattern to decompose:1 BN:10 Decompos into:{
+77e77 info: 370 80 79 78 77 76 75 74 73 72 71 70 69 68 67 66 65 64 63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 
+77e77 info: }
+77e77 info: after rotation last move:d5
+77e77 info: last point:d5
+77e77 info: Pattern to decompose:1 BN:6 Decompos into:{
+77e77 info: 2 33 41 
+77e77 info: 336 35 36 42 43 44 48 49 50 51 52 53 56 57 58 59 60 61 62 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
+77e77 info: 702 32 31 26 25 24 23 22 21 18 17 16 15 14 13 12 9 8 7 6 5 4 3 
+77e77 info: }
+77e77 info: after rotation last move:d4
+77e77 info: last point:d4
+77e77 info: Pattern to decompose:1 BN:0 Decompos into:{
+77e77 info: 2 32 33 
+77e77 info: 5 23 16 15 14 8 7 6 5 
+77e77 info: 286 9 17 18 25 26 27 34 35 36 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
+77e77 info: }
+77e77 info: after rotation last move:d5
+77e77 info: last point:d5
+77e77 info: Pattern to decompose:1 BN:6 Decompos into:{
+77e77 info: 2 33 41 
+77e77 info: 336 35 36 42 43 44 48 49 50 51 52 53 56 57 58 59 60 61 62 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
+77e77 info: 702 32 31 26 25 24 23 22 21 18 17 16 15 14 13 12 9 8 7 6 5 4 3 
+77e77 info: }
+77e77 info: after rotation last move:d4
+77e77 info: last point:d4
+77e77 info: Pattern to decompose:1 BN:0 Decompos into:{
+77e77 info: 2 32 33 
+77e77 info: 5 23 16 15 14 8 7 6 5 
+77e77 info: 286 9 17 18 25 26 27 34 35 36 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
+77e77 info: }
+77e77 info: after rotation last move:c5
+77e77 info: last point:c5
+77e77 info: Pattern to decompose:1 BN:0 Decompos into:{
+77e77 info: 2 32 33 
+77e77 info: 5 23 16 15 14 8 7 6 5 
+77e77 info: 286 9 17 18 25 26 27 34 35 36 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
+77e77 info: }
+77e77 info: last point:g4
+77e77 info: Pattern to decompose:1 BN:1 Decompos into:{
+77e77 info: 21 33 32 31 30 29 24 23 22 21 20 16 15 14 13 12 11 8 7 6 5 4 3 2 39 
+77e77 info: 21 47 48 49 50 51 56 57 58 59 60 64 65 66 67 68 69 72 73 74 75 76 77 78 41 
+77e77 info: }
+77e77 info: last point:g3
+77e77 info: Pattern to decompose:1 BN:1 Decompos into:{
+77e77 info: 21 33 32 31 30 29 24 23 22 21 20 16 15 14 13 12 11 8 7 6 5 4 3 2 39 
+77e77 info: 21 47 48 49 50 51 56 57 58 59 60 64 65 66 67 68 69 72 73 74 75 76 77 78 41 
+77e77 info: }
+77e77 info: last point:e2
+77e77 info: Pattern to decompose:1 BN:4 Decompos into:{
+77e77 info: 332 80 79 78 77 76 75 74 73 72 71 70 69 68 67 66 65 64 63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 13 12 11 10 9 8 7 6 5 4 3 2 1 
+77e77 info: }
+77e77 info: last point:d3
+77e77 info: Pattern to decompose:1 BN:0 Decompos into:{
+77e77 info: 2 32 33 
+77e77 info: 5 23 16 15 14 8 7 6 5 
+77e77 info: 286 9 17 18 25 26 27 34 35 36 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
+77e77 info: }
+77e77 info: last point:d4
+77e77 info: Pattern to decompose:1 BN:0 Decompos into:{
+77e77 info: 2 32 33 
+77e77 info: 5 23 16 15 14 8 7 6 5 
+77e77 info: 286 9 17 18 25 26 27 34 35 36 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
+77e77 info: }
+77e77 info: last point:c5
+77e77 info: Pattern to decompose:1 BN:0 Decompos into:{
+77e77 info: 2 32 33 
+77e77 info: 5 23 16 15 14 8 7 6 5 
+77e77 info: 286 9 17 18 25 26 27 34 35 36 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
+77e77 info: }
+77e77 info: last point:d5
+77e77 info: Pattern to decompose:1 BN:6 Decompos into:{
+77e77 info: 2 33 41 
+77e77 info: 336 35 36 42 43 44 48 49 50 51 52 53 56 57 58 59 60 61 62 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
+77e77 info: 702 32 31 26 25 24 23 22 21 18 17 16 15 14 13 12 9 8 7 6 5 4 3 
+77e77 info: }
+77e77 info: after rotation last move:f4
+77e77 info: last point:f4
+77e77 info: Pattern to decompose:1 BN:10 Decompos into:{
+77e77 info: 370 80 79 78 77 76 75 74 73 72 71 70 69 68 67 66 65 64 63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 
+77e77 info: }
+77e77 info: after rotation last move:g4
+77e77 info: last point:g4
+77e77 info: Pattern to decompose:1 BN:1 Decompos into:{
+77e77 info: 21 33 32 31 30 29 24 23 22 21 20 16 15 14 13 12 11 8 7 6 5 4 3 2 39 
+77e77 info: 21 47 48 49 50 51 56 57 58 59 60 64 65 66 67 68 69 72 73 74 75 76 77 78 41 
+77e77 info: }
+77e77 info: last point:d5
+77e77 info: Pattern to decompose:1 BN:6 Decompos into:{
+77e77 info: 2 33 41 
+77e77 info: 336 35 36 42 43 44 48 49 50 51 52 53 56 57 58 59 60 61 62 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
+77e77 info: 702 32 31 26 25 24 23 22 21 18 17 16 15 14 13 12 9 8 7 6 5 4 3 
+77e77 info: }
+77e77 info: last point:c5
+77e77 info: Pattern to decompose:1 BN:0 Decompos into:{
+77e77 info: 2 32 33 
+77e77 info: 5 23 16 15 14 8 7 6 5 
+77e77 info: 286 9 17 18 25 26 27 34 35 36 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
+77e77 info: }
+77e77 info: last point:d5
+77e77 info: Pattern to decompose:1 BN:6 Decompos into:{
+77e77 info: 2 33 41 
+77e77 info: 336 35 36 42 43 44 48 49 50 51 52 53 56 57 58 59 60 61 62 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
+77e77 info: 702 32 31 26 25 24 23 22 21 18 17 16 15 14 13 12 9 8 7 6 5 4 3 
+77e77 info: }
+77e77 info: after rotation last move:f4
+77e77 info: last point:f4
+77e77 info: Pattern to decompose:1 BN:10 Decompos into:{
+77e77 info: 370 80 79 78 77 76 75 74 73 72 71 70 69 68 67 66 65 64 63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 
+77e77 info: }
+77e77 info: last point:f4
+77e77 info: Pattern to decompose:1 BN:10 Decompos into:{
+77e77 info: 370 80 79 78 77 76 75 74 73 72 71 70 69 68 67 66 65 64 63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 
+77e77 info: }
+77e77 info: last point:f4
+77e77 info: Pattern to decompose:1 BN:10 Decompos into:{
+77e77 info: 370 80 79 78 77 76 75 74 73 72 71 70 69 68 67 66 65 64 63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 
+77e77 info: }
+77e77 info: last point:g3
+77e77 info: Pattern to decompose:370 BN:11 Decompos into:{
+77e77 info: 66 40 32 31 25 24 23 22 17 16 15 14 13 9 8 7 6 5 4 
+77e77 info: 442 34 41 42 48 49 55 56 57 58 63 64 65 66 67 71 72 73 74 75 76 
+77e77 info: }
+77e77 info: last point:h2
+77e77 info: Pattern to decompose:370 BN:11 Decompos into:{
+77e77 info: 66 40 32 31 25 24 23 22 17 16 15 14 13 9 8 7 6 5 4 
+77e77 info: 442 34 41 42 48 49 55 56 57 58 63 64 65 66 67 71 72 73 74 75 76 
+77e77 info: }
+77e77 info: last point:h1
+77e77 info: Pattern to decompose:370 BN:13 Decompos into:{
+77e77 info: 84 48 56 57 58 64 65 66 67 72 73 74 75 76 
+77e77 info: 286 70 62 61 54 53 52 47 46 45 41 40 39 38 37 36 35 34 33 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 
+77e77 info: }
+77e77 info: last point:g1
+77e77 info: Pattern to decompose:370 BN:14 Decompos into:{
+77e77 info: 2 70 71 
+77e77 info: 86 48 56 57 58 55 65 66 67 54 63 73 74 75 76 
+77e77 info: 285 53 47 46 45 41 40 39 38 37 36 35 34 33 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 
+77e77 info: }
+77e77 info: last point:g2
+77e77 info: Pattern to decompose:370 BN:13 Decompos into:{
+77e77 info: 84 48 56 57 58 64 65 66 67 72 73 74 75 76 
+77e77 info: 286 70 62 61 54 53 52 47 46 45 41 40 39 38 37 36 35 34 33 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 
+77e77 info: }
+77e77 info: last point:d9
+77e77 info: Pattern to decompose:370 BN:9 Decompos into:{
+77e77 info: 478 78 77 76 75 74 73 72 71 70 69 68 67 66 65 64 63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 33 32 31 30 29 28 27 26 25 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 5 4 3 2 1 
+77e77 info: }
+77e77 info: last point:d8
+77e77 info: Pattern to decompose:370 BN:6 Decompos into:{
+77e77 info: 2 32 33 
+77e77 info: 469 78 77 76 75 74 73 72 71 70 69 68 67 66 65 64 63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 31 30 29 28 27 26 25 23 22 21 20 19 18 17 16 14 13 12 11 10 9 8 7 6 5 4 3 2 1 
+77e77 info: }
+77e77 info: last point:e7
+77e77 info: Pattern to decompose:370 BN:0 Decompos into:{
+77e77 info: 2 32 33 
+77e77 info: 5 25 15 16 17 6 7 8 9 
+77e77 info: 22 48 49 54 55 56 57 58 62 63 64 65 66 67 70 71 72 73 74 75 76 
+77e77 info: }
+77e77 info: last point:d8
+77e77 info: Pattern to decompose:370 BN:6 Decompos into:{
+77e77 info: 2 32 33 
+77e77 info: 469 78 77 76 75 74 73 72 71 70 69 68 67 66 65 64 63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 31 30 29 28 27 26 25 23 22 21 20 19 18 17 16 14 13 12 11 10 9 8 7 6 5 4 3 2 1 
+77e77 info: }
+77e77 info: last point:d7
+77e77 info: Pattern to decompose:370 BN:5 Decompos into:{
+77e77 info: 2 33 41 
+77e77 info: 42 40 39 38 32 31 30 29 26 25 23 22 21 20 17 16 15 14 13 12 11 9 8 7 6 5 4 3 2 
+77e77 info: 22 48 49 54 55 56 57 58 62 63 64 65 66 67 70 71 72 73 74 75 76 
+77e77 info: }
+77e77 info: last point:c8
+77e77 info: Pattern to decompose:370 BN:7 Decompos into:{
+77e77 info: 2 32 33 
+77e77 info: 468 78 77 76 75 74 73 72 71 70 69 68 67 66 65 64 63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 31 30 29 28 27 26 25 23 22 21 20 19 18 17 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 
+77e77 info: }
+77e77 info: last point:d7
+77e77 info: Pattern to decompose:370 BN:5 Decompos into:{
+77e77 info: 2 33 41 
+77e77 info: 42 40 39 38 32 31 30 29 26 25 23 22 21 20 17 16 15 14 13 12 11 9 8 7 6 5 4 3 2 
+77e77 info: 22 48 49 54 55 56 57 58 62 63 64 65 66 67 70 71 72 73 74 75 76 
+77e77 info: }
+77e77 info: last point:d7
+77e77 info: Pattern to decompose:370 BN:5 Decompos into:{
+77e77 info: 2 33 41 
+77e77 info: 42 40 39 38 32 31 30 29 26 25 23 22 21 20 17 16 15 14 13 12 11 9 8 7 6 5 4 3 2 
+77e77 info: 22 48 49 54 55 56 57 58 62 63 64 65 66 67 70 71 72 73 74 75 76 
+77e77 info: }
+77e77 info: last point:c8
+77e77 info: Pattern to decompose:42 BN:0 Decompos into:{
+77e77 info: 2 8 9 
+77e77 info: 2 21 22 
+77e77 info: }
+77e77 info: last point:c9
+77e77 info: Pattern to decompose:42 BN:0 Decompos into:{
+77e77 info: 2 8 9 
+77e77 info: 2 21 22 
+77e77 info: }
+77e77 info: last point:b9
+77e77 info: Pattern to decompose:42 BN:4 Decompos into:{
+77e77 info: 2 8 9 
+77e77 info: 281 1 2 3 4 5 6 7 21 10 11 12 13 15 16 17 18 19 20 23 24 25 26 27 28 
+77e77 info: }
+77e77 info: last point:c8
+77e77 info: Pattern to decompose:42 BN:0 Decompos into:{
+77e77 info: 2 8 9 
+77e77 info: 2 21 22 
+77e77 info: }
+77e77 info: last point:b9
+77e77 info: Pattern to decompose:42 BN:4 Decompos into:{
+77e77 info: 2 8 9 
+77e77 info: 281 1 2 3 4 5 6 7 21 10 11 12 13 15 16 17 18 19 20 23 24 25 26 27 28 
+77e77 info: }
+77e77 info: last point:b9
+77e77 info: Pattern to decompose:42 BN:4 Decompos into:{
+77e77 info: 2 8 9 
+77e77 info: 281 1 2 3 4 5 6 7 21 10 11 12 13 15 16 17 18 19 20 23 24 25 26 27 28 
+77e77 info: }
+77e77 info: last point:c9
+77e77 info: Pattern to decompose:281 BN:0 Decompos into:{ }
+77e77 info: last point:d9
+77e77 info: Pattern to decompose:281 BN:0 Decompos into:{ }
+77e77 info: last point:e9
+77e77 info: Pattern to decompose:281 BN:0 Decompos into:{ }
+77e77 info: last point:d9
+77e77 info: Pattern to decompose:281 BN:0 Decompos into:{ }
+77e77 info: last point:c9
+77e77 info: Pattern to decompose:281 BN:0 Decompos into:{ }
+77e77 info: last point:c8
+77e77 info: Pattern to decompose:281 BN:0 Decompos into:{ }
+77e77 info: last point:a9
+77e77 info: Pattern to decompose:281 BN:1 Decompos into:{
+77e77 info: 2 1 4 
+77e77 info: 282 6 7 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 
+77e77 info: }
+77e77 info: last point:a9
+77e77 info: Pattern to decompose:281 BN:1 Decompos into:{
+77e77 info: 2 1 4 
+77e77 info: 282 6 7 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 
+77e77 info: }
+77e77 info: last point:c9
+77e77 info: Pattern to decompose:282 BN:0 Decompos into:{
+77e77 info: 2 3 4 
+77e77 info: 2 14 15 
+77e77 info: }
+77e77 info: last point:d9
+77e77 info: Pattern to decompose:282 BN:1 Decompos into:{
+77e77 info: 2 1 4 
+77e77 info: 5 6 10 11 12 15 16 17 18 
+77e77 info: }
+77e77 info: last point:e9
+77e77 info: Pattern to decompose:282 BN:2 Decompos into:{
+77e77 info: 23 3 5 8 9 10 11 13 14 16 17 
+77e77 info: }
+77e77 info: last point:e9
+77e77 info: Pattern to decompose:282 BN:2 Decompos into:{
+77e77 info: 23 3 5 8 9 10 11 13 14 16 17 
+77e77 info: }
+77e77 info: last point:e8
+77e77 info: Pattern to decompose:23 BN:0 Decompos into:{
+77e77 info: 2 2 5 
+77e77 info: 2 9 10 
+77e77 info: }
+77e77 info: last point:d8
+77e77 info: Pattern to decompose:23 BN:0 Decompos into:{
+77e77 info: 2 2 5 
+77e77 info: 2 9 10 
+77e77 info: }
+77e77 info: last point:e8
+77e77 info: Pattern to decompose:23 BN:0 Decompos into:{
+77e77 info: 2 2 5 
+77e77 info: 2 9 10 
+77e77 info: }
+77e77 info: last point:f8
+77e77 info: Pattern to decompose:23 BN:1 Decompos into:{
+77e77 info: 2 1 4 
+77e77 info: 2 7 8 
+77e77 info: }
+77e77 info: last point:e8
+77e77 info: Pattern to decompose:23 BN:0 Decompos into:{
+77e77 info: 2 2 5 
+77e77 info: 2 9 10 
+77e77 info: }
+77e77 info: last point:f8
+77e77 info: Pattern to decompose:23 BN:1 Decompos into:{
+77e77 info: 2 1 4 
+77e77 info: 2 7 8 
+77e77 info: }
+77e77 info: last point:g6
+77e77 info: Out of pattern_list coverage, select the first brach of the last pattern 23
+77e77 info: Pattern to decompose:23 BN:0 Decompos into:{
+77e77 info: 2 2 5 
+77e77 info: 2 9 10 
+77e77 info: }
+77e77 info: last point:f1
+77e77 info: Pattern to decompose:22 BN:3 Decompos into:{
+77e77 info: 23 4 6 9 10 11 12 15 16 18 19 
+77e77 info: }
+77e77 info: last point:f2
+77e77 info: Pattern to decompose:22 BN:1 Decompos into:{
+77e77 info: 2 1 5 
+77e77 info: 5 7 11 12 13 17 18 19 20 
+77e77 info: }
+77e77 info: last point:e2
+77e77 info: Pattern to decompose:22 BN:0 Decompos into:{
+77e77 info: 2 4 5 
+77e77 info: 2 16 17 
+77e77 info: }
+77e77 info: last point:f1
+77e77 info: Pattern to decompose:22 BN:3 Decompos into:{
+77e77 info: 23 4 6 9 10 11 12 15 16 18 19 
+77e77 info: }
+77e77 info: last point:e2
+77e77 info: Pattern to decompose:22 BN:0 Decompos into:{
+77e77 info: 2 4 5 
+77e77 info: 2 16 17 
+77e77 info: }
+77e77 info: last point:e1
+77e77 info: Pattern to decompose:22 BN:0 Decompos into:{
+77e77 info: 2 4 5 
+77e77 info: 2 16 17 
+77e77 info: }
+77e77 info: last point:d2
+77e77 info: Pattern to decompose:22 BN:0 Decompos into:{
+77e77 info: 2 4 5 
+77e77 info: 2 16 17 
+77e77 info: }
+77e77 info: last point:e3
+77e77 info: Pattern to decompose:22 BN:2 Decompos into:{
+77e77 info: 5 3 10 9 8 17 16 15 14 
+77e77 info: }
+77e77 info: last point:f3
+77e77 info: Pattern to decompose:22 BN:1 Decompos into:{
+77e77 info: 2 1 5 
+77e77 info: 5 7 11 12 13 17 18 19 20 
+77e77 info: }
+77e77 info: last point:g2
+77e77 info: Pattern to decompose:22 BN:0 Decompos into:{
+77e77 info: 2 4 5 
+77e77 info: 2 16 17 
+77e77 info: }
+77e77 info: last point:f3
+77e77 info: Pattern to decompose:22 BN:1 Decompos into:{
+77e77 info: 2 1 5 
+77e77 info: 5 7 11 12 13 17 18 19 20 
+77e77 info: }
+77e77 info: last point:g2
+77e77 info: Pattern to decompose:22 BN:0 Decompos into:{
+77e77 info: 2 4 5 
+77e77 info: 2 16 17 
+77e77 info: }

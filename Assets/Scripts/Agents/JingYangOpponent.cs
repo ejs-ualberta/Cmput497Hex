@@ -17,8 +17,9 @@ public class JingYangOpponent : Player
         if(_visualizedMove == _visualizedPatternForMove)
             return;
 
-        if(_visualizedCounterMove != null && _visualizedMove != null && _visualizedCounterMove.Location != _visualizedMove.Location)
-            _visualization.ClearSelectedMove(_visualizedCounterMove.Location);
+        if(_visualizedCounterMove != null )
+            if(_visualizedMove == null || _visualizedCounterMove.Location != _visualizedMove.Location)
+                _visualization.ClearSelectedMove(_visualizedCounterMove.Location);
 
         if(_visualizedMove == null){
             _visualizedPatternForMove = null;
@@ -28,14 +29,13 @@ public class JingYangOpponent : Player
         }
         BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,
             BenzeneCommands.play(PlayerColours.White,_visualizedMove));
-        //Currently there is a bug with JingYang player ability to undo moves leading to invalid games.
-        //_visualizedCounterMove = BenzeneUtil.TryToParseMove(BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,
-        //    BenzeneCommands.genmove(PlayerColours.Black)));
+        _visualizedCounterMove = BenzeneUtil.TryToParseMove(BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,
+            BenzeneCommands.genmove(PlayerColours.Black)));
         VisualizePatterns();
-        for(int i = 0; i < 1 ;i++)
+        for(int i = 0; i < 2 ;i++)
             BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,
                 BenzeneCommands.undo);
-        //_visualization.SelectMove(_visualizedCounterMove.Location,TileState.Black);
+        _visualization.SelectMove(_visualizedCounterMove.Location,TileState.Black);
         _visualizedPatternForMove = _visualizedMove;
     }
 
@@ -65,5 +65,11 @@ public class JingYangOpponent : Player
     {
         base.OnMyMoveEvent(board,moveChoiceCallback);
         VisualizePatterns();
+    }
+
+    public override void Reset(){
+        base.Reset();
+        _visualizedPatternForMove = null;
+        _visualizedCounterMove = null;
     }
 }
