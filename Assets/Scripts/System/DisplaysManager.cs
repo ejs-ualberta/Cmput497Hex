@@ -9,6 +9,8 @@ public class DisplaysManager : MonoBehaviour
     [SerializeField] internal SplashScreenDisplay SplashDisplay;
     [SerializeField] internal EditDisplay EditDisplay;
     [SerializeField] internal PuzzlesDisplay PuzzlesDisplay;
+    [SerializeField] internal BotsDisplay BotsDisplay;
+    [SerializeField] internal BotGameDisplay BotGameDisplay;
 
     public static DisplaysManager instance;
 

@@ -14,6 +14,10 @@ public class GameDisplay : Display
         DisplaysManager.instance.ShowDisplay(DisplaysManager.instance.EditDisplay);
     }
 
+    public void Bots(){
+        DisplaysManager.instance.ShowDisplay(DisplaysManager.instance.BotsDisplay);
+    }
+
     public void Undo()
     {
         _gameManager.UndoMove();
