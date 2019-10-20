@@ -8,11 +8,11 @@ using UnityEngine;
 public static class BenzeneUtil
 {   
 
-    private static readonly string _jingyangPathSuffix = "/../jingyang"; 
+    private static readonly string _jingyangPathSuffix = "/jingyang"; 
 
     private static Process _jingyang;
 
-    public static Process JingYang{
+    public static Process JingYang{ 
         get{
             if(_jingyang == null)
                 LaunchJingYang();
@@ -21,9 +21,9 @@ public static class BenzeneUtil
     }
 
     private static void LaunchJingYang(){
-      
+        
 
-        if(!File.Exists(Application.dataPath + _jingyangPathSuffix))
+        if(!File.Exists(Application.streamingAssetsPath + _jingyangPathSuffix))
             UnityEngine.Debug.LogError("Couldn't find JingYang executable.");
 
         _jingyang = new Process();
@@ -32,7 +32,7 @@ public static class BenzeneUtil
         _jingyang.StartInfo.RedirectStandardOutput = true;
         _jingyang.StartInfo.RedirectStandardInput = true;
         _jingyang.StartInfo.CreateNoWindow = true;
-        _jingyang.StartInfo.FileName = Application.dataPath + _jingyangPathSuffix;
+        _jingyang.StartInfo.FileName = Application.streamingAssetsPath + _jingyangPathSuffix;
         _jingyang.Start();
     }
 

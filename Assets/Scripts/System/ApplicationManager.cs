@@ -21,7 +21,7 @@ public class ApplicationManager : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))
-            ShowSplashScreen();            
+            Application.Quit();            
     }
 
 
