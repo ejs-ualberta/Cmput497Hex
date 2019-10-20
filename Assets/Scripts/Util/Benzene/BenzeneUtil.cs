@@ -7,16 +7,9 @@ using UnityEngine;
 
 public static class BenzeneUtil
 {   
-#if UNITY_EDITOR
-    private static readonly string _jingyangPath = "/home/d/benzene-vanilla-cmake/build/src/jingyang/jingyang";
+
     private static readonly string _jingyangPathSuffix = "/../jingyang"; 
-#elif UNITY_STANDALONE_LINUX
-    //Application.dataPath + /../ gives the directory containing the binary.
-    //So just need to have the jingyang executable in the same folder to work.
-    private static readonly string _jingyangPathSuffix = "/../jingyang"; 
-#elif UNITY_STANDALONE_OSX
-    private static readonly string _jingyangPathSuffix = "/../jingyang";
-#endif
+
     private static Process _jingyang;
 
     public static Process JingYang{
@@ -28,11 +21,7 @@ public static class BenzeneUtil
     }
 
     private static void LaunchJingYang(){
-        
-
-        
-        if(!File.Exists(_jingyangPath))
-            UnityEngine.Debug.LogError("Couldn't find JingYang executable.");
+      
 
         if(!File.Exists(Application.dataPath + _jingyangPathSuffix))
             UnityEngine.Debug.LogError("Couldn't find JingYang executable.");
@@ -43,11 +32,7 @@ public static class BenzeneUtil
         _jingyang.StartInfo.RedirectStandardOutput = true;
         _jingyang.StartInfo.RedirectStandardInput = true;
         _jingyang.StartInfo.CreateNoWindow = true;
-#if UNITY_EDITOR
-        _jingyang.StartInfo.FileName = _jingyangPath;
-#else
         _jingyang.StartInfo.FileName = Application.dataPath + _jingyangPathSuffix;
-#endif
         _jingyang.Start();
     }
 
