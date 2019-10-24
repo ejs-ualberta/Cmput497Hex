@@ -1,6 +1,6 @@
 # Hex
 
-This repository contains an implementation of the game *Hex* in Unity by David Pankratz for Cmput 497.
+This repository contains an implementation of the game *Hex* in Unity by David Pankratz for Cmput 497. This has been subsequently expanded to include support for a Benzene backend. 
 
 # Installing
 
@@ -29,7 +29,7 @@ This repository contains an implementation of the game *Hex* in Unity by David P
  - Instead Visual Studios Code can be used which also has some integration with Unity. 
 
 ## General
- - Once you have chosen your desired add-ons press `Next`.
+ - Once you have chosen your desired add-ons press `Next`.
  - As the Unity Editor is installing you can clone this repository.
  - Once the editor is installed, press the `projects` button on the left side of Unity Hub.
  - Press the `add` button and navigate to the folder containing the repo and press `open`.
