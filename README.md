@@ -9,17 +9,17 @@ This repository contains an implementation of the game *Hex* in Unity by David P
  - Run the installer `UnityHubSetup.dmg`
  - Press `Agree`.
  - Drag the Unity Hub icon to the applications folder
- - Run Unity Hub from Launchpad
- - In Unity Hub, press the `installs` button on the left side and then press `Add` on the right side.
- - Choose Version `Unity 2019.2.9f1` or similar and press `next`
- - (Optional) If you're planning on modifying code then it is recommended to keep selected Visual Studio for Mac
- - (Optional) Depending on your target platforms you can select build tools to create standalone builds.
- - Once you have chosen your desired add-ons press `Next`.
- - As the Unity Editor is installing you can clone this repository.
- - Once the editor is installed, press the `projects` button on the left side of Unity Hub.
- - Press the `add` button and navigate to the folder containing the repo and press `open`.
- - Open the project called `Cmput497Hex` and then press confirm to upgrade the project.
- - Once the project is opened, click on the folder `Scenes` and drag the scene called `Hex` to the `Hierarchy` tab.
+ - Run Unity Hub from Launchpad
+ - In Unity Hub, press the `installs` button on the left side and then press `Add` on the right side.
+ - Choose Version `Unity 2019.2.9f1` or similar and press `next`
+ - (Optional) If you're planning on modifying code then it is recommended to keep selected Visual Studio for Mac
+ - (Optional) Depending on your target platforms you can select build tools to create standalone builds.
+ - Once you have chosen your desired add-ons press `Next`.
+ - As the Unity Editor is installing you can clone this repository.
+ - Once the editor is installed, press the `projects` button on the left side of Unity Hub.
+ - Press the `add` button and navigate to the folder containing the repo and press `open`.
+ - Open the project called `Cmput497Hex` and then press confirm to upgrade the project.
+ - Once the project is opened, click on the folder `Scenes` and drag the scene called `Hex` to the `Hierarchy` tab.
 
 ## Windows
  - Note that windows does not currently support the Benzene integration due to difficulty building on Windows.
