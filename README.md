@@ -30,10 +30,10 @@ This repository contains an implementation of the game *Hex* in Unity by David P
 
 ## General
  - Once you have chosen your desired add-ons press `Next`.
- - As the Unity Editor is installing you can clone this repository.
- - Once the editor is installed, press the `projects` button on the left side of Unity Hub.
- - Press the `add` button and navigate to the folder containing the repo and press `open`.
- - Open the project called `Cmput497Hex` and then press confirm to upgrade the project.
+ - As the Unity Editor is installing you can clone this repository.
+ - Once the editor is installed, press the `projects` button on the left side of Unity Hub.
+ - Press the `add` button and navigate to the folder containing the repo and press `open`.
+ - Open the project called `Cmput497Hex` and then press confirm to upgrade the project.
  - It is possible that the main scene will not be included by default when opening the project for the first time. To remedy this navigate to `Assets/Scenes` in the **Project** window and drag the `Domineering` scene to the **Hierarchy** window. 
  - At this point the project should be setup and can be ran by pressing the triangular run button at the top of the editor. 
 
