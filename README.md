@@ -7,8 +7,8 @@ This repository contains an implementation of the game *Hex* in Unity by David P
 ## OSX
  - Press `Download Unity Hub` on the download [page][Unity hub download]
  - Run the installer `UnityHubSetup.dmg`
- - Press `Agree`
- - Drag the Unity Hub icon to the applications folder
+ - Press `Agree`.
+ - Drag the Unity Hub icon to the applications folder
  - Run Unity Hub from Launchpad
  - In Unity Hub, press the `installs` button on the left side and then press `Add` on the right side.
  - Choose Version `Unity 2019.2.9f1` or similar and press `next`
