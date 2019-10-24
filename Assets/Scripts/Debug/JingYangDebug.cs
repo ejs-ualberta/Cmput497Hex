@@ -11,8 +11,8 @@ public class JingYangDebug : MonoBehaviour
     [SerializeField] private BoardVisualizer _visualizer;
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape)){
-            Application.Quit();
+        if(Input.GetKeyDown(KeyCode.A)){
+            _gameManager.UndoMoves(2);
         }
 
     }

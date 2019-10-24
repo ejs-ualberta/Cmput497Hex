@@ -111,5 +111,8 @@ public class Player : Agent
         _moveChoiceCallback = null;
     }
 
+    public override void OnUndoEvent(){
+        
+    }
 
 }

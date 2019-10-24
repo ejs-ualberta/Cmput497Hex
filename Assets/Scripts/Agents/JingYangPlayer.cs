@@ -39,18 +39,17 @@ public class JingYangPlayer : Agent
     public override void OnMyMoveEvent(Board board, MoveChoiceCallback moveChoiceCallback)
     {
 
-        
         //Ensure states are consistent
         if(board.LastMove != null)
             BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.play(PlayerColours.White, board.LastMove));
 
         var moveStr = BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.genmove(PlayerColours.Black));   
-        
-
         var move = BenzeneUtil.TryToParseMove(moveStr);
-
-
         moveChoiceCallback(move);
+    }
+
+    public override void OnUndoEvent(){
+        BenzeneUtil.IssueCommand(BenzeneUtil.JingYang, BenzeneCommands.undo);
     }
 
     private void OnApplicationExit(){

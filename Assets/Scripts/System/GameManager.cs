@@ -96,10 +96,21 @@ public class GameManager : MonoBehaviour
 
     public void UndoMove()
     {
-        var undoneMove = _currentBoard.UndoMove();
-        if (undoneMove == null)
+        if(TryUndo() == false)
             return;
-        _boardVisualization.RemovePiece(undoneMove.Location);
+        foreach(var agent in _agents)
+            agent.OnUndoEvent();
+        GetNextMoveFromAgent();
+    }
+
+    public void UndoMoves(int numToUndo){
+        while(numToUndo > 0 && TryUndo()){
+            numToUndo--;
+            foreach(var agent in _agents)
+                agent.OnUndoEvent();
+        }
+
+        GetNextMoveFromAgent();
     }
 
     public void RedoMove()
@@ -117,10 +128,8 @@ public class GameManager : MonoBehaviour
         Settings.BoardDimensions = _currentBoard.Dimensions;
         _boardVisualization.VisualizeBoard(_currentBoard);
         _lastMoveTime = Time.time + _minimumTimeBetweenMoves * 2;
-        _agents[0].gameObject.SetActive(false);
-        _agents[1].gameObject.SetActive(false);
-        _agents[0].gameObject.SetActive(true);
-        _agents[1].gameObject.SetActive(true);
+        _agents[0].Reset();
+        _agents[1].Reset();
         _nextMove = null;
         _agentIndex = 0;
         GetNextMoveFromAgent();
@@ -130,7 +139,7 @@ public class GameManager : MonoBehaviour
 
     private void GetNextMoveFromAgent()
     {
-        _agents[_agentIndex++ % _agents.Length].OnMyMoveEvent(_currentBoard, ReceiveMoveFromAgent);
+        _agents[_currentBoard.IsLeftPlayerMove ? 0 : 1].OnMyMoveEvent(_currentBoard, ReceiveMoveFromAgent);
     }
 
     private void CommitMove()
@@ -171,7 +180,13 @@ public class GameManager : MonoBehaviour
         
     }
 
-
+    private bool TryUndo(){
+        var undoneMove = _currentBoard.UndoMove();
+        if (undoneMove == null)
+            return false;
+        _boardVisualization.RemovePiece(undoneMove.Location);
+        return true;
+    }
     private void ReceiveMoveFromAgent(Move move)
     {
         _nextMove = move;

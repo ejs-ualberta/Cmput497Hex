@@ -31,7 +31,6 @@ public class RandomPlayer : Agent
         
     }
 
-    public override void Reset(){
-        
-    }
+    public override void Reset(){}
+    public override void OnUndoEvent(){}
 }

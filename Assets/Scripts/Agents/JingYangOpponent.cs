@@ -67,6 +67,14 @@ public class JingYangOpponent : Player
         VisualizePatterns();
     }
 
+    public override void OnUndoEvent(){
+        base.Reset();
+        _visualization.ClearAllSelectedMoves();
+        _visualization.RemoveAllHighlights();
+        _visualizedPatternForMove = null;
+        _visualizedCounterMove = null;
+    }
+
     public override void Reset(){
         base.Reset();
         _visualizedPatternForMove = null;

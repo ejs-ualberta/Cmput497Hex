@@ -15,6 +15,8 @@ public abstract class Agent : MonoBehaviour
 
     public abstract void OnGameOverEvent(bool isWinner);
 
+    public abstract void OnUndoEvent();
+
     public abstract void Reset();
 
     public void OnEnable(){

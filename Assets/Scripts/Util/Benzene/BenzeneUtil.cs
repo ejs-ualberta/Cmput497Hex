@@ -7,9 +7,11 @@ using UnityEngine;
 
 public static class BenzeneUtil
 {   
-
-    private static readonly string _jingyangPathSuffix = "/jingyang"; 
-
+#if UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX
+    private static readonly string _jingyangPathSuffix = "/jingyang-linux"; 
+#elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+    private static readonly string _jingyangPathSuffix = "/jingyang-mac"; 
+#endif
     private static Process _jingyang;
 
     public static Process JingYang{ 
