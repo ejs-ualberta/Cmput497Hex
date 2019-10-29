@@ -4,6 +4,8 @@ This repository contains an implementation of the game *Hex* in Unity by David P
 
 # Installing
 
+There are extensive resources available online for downloading Unity but there are detailed instructions given here to save time on installation. 
+
 ## OSX
  - Press `Download Unity Hub` on the download [page][Unity hub download]
  - Run the installer `UnityHubSetup.dmg`
@@ -25,8 +27,7 @@ This repository contains an implementation of the game *Hex* in Unity by David P
  - Note that windows does not currently support the Benzene integration due to difficulty building on Windows.
 
 ## Ubuntu
- - Installation is analogous to **OSX** except that Ubuntu does not have Visual Studio support. 
- - Instead Visual Studios Code can be used which also has some integration with Unity. 
+ - Installation is analogous to **OSX** except that Ubuntu does not have Visual Studio support. Instead Visual Studios Code can be used which also has some integration with Unity. 
 
 ## General
  - Once you have chosen your desired add-ons press `Next`.
