@@ -32,6 +32,8 @@ public class Player : Agent
         _moveChoiceCallback = null;
     }
 
+    
+
     void Update ()
 	{
     
@@ -41,6 +43,12 @@ public class Player : Agent
 
     public virtual void VisualizeMove(){
             
+
+
+	    //Only visualize if allowed to move.
+        if (!_isSelectingMove)
+	        return;
+
 
 	    if (_visualizedMove != null)
 	    {
@@ -52,10 +60,6 @@ public class Player : Agent
 	            _visualizedMove = null;
 	        }
 	    }
-
-	    //Only visualize if allowed to move.
-        if (!_isSelectingMove)
-	        return;
 
         var ray = _camera.ScreenPointToRay(InputManager.mousePosition);
 	    RaycastHit hit;
@@ -89,6 +93,13 @@ public class Player : Agent
 
 	        _visualizedMove = null;
 	    }   
+        else{
+            //No longer mousing over a valid move
+            if(_visualizedMove != null){
+                _visualization.ClearSelectedMove(_visualizedMove.Location);
+                _visualizedMove = null;
+            }
+        }
     }
 
     public override void OnMyMoveEvent(Board board, MoveChoiceCallback moveChoiceCallback)

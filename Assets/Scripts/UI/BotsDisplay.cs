@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class BotsDisplay : Display
 {
+
     [SerializeField] private GameManager _gameManager;
+    
+
     [SerializeField] private JingYangPlayer _jingYangPlayer;
     [SerializeField] private JingYangOpponent _jingYangOpponent;
+    [SerializeField] private MoHexPlayer _moHexPlayer;
+    [SerializeField] private Player _moHexOpponent;
     private Agent[] _agents = new Agent[0];
     private string _state = "";
     private bool _inBotGame = false;
@@ -23,9 +28,13 @@ public class BotsDisplay : Display
 
     public void JingYang(){
         StartBotGame();
-        DisplaysManager.instance.ShowDisplay(DisplaysManager.instance.BotGameDisplay);
         Settings.BoardDimensions = new Vector2Int(9,9);
         _gameManager.ResetGameWithNewAgents(new Agent[]{_jingYangPlayer,_jingYangOpponent});
+    }
+
+    public void MoHex(){
+        StartBotGame();
+        _gameManager.ResetGameWithNewAgents(new Agent[]{_moHexPlayer,_moHexOpponent});
     }
     public void Back()
     {
@@ -35,6 +44,7 @@ public class BotsDisplay : Display
     private void StartBotGame(){
         _inBotGame = true;
         SaveState();
+        DisplaysManager.instance.ShowDisplay(DisplaysManager.instance.BotGameDisplay);
     }
     private void SaveState(){
         _state = _gameManager.Board.ToString();

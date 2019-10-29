@@ -7,39 +7,55 @@ using UnityEngine;
 
 public static class BenzeneUtil
 {   
+
+
 #if UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX
-    private static readonly string _jingyangPathSuffix = "/jingyang-linux"; 
+    private static readonly string _pathSuffix = "-linux"; 
 #elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
-    private static readonly string _jingyangPathSuffix = "/jingyang-mac"; 
+    private static readonly string _pathSuffix = "-mac";     
 #endif
+
+    private static readonly string _jingyangPath = Application.streamingAssetsPath + "/jingyang" + _pathSuffix;
+    private static readonly string _moHexPath = Application.streamingAssetsPath + "/mohex" + _pathSuffix;
     private static Process _jingyang;
+    private static Process _moHex;
 
     public static Process JingYang{ 
         get{
             if(_jingyang == null)
-                LaunchJingYang();
+                _jingyang = LaunchProcess(_jingyangPath);
             return _jingyang;
         }
     }
 
-    private static void LaunchJingYang(){
-        
+    public static Process MoHex{
+        get{
+            if(_moHex == null)
+                _moHex = LaunchProcess(_moHexPath);
+            return _moHex;
+        }
+    }
 
-        if(!File.Exists(Application.streamingAssetsPath + _jingyangPathSuffix))
-            UnityEngine.Debug.LogError("Couldn't find JingYang executable.");
+    public static string ProcessOutput {get;set;}
 
-        _jingyang = new Process();
+    private static Process LaunchProcess(string processPath){
         
-        _jingyang.StartInfo.UseShellExecute = false;
-        _jingyang.StartInfo.RedirectStandardOutput = true;
-        _jingyang.StartInfo.RedirectStandardInput = true;
-        _jingyang.StartInfo.CreateNoWindow = true;
-        _jingyang.StartInfo.FileName = Application.streamingAssetsPath + _jingyangPathSuffix;
-        _jingyang.Start();
+        if(!File.Exists(processPath))
+            UnityEngine.Debug.LogError("Couldn't find process executable.");
+
+        var proc = new Process();
+        proc.StartInfo.UseShellExecute = false;
+        proc.StartInfo.RedirectStandardOutput = true;
+        proc.StartInfo.RedirectStandardInput = true;
+        proc.StartInfo.CreateNoWindow = true;
+        proc.StartInfo.FileName = processPath;
+        proc.Start();
+        return proc;
     }
 
     public static string IssueCommand(Process process,string command){
         var stdIn = process.StandardInput;
+
         stdIn.WriteLine(command);
         stdIn.Flush();
 
@@ -55,6 +71,25 @@ public static class BenzeneUtil
         }
 
         return result.Trim();
+    }
+
+    //For long latency commands such as genmove in MoHex, it is useful to perform them asynchronously
+    public static void IssueCommandAsync(Process process,string command){
+        var stdIn = process.StandardInput;
+        stdIn.WriteLine(command);
+        stdIn.Flush();
+        string result = "";
+
+        while (!process.StandardOutput.EndOfStream) {
+            var line = process.StandardOutput.ReadLine (); 
+            //Sometimes the process believes it never reachers the EndOfStream so in the case that line is nonempty and we have results then escape.
+            if(result != "" && line == ""){
+                break;
+            }
+
+            result += line;            
+        }
+        ProcessOutput = result;
     }
 
     public static Vector2Int HexPointToLocation(string hexpoint){

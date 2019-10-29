@@ -34,3 +34,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# Benzene Executable Logfiles
+default.log
+default.log.meta

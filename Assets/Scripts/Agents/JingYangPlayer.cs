@@ -9,7 +9,6 @@ public class JingYangPlayer : Agent
     private int _games = 0;
 
     private void Start(){
-        Debug.Log(BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.name));
         if("= JY" != BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.name)){
             Debug.LogError("Failed to start jingyang player");
             return;
@@ -20,6 +19,7 @@ public class JingYangPlayer : Agent
     public override void Reset(){
         BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.clear_board);
     }
+
 
     public override AgentType Type
     {

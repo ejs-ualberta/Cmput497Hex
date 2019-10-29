@@ -72,11 +72,16 @@ public class GameManager : MonoBehaviour
 
     public void ResetGameWithNewAgents(Agent[] agents)
     {
-        _agents[0].gameObject.SetActive(false);
-        _agents[1].gameObject.SetActive(false);
+        foreach(var agent in _agents){
+            agent.Reset();
+            agent.gameObject.SetActive(false);
+
+        }
         _agents = agents;
-        _agents[0].gameObject.SetActive(true);
-        _agents[1].gameObject.SetActive(true);
+        foreach(var agent in _agents){
+            agent.gameObject.SetActive(true);
+            agent.Reset();
+        }
         ResetGame();
     }
 
@@ -128,6 +133,7 @@ public class GameManager : MonoBehaviour
         Settings.BoardDimensions = _currentBoard.Dimensions;
         _boardVisualization.VisualizeBoard(_currentBoard);
         _lastMoveTime = Time.time + _minimumTimeBetweenMoves * 2;
+        //Agents didn't change so reset
         _agents[0].Reset();
         _agents[1].Reset();
         _nextMove = null;

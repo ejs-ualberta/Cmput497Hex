@@ -6,5 +6,6 @@ public enum AgentType {
     Unimplemented = -1,
     Human = 0,
     Random = 1,
-    JingYang = 2
+    JingYang = 2,
+    MoHex = 3
 }

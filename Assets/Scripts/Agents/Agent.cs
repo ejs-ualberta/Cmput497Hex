@@ -18,6 +18,7 @@ public abstract class Agent : MonoBehaviour
     public abstract void OnUndoEvent();
 
     public abstract void Reset();
+    
 
     public void OnEnable(){
         Reset();
