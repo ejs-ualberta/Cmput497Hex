@@ -36,5 +36,9 @@ public static class BenzeneCommands {
     public readonly static string name = "name";
     public readonly static string undo = "undo";
     public readonly static string mohex_get_pv = "mohex-get-pv";
+
+    public static string vc_build(PlayerColours colour){ 
+        return string.Format("vc-build {0}", (colour == PlayerColours.Black) ? "b" : "w");
+    }
 }
 

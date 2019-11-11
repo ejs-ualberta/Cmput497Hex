@@ -822,6 +822,10 @@ MonoBehaviour:
     type: 2}
   _blackPieceMaterial: {fileID: 2100000, guid: 54a1484929f57fb4089c2272561618c6, type: 2}
   _whitePieceMaterial: {fileID: 2100000, guid: 07a9750e1143f084ab70aff6b8880594, type: 2}
+  _fadedBlackPieceMaterial: {fileID: 2100000, guid: d04aa5e7064f5a01992b7d93e58eb287,
+    type: 2}
+  _fadedWhitePieceMaterial: {fileID: 2100000, guid: 8762d39054ab0bf04b53be03b9881737,
+    type: 2}
   _patternHighlightMaterials:
   - {fileID: 2100000, guid: 5bfd6b0023bd35105b1644dd62b824b8, type: 2}
   - {fileID: 2100000, guid: fc4f9cfcb3a4895a5a45b5468cc8bda3, type: 2}

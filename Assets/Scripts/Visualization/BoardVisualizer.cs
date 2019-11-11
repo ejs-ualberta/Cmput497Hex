@@ -20,6 +20,8 @@ public class BoardVisualizer : MonoBehaviour
     [SerializeField] private Material _blackTileBorderMaterial;    
     [SerializeField] private Material _blackPieceMaterial;
     [SerializeField] private Material _whitePieceMaterial;
+    [SerializeField] private Material _fadedBlackPieceMaterial;
+    [SerializeField] private Material _fadedWhitePieceMaterial;
     [SerializeField] private Material[] _patternHighlightMaterials;
     //These gameobjects hold all the tiles and pieces as children respectively
     [SerializeField] private Transform _tilesRoot;
@@ -43,13 +45,17 @@ public class BoardVisualizer : MonoBehaviour
     private readonly List<GameObject> _tiles = new List<GameObject>();
     private readonly Dictionary<Vector2Int,GameObject> _selectedMoves = new Dictionary<Vector2Int, GameObject>();
     private readonly List<Tile> _highlightedTiles = new List<Tile>();
+    private readonly Dictionary<Vector2Int,List<GameObject>> _stackedPieces = new Dictionary<Vector2Int, List<GameObject>>();
     private Board _board;
 
     
 
     internal void VisualizeBoard(Board board)
     {
+    
+        
         GenerateNewBoard(board);
+
     }    
     
     //Dynamically builds a new empty board from tiles for a given size.
@@ -71,6 +77,11 @@ public class BoardVisualizer : MonoBehaviour
         foreach(Transform child in _piecesRoot)
             Destroy(child.gameObject);
 
+
+        foreach(var piece in _selectedMoves.Values){
+            Destroy(piece);
+        }
+        _selectedMoves.Clear();
 
         var boardMaxDimension = Mathf.Max(_dimensionsWithBorders.x,_dimensionsWithBorders.y);
 
@@ -130,6 +141,11 @@ public class BoardVisualizer : MonoBehaviour
         newPiece.GetComponent<Piece>().PlayerColours =
             (tileState == TileState.Black) ? PlayerColours.Black : PlayerColours.White;
         newPiece.GetComponent<Piece>().Location = location;
+
+        if(_selectedMoves.ContainsKey(location))
+            Destroy(_selectedMoves[location]);
+            _selectedMoves.Remove(location);
+
         return newPiece;
     }
 
@@ -141,6 +157,7 @@ public class BoardVisualizer : MonoBehaviour
             if (pieceComp.Location.x == location.x && pieceComp.Location.y == location.y)
             {
                 Destroy(pieceComp.gameObject);
+                
                 return;
             }
         }
@@ -155,33 +172,39 @@ public class BoardVisualizer : MonoBehaviour
         return baseTilePosition + location.x * _rightTileDistance + location.y * _downTileDistance;
     }
 
-    public void SelectMove(Vector2Int move, TileState tileState)
+    public void SelectMove(Vector2Int location, TileState tileState)
     {
         //At most one piece visualized per location
-        if(_selectedMoves.ContainsKey(move))
-            ClearSelectedMove(move);
+        if(_selectedMoves.ContainsKey(location)){
+            var selectedMove = _selectedMoves[location];
+            selectedMove.SetActive(true);
+            selectedMove.GetComponent<MeshRenderer>().material = (tileState == TileState.Black) ? _fadedBlackPieceMaterial : _fadedWhitePieceMaterial;            
+            return;
+        }
 
-        var newPiece = GenerateNewPiece(move,tileState);
-        var material = newPiece.GetComponent<MeshRenderer>().material;
-        material.color = new Color(material.color.r, material.color.g, material.color.b, material.color.a / 2f);
+        var newPiece = GenerateNewPiece(location,tileState);
+        newPiece.GetComponent<MeshRenderer>().material  = (tileState == TileState.Black) ? _fadedBlackPieceMaterial : _fadedWhitePieceMaterial;
+        
         newPiece.transform.localScale *= 0.9f;
-        _selectedMoves[move] = newPiece;
+        _selectedMoves[location] = newPiece;
     }
 
     public void ClearSelectedMove(Vector2Int move)
     {
         if (!_selectedMoves.ContainsKey(move))
             return;
-        Destroy(_selectedMoves[move]);
-        _selectedMoves.Remove(move);
+        _selectedMoves[move].SetActive(false);
+        //Destroy(_selectedMoves[move]);
+        //_selectedMoves.Remove(move);
     }
 
     public void ClearAllSelectedMoves()
     {
-        foreach(var move in _selectedMoves.Values)
-            Destroy(move);
+        foreach(var piece in _selectedMoves.Values){            
+            piece.SetActive(false);
+        }
 
-        _selectedMoves.Clear();        
+        //_selectedMoves.Clear();        
     }
 
     public void HighlightTile(Vector2Int location,int patternIndex){
@@ -207,8 +230,6 @@ public class BoardVisualizer : MonoBehaviour
             tileComp.Material = tileComp.CanonicalMaterial;
         _highlightedTiles.Clear();
     }
-
-
 
     public void ShowWinner(List<Vector2Int> winningLine,PlayerColours winnerColours)
     {
