@@ -106,4 +106,19 @@ public static class BenzeneUtil
 
         return new Move(HexPointToLocation(commandStr));
     }
+
+    public static string MoveToHexPoint(Move move){
+        return LocationToHexPoint(move.Location);
+    }
+
+    public static string LocationToHexPoint(Vector2Int location){
+        string hexPoint = "";
+        hexPoint += (char)('a' + location.x);
+        hexPoint += (char)('0' + location.y + 1);
+        return hexPoint;
+    }
+
+    public static string PlayerColourToStr(PlayerColours colour){
+        return (colour == PlayerColours.Black) ? "b" : "w";
+    }
 }

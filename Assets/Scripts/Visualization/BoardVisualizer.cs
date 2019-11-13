@@ -14,7 +14,7 @@ public class BoardVisualizer : MonoBehaviour
 
     [SerializeField] private GameObject _hexTilePrefab;
     [SerializeField] private GameObject _hexPiecePrefab;
-
+    [SerializeField] private GameObject _vcTilePrefab;
     [SerializeField] private Material _defaultTileMaterial;
     [SerializeField] private Material _whiteTileBorderMaterial;
     [SerializeField] private Material _blackTileBorderMaterial;    
@@ -23,8 +23,10 @@ public class BoardVisualizer : MonoBehaviour
     [SerializeField] private Material _fadedBlackPieceMaterial;
     [SerializeField] private Material _fadedWhitePieceMaterial;
     [SerializeField] private Material[] _patternHighlightMaterials;
+    [SerializeField] private Material[] _vcMaterials;
     //These gameobjects hold all the tiles and pieces as children respectively
     [SerializeField] private Transform _tilesRoot;
+    [SerializeField] private Transform _vcTilesRoot;
     [SerializeField] private Transform _piecesRoot;
 
     //These fields are used to define the distances between tiles. 
@@ -45,10 +47,15 @@ public class BoardVisualizer : MonoBehaviour
     private readonly List<GameObject> _tiles = new List<GameObject>();
     private readonly Dictionary<Vector2Int,GameObject> _selectedMoves = new Dictionary<Vector2Int, GameObject>();
     private readonly List<Tile> _highlightedTiles = new List<Tile>();
-    private readonly Dictionary<Vector2Int,List<GameObject>> _stackedPieces = new Dictionary<Vector2Int, List<GameObject>>();
+
+    private GameObjectPool _tilePool;
+    private readonly Dictionary<Vector2Int,List<GameObject>> _vcTiles = new Dictionary<Vector2Int, List<GameObject>>();
     private Board _board;
 
     
+    public void Start(){
+        _tilePool = new GameObjectPool(_vcTilePrefab,_vcTilesRoot);
+    }
 
     internal void VisualizeBoard(Board board)
     {
@@ -229,6 +236,18 @@ public class BoardVisualizer : MonoBehaviour
         foreach(var tileComp in _highlightedTiles)
             tileComp.Material = tileComp.CanonicalMaterial;
         _highlightedTiles.Clear();
+    }
+
+    public void SelectVC(List<Vector2Int> vc, int vcCount){
+        foreach(var location in vc){
+            var vcTile = _tilePool.Request();
+            vcTile.transform.localPosition = GetWorldPositionFromGridLocation(location + Vector2Int.one);
+            vcTile.GetComponent<MeshRenderer>().material = _vcMaterials[vcCount % _vcMaterials.Length];
+        }
+    }
+
+    public void ClearAllVCs(){
+        _tilePool.RetireAll();
     }
 
     public void ShowWinner(List<Vector2Int> winningLine,PlayerColours winnerColours)

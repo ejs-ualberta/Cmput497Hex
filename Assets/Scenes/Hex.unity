@@ -814,6 +814,8 @@ MonoBehaviour:
     type: 3}
   _hexPiecePrefab: {fileID: 1371700090136326, guid: 35e713196fb0bd445a74a86ba4345448,
     type: 3}
+  _vcTilePrefab: {fileID: 3909010323849948061, guid: b4c509274e66b71b9b7181572714e1a4,
+    type: 3}
   _defaultTileMaterial: {fileID: 2100000, guid: 5e9589cb4d1db63449d3d8c395fac903,
     type: 2}
   _whiteTileBorderMaterial: {fileID: 2100000, guid: 3af52c155682cec4aa76adabb3f33331,
@@ -832,7 +834,19 @@ MonoBehaviour:
   - {fileID: 2100000, guid: def608d1930697fb1a266f599a58812e, type: 2}
   - {fileID: 2100000, guid: 85367ed7b03cc849bbd53a38f92c868e, type: 2}
   - {fileID: 2100000, guid: 1b53500097fcffff4a671012b6219f5c, type: 2}
+  - {fileID: 2100000, guid: a2b85ef13125b6a4da6567d54c70bbae, type: 2}
+  _vcMaterials:
+  - {fileID: 2100000, guid: 05b1c26347c59e03b93a4d915f784083, type: 2}
+  - {fileID: 2100000, guid: e3de4ae626614d41893a4a8a652a384b, type: 2}
+  - {fileID: 2100000, guid: 5e4670df12a14d940a8c1e4c83359dd6, type: 2}
+  - {fileID: 2100000, guid: a223f3bae7033d24c865fb880b4985f2, type: 2}
+  - {fileID: 2100000, guid: c18998c633a7155a99f414e96121ee32, type: 2}
+  - {fileID: 2100000, guid: 6f297506feba0b8b08e4edbff2fa364e, type: 2}
+  - {fileID: 2100000, guid: 7715f78344a6da50fbc8c0c06004fe5f, type: 2}
+  - {fileID: 2100000, guid: 625c21344e372cd5e9044c31a11b3e6d, type: 2}
+  - {fileID: 2100000, guid: 52349d730d0f84952b0ef413da97f2eb, type: 2}
   _tilesRoot: {fileID: 1298139445}
+  _vcTilesRoot: {fileID: 1822567381}
   _piecesRoot: {fileID: 878670278}
   _originTile: {fileID: 412138980}
   _rightTile: {fileID: 756684127}
@@ -856,6 +870,7 @@ Transform:
   - {fileID: 756684127}
   - {fileID: 2088806595}
   - {fileID: 531043274}
+  - {fileID: 1822567381}
   m_Father: {fileID: 485847676}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5070,6 +5085,36 @@ MonoBehaviour:
   _moHexPlayer: {fileID: 1658031054}
   _icon: {fileID: 773217222}
   _gameManager: {fileID: 485847675}
+--- !u!1 &1822567380
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1822567381}
+  m_Layer: 0
+  m_Name: VCTiles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1822567381
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822567380}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 327679114}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &1834493852 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224084926934678814, guid: a26662687567b4e4596f75d7e387a4d3,
@@ -5709,6 +5754,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2051872754}
   - component: {fileID: 2051872755}
+  - component: {fileID: 2051872756}
   m_Layer: 0
   m_Name: JingYangOppoent
   m_TagString: Untagged
@@ -5746,6 +5792,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camera: {fileID: 534669904}
   _visualization: {fileID: 327679113}
+  VCIndex: 0
+--- !u!95 &2051872756
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2051872753}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 66b5ff81921f475438d53097a08a5dfe, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &2087916898
 PrefabInstance:
   m_ObjectHideFlags: 0
