@@ -23,6 +23,10 @@ public class BotsDisplay : Display
             RestoreState();
             _inBotGame = false;
         }
+        if(_gameManager.AgentOne == _jingYangPlayer || _gameManager.AgentOne == _moHexPlayer){
+            _gameManager.ResetGameWithNewAgents(_gameManager.DefaultAgents);
+            return;
+        }
 
     }
 

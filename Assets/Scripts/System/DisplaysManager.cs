@@ -11,7 +11,8 @@ public class DisplaysManager : MonoBehaviour
     [SerializeField] internal PuzzlesDisplay PuzzlesDisplay;
     [SerializeField] internal BotsDisplay BotsDisplay;
     [SerializeField] internal BotGameDisplay BotGameDisplay;
-
+    [SerializeField] internal JYSettingsDisplay JYSettingsDisplay;
+    
     public static DisplaysManager instance;
 
     public Display CurrentDisplay

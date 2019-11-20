@@ -15,13 +15,22 @@ public class Tile : MonoBehaviour {
         }
         get{ return _canonicalMaterial;}
     }
-    
+
     internal Material Material{
         set{
             GetComponentInChildren<MeshRenderer>().material = value;
         }
         get{
             return GetComponentInChildren<MeshRenderer>().material;
+        }
+    }
+
+    internal string Text{
+        set{
+            GetComponentInChildren<TextSizer>().Text = value;
+        }
+        get{
+            return GetComponentInChildren<TextSizer>().Text;
         }
     }
 }

@@ -29,6 +29,7 @@ public class BoardVisualizer : MonoBehaviour
     [SerializeField] private Transform _vcTilesRoot;
     [SerializeField] private Transform _piecesRoot;
 
+
     //These fields are used to define the distances between tiles. 
     [SerializeField] private Transform _originTile;
     [SerializeField] private Transform _rightTile;
@@ -46,15 +47,20 @@ public class BoardVisualizer : MonoBehaviour
     private Vector2Int _dimensionsWithBorders;
     private readonly List<GameObject> _tiles = new List<GameObject>();
     private readonly Dictionary<Vector2Int,GameObject> _selectedMoves = new Dictionary<Vector2Int, GameObject>();
+   
     private readonly List<Tile> _highlightedTiles = new List<Tile>();
-
+    private GameObjectPool _piecesPool;
+    private GameObjectPool _vcTilePool;
     private GameObjectPool _tilePool;
     private readonly Dictionary<Vector2Int,List<GameObject>> _vcTiles = new Dictionary<Vector2Int, List<GameObject>>();
     private Board _board;
 
     
     public void Start(){
-        _tilePool = new GameObjectPool(_vcTilePrefab,_vcTilesRoot);
+        _tilePool = new GameObjectPool(_hexTilePrefab,_tilesRoot);
+        _vcTilePool = new GameObjectPool(_vcTilePrefab,_vcTilesRoot);
+        _piecesPool = new GameObjectPool(_hexPiecePrefab,_piecesRoot);
+            
     }
 
     internal void VisualizeBoard(Board board)
@@ -78,17 +84,17 @@ public class BoardVisualizer : MonoBehaviour
         _dimensionsWithBorders = new Vector2Int(dimensions.x + 2 ,dimensions.y + 2);
         _board = board;
 
-        foreach (Transform child in _tilesRoot) 
-            Destroy(child.gameObject);
+        _tilePool.RetireAll();
+        /*foreach (Transform child in _tilesRoot) 
+            Destroy(child.gameObject);*/
 
-        foreach(Transform child in _piecesRoot)
-            Destroy(child.gameObject);
+        /*foreach(Transform child in _piecesRoot)
+            Destroy(child.gameObject);*/
 
-
-        foreach(var piece in _selectedMoves.Values){
-            Destroy(piece);
-        }
+        _piecesPool.RetireAll();
         _selectedMoves.Clear();
+  
+
 
         var boardMaxDimension = Mathf.Max(_dimensionsWithBorders.x,_dimensionsWithBorders.y);
 
@@ -107,7 +113,7 @@ public class BoardVisualizer : MonoBehaviour
 
                 var location = new Vector2Int(x, y);
                 var playableLocation = new Vector2Int(x - 1, y - 1);
-                var newTile = Instantiate(_hexTilePrefab, _tilesRoot);
+                var newTile = _tilePool.Request();
                 newTile.transform.localPosition = GetWorldPositionFromGridLocation(location);
                 
 
@@ -141,7 +147,14 @@ public class BoardVisualizer : MonoBehaviour
 
     internal GameObject GenerateNewPiece(Vector2Int location, TileState tileState)
     {        
-        var newPiece = Instantiate(_hexPiecePrefab, _piecesRoot);
+
+        if(_selectedMoves.ContainsKey(location)){
+            _piecesPool.Retire(_selectedMoves[location]);
+            _selectedMoves.Remove(location);
+        }
+
+
+        var newPiece = _piecesPool.Request();
         newPiece.GetComponent<MeshRenderer>().material =
             (tileState == TileState.Black) ? _blackPieceMaterial : _whitePieceMaterial;
         newPiece.transform.position = GetWorldPositionFromGridLocation(location + Vector2Int.one) + _upPieceDistance;
@@ -149,9 +162,6 @@ public class BoardVisualizer : MonoBehaviour
             (tileState == TileState.Black) ? PlayerColours.Black : PlayerColours.White;
         newPiece.GetComponent<Piece>().Location = location;
 
-        if(_selectedMoves.ContainsKey(location))
-            Destroy(_selectedMoves[location]);
-            _selectedMoves.Remove(location);
 
         return newPiece;
     }
@@ -163,9 +173,9 @@ public class BoardVisualizer : MonoBehaviour
             var pieceComp = piece.GetComponent<Piece>();
             if (pieceComp.Location.x == location.x && pieceComp.Location.y == location.y)
             {
-                Destroy(pieceComp.gameObject);
-                
-                return;
+                _piecesPool.Retire(pieceComp.gameObject);
+                Debug.Log(pieceComp.Location);
+                //return;
             }
         }
             
@@ -214,40 +224,49 @@ public class BoardVisualizer : MonoBehaviour
         //_selectedMoves.Clear();        
     }
 
-    public void HighlightTile(Vector2Int location,int patternIndex){
+    public void HighlightTile(Vector2Int location,int patternIndex, int patternNumber = -1){
         var tile = _tiles[_board.Dimensions.x * location.y + location.x];
-        if(tile.GetComponent<Tile>().Location.x != location.x || tile.GetComponent<Tile>().Location.y != location.y){
+        var tileComp = tile.GetComponent<Tile>();
+        if(tileComp.Location.x != location.x || tileComp.Location.y != location.y){
             Debug.LogError("Wrong tile highlighted!");
         }
         if(patternIndex > _patternHighlightMaterials.Length)
             Debug.LogWarning("Insufficient materials to draw all pattens at once.");
-        tile.GetComponent<Tile>().Material = _patternHighlightMaterials[patternIndex % _patternHighlightMaterials.Length];
+        tileComp.Material = _patternHighlightMaterials[patternIndex % _patternHighlightMaterials.Length];
+        
+        if(patternNumber != -1)
+            tileComp.Text = string.Format("{0}",patternNumber);
         _highlightedTiles.Add(tile.GetComponent<Tile>());
+
     }
 
     public void RemoveHighlight(Vector2Int location){
         var tile = _tiles[_board.Dimensions.x * location.y + location.x];
         var tileComp = tile.GetComponent<Tile>();
         tileComp.Material = tileComp.CanonicalMaterial;
+        tileComp.Text = "";
         _highlightedTiles.Remove(tileComp);
+
     }
 
     public void RemoveAllHighlights(){
-        foreach(var tileComp in _highlightedTiles)
+        foreach(var tileComp in _highlightedTiles){
             tileComp.Material = tileComp.CanonicalMaterial;
+            tileComp.Text = "";
+        }
         _highlightedTiles.Clear();
     }
 
     public void SelectVC(List<Vector2Int> vc, int vcCount){
         foreach(var location in vc){
-            var vcTile = _tilePool.Request();
+            var vcTile = _vcTilePool.Request();
             vcTile.transform.localPosition = GetWorldPositionFromGridLocation(location + Vector2Int.one);
             vcTile.GetComponent<MeshRenderer>().material = _vcMaterials[vcCount % _vcMaterials.Length];
         }
     }
 
     public void ClearAllVCs(){
-        _tilePool.RetireAll();
+        _vcTilePool.RetireAll();
     }
 
     public void ShowWinner(List<Vector2Int> winningLine,PlayerColours winnerColours)

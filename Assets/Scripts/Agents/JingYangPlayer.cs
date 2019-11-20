@@ -7,8 +7,7 @@ public class JingYangPlayer : Agent
 
     private int _wins = 0;
     private int _games = 0;
-
-    private void Start(){
+    private void Awake(){
         if("= JY" != BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.name)){
             Debug.LogError("Failed to start jingyang player");
             return;

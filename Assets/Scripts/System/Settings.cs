@@ -9,6 +9,6 @@ public static class Settings
 {
     public static Vector2Int BoardDimensions = new Vector2Int(4,4);
     public static String BoardString = "5 5 B";
-
+    public static JingYangSettings JYSettings = new JingYangSettings();
 }
 

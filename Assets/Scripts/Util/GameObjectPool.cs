@@ -12,14 +12,14 @@ public class GameObjectPool
     public GameObjectPool(GameObject baseObject,Transform parent){
         BaseObject = baseObject;
         Parent = parent;
+        foreach(Transform child in Parent.transform)
+            _inactive.Push(child.gameObject);
     }
 
     public void Retire(GameObject gameObject){
-        if(!gameObject.activeSelf)
-            Debug.LogWarning("Retiring inactive object");
-
         _active.Remove(gameObject);
         _inactive.Push(gameObject);
+        gameObject.SetActive(false);
     }
 
     public void RetireAll(){
@@ -42,6 +42,13 @@ public class GameObjectPool
         _active.Add(obj);
         obj.SetActive(true);
         return obj;
+    }
+
+    public void Stage(int num){
+        for(int i = 0; i < num; i++){
+            var obj = Request();
+        }
+        RetireAll();
     }
 
 }

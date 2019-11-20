@@ -33,7 +33,7 @@ public class SerializationManager : MonoBehaviour
     {
         var settingsFile = new FileStream(GetSettingsPath(), FileMode.OpenOrCreate);
         _binaryFormatter.Serialize(settingsFile,Settings.BoardString);
-  
+        _binaryFormatter.Serialize(settingsFile,Settings.JYSettings);
         settingsFile.Close();
     }
 
@@ -41,6 +41,7 @@ public class SerializationManager : MonoBehaviour
     {
         var settingsFile = new FileStream(GetSettingsPath(), FileMode.Open);
         Settings.BoardString = (string)_binaryFormatter.Deserialize(settingsFile);        
+        Settings.JYSettings = (JingYangSettings) _binaryFormatter.Deserialize(settingsFile);
         settingsFile.Close();
     }
 

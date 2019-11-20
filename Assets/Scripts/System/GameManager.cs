@@ -9,6 +9,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float _minimumTimeBetweenMoves;
     [SerializeField] private float _minimumTimeBetweenGames;
 
+    private Board _currentBoard;
+    private float _lastMoveTime;
+    private float _lastGameTime;
+    private Move _nextMove;
+    private int _agentIndex;
+    private PaintMode _paintMode = PaintMode.PaintOff;
+
+
+    [SerializeField] internal Agent[] DefaultAgents;
+    
     internal PaintMode PaintMode
     {
         get { return _paintMode; }
@@ -21,13 +31,6 @@ public class GameManager : MonoBehaviour
                 Board.ForcePlayerToPlay(PlayerColours.Black);
         }
     }
-
-    private Board _currentBoard;
-    private float _lastMoveTime;
-    private float _lastGameTime;
-    private Move _nextMove;
-    private int _agentIndex;
-    private PaintMode _paintMode = PaintMode.PaintOff;
 
     internal Board Board
     {
