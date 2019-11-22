@@ -85,12 +85,6 @@ public class BoardVisualizer : MonoBehaviour
         _board = board;
 
         _tilePool.RetireAll();
-        /*foreach (Transform child in _tilesRoot) 
-            Destroy(child.gameObject);*/
-
-        /*foreach(Transform child in _piecesRoot)
-            Destroy(child.gameObject);*/
-
         _piecesPool.RetireAll();
         _selectedMoves.Clear();
   
@@ -128,9 +122,11 @@ public class BoardVisualizer : MonoBehaviour
                 var isPlayable = x != 0 && y != 0 && x != _dimensionsWithBorders.x - 1 &&
                                  y != _dimensionsWithBorders.y - 1;
 
-                newTile.GetComponent<Tile>().CanonicalMaterial = tileMaterial;
-                newTile.GetComponent<Tile>().IsPlayable = isPlayable;
-                newTile.GetComponent<Tile>().Location = playableLocation;
+                var newTileComp = newTile.GetComponent<Tile>();
+
+                newTileComp.CanonicalMaterial = tileMaterial;
+                newTileComp.IsPlayable = isPlayable;
+                newTileComp.Location = playableLocation;
 
                 if (isPlayable)
                 {
@@ -138,11 +134,31 @@ public class BoardVisualizer : MonoBehaviour
                     var tileState = board.BoardState[board.GetBoardIndexFromCoords(playableLocation.x, playableLocation.y)];                    
                     if (tileState != TileState.Empty)                    
                         GenerateNewPiece(playableLocation, tileState);
-                    
+                    else{
+                        _selectedMoves[playableLocation] = GenerateNewPiece(playableLocation, TileState.White);
+                    }
+                    newTileComp.Text = "";                    
+                    newTileComp.TextColor = Color.white;
+                }
+                else{
+                    if(y == 0){
+                        newTileComp.Text = string.Format("{0}",x);
+                    }
+                    else if(x == 0){
+                        newTileComp.Text = string.Format("{0}",(char) ('a' + y - 1)); 
+                    }
+                    else if(y == _dimensionsWithBorders.y - 1){
+                        newTileComp.Text = string.Format("{0}",x);
+                    }
+                    else if(x == _dimensionsWithBorders.x - 1){
+                        newTileComp.Text = string.Format("{0}",(char) ('a' + y - 1)); 
+                    }
+                    newTileComp.TextColor = Color.black;
                 }
                     
             }
         }
+        _piecesPool.RetireAll();
     }
 
     internal GameObject GenerateNewPiece(Vector2Int location, TileState tileState)

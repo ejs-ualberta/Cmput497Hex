@@ -30,6 +30,8 @@ public static class BenzeneCommands {
     }
 
     public readonly static string show_jypattern_list = "show_jypattern_list";
+    public readonly static string show_jybranch_list = "show_jybranch_list";
+    public readonly static string show_jyblackmoves_list = "show_jyblackmoves_list";
     public readonly static string showboard = "showboard";
     public readonly static string name = "name";
     public readonly static string undo = "undo";

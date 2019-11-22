@@ -11,14 +11,14 @@ public class JingYangOpponent : Player
     private readonly Dictionary<Vector2Int,List<Vector2Int>> _blackResponses = new Dictionary<Vector2Int, List<Vector2Int>>();
     private readonly List<Vector2Int> _blackMoves = new List<Vector2Int>();
     private int _vcIndex = 0;
-    private int _regionIndex = -1;
+ 
 
     public float clockedIndex = 0f;
     protected Move _visualizedPatternForMove = null;
     protected Move _visualizedCounterMove = null;
     public override void VisualizeMove(){
         VisualizeVCs();
-        VisualizeWhiteMoveRegions();
+
 
         if(!_isSelectingMove)
             return;
@@ -38,18 +38,15 @@ public class JingYangOpponent : Player
         }
 
         if(_visualizedMove == null){
-            _visualizedPatternForMove = null;
-            if(Settings.JYSettings.Brain)
-                VisualizePatterns();
-            //_visualization.RemoveAllHighlights();
+            _visualizedPatternForMove = null;            
+            VisualizeBrain();
             return;
         }
         BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,
             BenzeneCommands.play(PlayerColours.White,_visualizedMove));
         _visualizedCounterMove = BenzeneUtil.TryToParseMove(BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,
             BenzeneCommands.genmove(PlayerColours.Black)));
-        if(Settings.JYSettings.Brain)
-            VisualizePatterns();
+        VisualizeBrain();
         if(Settings.JYSettings.VirtualConnections)
             ParseVCs();
 
@@ -67,8 +64,7 @@ public class JingYangOpponent : Player
         var points = patterns.Split(' ');
         var location = Vector2Int.zero;
         var patternIndex = 0;
-        var patternLength = 0;
-        var _seenLocals = new HashSet<int>();;
+        var _seenLocals = new HashSet<int>();
         for(int i = 2; i < points.Length; i += 1){
             if(i % 2 == 0){
                 if(points[i].Equals("invalid")){
@@ -78,7 +74,6 @@ public class JingYangOpponent : Player
                 }
 
                 location = BenzeneUtil.HexPointToLocation(points[i]);
-                patternLength++;
             }
             else{
                 var ruleInfo = points[i].Split('@');
@@ -94,59 +89,50 @@ public class JingYangOpponent : Player
         }  
     }
 
-    private void VisualizeWhiteMoveRegions(){
+    private void VisualizeBranches(){
+        _visualization.RemoveAllHighlights();
+        var patterns = BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.show_jybranch_list).Trim();     
+        var points = patterns.Split(' ');
+        var location = Vector2Int.zero;
+        var _seenLocals = new HashSet<int>();
+        var patternIndex = 0;
+        var oldBranch = 0;
+        for(int i = 2; i < points.Length; i += 1){
+            if(i % 2 == 0){
+                if(points[i].Equals("invalid")){
+                    Debug.LogWarningFormat("Player generated invalid move!\n {0}",patterns);
+                    i++;
+                    continue;
+                }
 
-        if(_regionIndex != -1 && _visualizedMove != null){
-            _visualization.ClearSelectedMove(_blackMoves[_regionIndex]);
-            foreach(var location in _blackResponses[_blackMoves[_regionIndex]]){
-                _visualization.ClearSelectedMove(location);
-            }
-            _regionIndex = -1;
-            return;
-        }
-
-        if(!Settings.JYSettings.WhiteRegions || _blackResponses == null || _blackResponses.Count == 0 || _visualizedMove != null)
-            return;
-
-        int _newRegionIndex = (int) Mathf.Floor(clockedIndex * _blackMoves.Count);
-
-        if(_newRegionIndex == _regionIndex)
-            return;
-        if(_regionIndex != -1){
-            _visualization.ClearSelectedMove(_blackMoves[_regionIndex]);
-            foreach(var location in _blackResponses[_blackMoves[_regionIndex]]){
-                _visualization.ClearSelectedMove(location);
-            }
-        }
-
-        _regionIndex = _newRegionIndex;
-
-        _visualization.SelectMove(_blackMoves[_regionIndex],TileState.Black);
-        foreach(var location in _blackResponses[_blackMoves[_regionIndex]]){
-            _visualization.SelectMove(location,TileState.White);
-        }
-    }
-
-    private void GenerateBlackResponses(Board board){
-        _blackMoves.Clear();
-        _blackResponses.Clear();
-        foreach(var move in board.GetAllValidMoves()){
-            BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,
-                BenzeneCommands.play(PlayerColours.White,move));
-            var counterMove = BenzeneUtil.TryToParseMove(BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,
-                BenzeneCommands.genmove(PlayerColours.Black))).Location;
-            if(_blackResponses.ContainsKey(counterMove)){
-                _blackResponses[counterMove].Add(move.Location);
+                location = BenzeneUtil.HexPointToLocation(points[i]);
             }
             else{
-                _blackResponses[counterMove] = new List<Vector2Int>(){move.Location};
-                _blackMoves.Add(counterMove);
-                
-            }
-            for(int i = 0; i < 2 ;i++)
-                BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.undo);
+                var info = points[i].Split('@');
+                var branchNumber = int.Parse(info[1]);
+                if(oldBranch != branchNumber){
+                    oldBranch = branchNumber;
+                    patternIndex++;
+                }
+                var ruleNumber = int.Parse(info[0]);
+                _visualization.HighlightTile(location, patternIndex,(Settings.JYSettings.RuleNumbers) ? ruleNumber: -1);
+            }                
+        }  
+    }
+
+    private void VisualizeBrain(){
+        if(!Settings.JYSettings.Brain){
+            _visualization.RemoveAllHighlights();
+            return;
+        }
+        if(Settings.JYSettings.Branches){
+            VisualizeBranches();
+        }
+        else{
+            VisualizePatterns();
         }
     }
+
 
     private void ParseVCs(){
 
@@ -193,9 +179,8 @@ public class JingYangOpponent : Player
     public override void OnMyMoveEvent(Board board, MoveChoiceCallback moveChoiceCallback)
     {
         base.OnMyMoveEvent(board,moveChoiceCallback);
-        VisualizePatterns();
-        if(Settings.JYSettings.WhiteRegions)
-            GenerateBlackResponses(board);
+        VisualizeBrain();
+
     }
 
     public override void OnUndoEvent(){

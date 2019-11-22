@@ -33,4 +33,10 @@ public class Tile : MonoBehaviour {
             return GetComponentInChildren<TextSizer>().Text;
         }
     }
+
+    internal Color TextColor{
+        set{
+            GetComponentInChildren<TextMesh>().color = value;
+        }
+    }
 }

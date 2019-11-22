@@ -8,7 +8,7 @@ public struct JingYangSettings
     public bool VirtualConnections;
     public bool RuleNumbers;
     public bool Brain;
-
-    public bool WhiteRegions;
+    public bool Branches;
+    public int BlackMovesIndex;
 }
 
