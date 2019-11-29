@@ -85,6 +85,7 @@ public class BoardVisualizer : MonoBehaviour
         _board = board;
 
         _tilePool.RetireAll();
+        _piecesPool = new GameObjectPool(_hexPiecePrefab,_piecesRoot);
         _piecesPool.RetireAll();
         _selectedMoves.Clear();
   
@@ -190,7 +191,6 @@ public class BoardVisualizer : MonoBehaviour
             newPiece = _selectedMoves[location];
             _selectedMoves.Remove(location);
             newPiece.SetActive(true);
-            Debug.Log(_piecesPool.IsObjectActive(newPiece));
         }
         else{
             newPiece = _piecesPool.Request();

@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class BotsDisplay : Display
 {
+    private readonly string _3x3StrategyFile = Application.streamingAssetsPath + "/hex33.txt";
+    private readonly string _4x4StrategyFile =  Application.streamingAssetsPath + "/hex44.txt";
+    private readonly string _9x9StrategyFile =  Application.streamingAssetsPath + "/hex99-3.txt";
+
 
     [SerializeField] private GameManager _gameManager;
     
 
     [SerializeField] private JingYangPlayer _jingYangPlayer;
-    [SerializeField] private Vector2Int _jyBoardSize;
+
     [SerializeField] private JingYangOpponent _jingYangOpponent;
     [SerializeField] private MoHexPlayer _moHexPlayer;
     [SerializeField] private Player _moHexOpponent;
@@ -25,7 +29,7 @@ public class BotsDisplay : Display
             _inBotGame = false;
         }
         if(_gameManager.AgentOne == _jingYangPlayer || _gameManager.AgentOne == _moHexPlayer){
-            Settings.BoardDimensions = _jyBoardSize;
+            Settings.BoardDimensions = new Vector2Int(9,9);
             _gameManager.ResetGameWithNewAgents(_gameManager.DefaultAgents);
             return;
         }
@@ -34,17 +38,33 @@ public class BotsDisplay : Display
 
     public void JingYang(){
         StartBotGame();
-        Settings.BoardDimensions = _jyBoardSize;
+        Settings.BoardDimensions = new Vector2Int(9,9);
+        BenzeneUtil.RestartProcess(BenzeneUtil.JingYang,_9x9StrategyFile);
         _gameManager.ResetGameWithNewAgents(new Agent[]{_jingYangPlayer,_jingYangOpponent});
     }
 
-    public void MoHex(){
+    public void FourByFour(){
         StartBotGame();
-        _gameManager.ResetGameWithNewAgents(new Agent[]{_moHexPlayer,_moHexOpponent});
+        Settings.BoardDimensions = new Vector2Int(4,4);
+        BenzeneUtil.RestartProcess(BenzeneUtil.JingYang,_4x4StrategyFile);
+        _gameManager.ResetGameWithNewAgents(new Agent[]{_jingYangPlayer,_jingYangOpponent});
+    }
+
+    public void ThreeByThree(){
+        StartBotGame();
+        Settings.BoardDimensions = new Vector2Int(3,3);
+        BenzeneUtil.RestartProcess(BenzeneUtil.JingYang,_3x3StrategyFile);
+        _gameManager.ResetGameWithNewAgents(new Agent[]{_jingYangPlayer,_jingYangOpponent});
     }
     public void Back()
     {
         DisplaysManager.instance.ShowDisplay(DisplaysManager.instance.GameDisplay);
+    }
+
+    public void Quit()
+    {
+        BenzeneUtil.JingYang.Kill();
+        Application.Quit();
     }
 
     private void StartBotGame(){

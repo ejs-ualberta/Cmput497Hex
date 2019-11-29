@@ -6,8 +6,7 @@ public class JingYangPlayer : Agent
 {
     //True if using benzene integrated jingyang player, false if using standalone 'main.cxx' executable
     [SerializeField] private bool _isUsingStandaloneExecutable = false;
-    [SerializeField] private Vector2Int _boardsize = new Vector2Int(9,9);
-    [SerializeField] private string _strategyFile = "hex99-3.txt";
+
     private int _wins = 0;
     private int _games = 0;
     private void Awake(){
@@ -18,7 +17,7 @@ public class JingYangPlayer : Agent
             return;
         }
         if(!_isUsingStandaloneExecutable)
-            BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.boardsize(_boardsize));
+            BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.boardsize(new Vector2Int(9,9)));
     }
 
     public override void Reset(){
@@ -44,7 +43,7 @@ public class JingYangPlayer : Agent
     public override void OnMyMoveEvent(Board board, MoveChoiceCallback moveChoiceCallback)
     {
         if(_isUsingStandaloneExecutable && board.LastMove == null){           
-            moveChoiceCallback(new Move(new Vector2Int((_boardsize.x)/2,(_boardsize.y - 1) /2)));
+            moveChoiceCallback(new Move(new Vector2Int((Settings.BoardDimensions.x)/2,(Settings.BoardDimensions.y - 1) /2)));
             return;            
         }
 

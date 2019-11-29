@@ -15,7 +15,7 @@ public static class BenzeneUtil
     private static readonly string _pathSuffix = "-mac";     
 #endif
 
-    private static readonly string _jingyangPatternsPath = Application.streamingAssetsPath + "/hex44.txt";
+    private static readonly string _jingyangPatternsPath = Application.streamingAssetsPath + "/hex99-3.txt";
     private static readonly string _jingyangPath = Application.streamingAssetsPath + "/jingyang" + _pathSuffix;
     private static readonly string _moHexPath = Application.streamingAssetsPath + "/mohex" + _pathSuffix;
     private static Process _jingyang;
@@ -26,6 +26,9 @@ public static class BenzeneUtil
             if(_jingyang == null)
                 _jingyang = LaunchProcess(_jingyangPath,_jingyangPatternsPath);
             return _jingyang;
+        }
+        set{
+            _jingyang = value;
         }
     }
 
@@ -54,6 +57,16 @@ public static class BenzeneUtil
             proc.StartInfo.Arguments = args;
         proc.Start();
         return proc;
+    }
+
+    public static void RestartProcess(Process process, string args){
+        string path;
+        if(process == _jingyang){
+            path = _jingyangPath;
+            process.Kill();
+            _jingyang = LaunchProcess(_jingyangPath,args);
+        }
+
     }
 
     public static string IssueCommand(Process process,string command){

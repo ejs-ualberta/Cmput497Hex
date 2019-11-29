@@ -16,7 +16,7 @@ public class BotGameDisplay : Display
             return;
         if (_gameManager.Agents[0] == _jingYangPlayer || _gameManager.Agents[1] == _jingYangPlayer)
             return;
-        Settings.BoardDimensions = new Vector2Int(4,4);
+        Settings.BoardDimensions = new Vector2Int(9,9);
         _gameManager.ResetGameWithNewAgents(new Agent[]{_jingYangPlayer,_jingYangOpponent});
         
     }
