@@ -10,7 +10,8 @@ public class JingYangDebug : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.A)){
-            
+            BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.showboard);
+            return;
             VisualizePatterns(BenzeneCommands.compute_dominated(PlayerColours.Black));
             
         }

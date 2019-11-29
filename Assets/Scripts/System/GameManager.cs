@@ -155,7 +155,7 @@ public class GameManager : MonoBehaviour
     {
 
         _currentBoard.PlayMove(_nextMove);
-        _boardVisualization.GenerateNewPiece(_nextMove.Location,_currentBoard.IsLeftPlayerMove ? TileState.White : TileState.Black);
+        _boardVisualization.PlayMove(_nextMove.Location,_currentBoard.IsLeftPlayerMove ? TileState.White : TileState.Black);
         _nextMove = null;
 
 

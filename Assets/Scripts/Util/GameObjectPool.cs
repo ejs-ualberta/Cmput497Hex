@@ -6,26 +6,30 @@ public class GameObjectPool
 {
     public GameObject BaseObject {get; private set;}
     public Transform Parent {get;private set;}
-    private Stack<GameObject> _inactive = new Stack<GameObject>();
+    private List<GameObject> _inactive = new List<GameObject>();
     private List<GameObject> _active = new List<GameObject>();
 
     public GameObjectPool(GameObject baseObject,Transform parent){
         BaseObject = baseObject;
         Parent = parent;
         foreach(Transform child in Parent.transform)
-            _inactive.Push(child.gameObject);
+            _inactive.Add(child.gameObject);
     }
 
     public void Retire(GameObject gameObject){
-        _active.Remove(gameObject);
-        _inactive.Push(gameObject);
         gameObject.SetActive(false);
+        _active.Remove(gameObject);
+        if(_inactive.Contains(gameObject))   
+           return;
+        
+        _inactive.Add(gameObject);
+        
     }
 
     public void RetireAll(){
         foreach(var obj  in _active){
             obj.SetActive(false);
-            _inactive.Push(obj);
+            _inactive.Add(obj);
         }
 
         _active.Clear();
@@ -38,17 +42,18 @@ public class GameObjectPool
             return newObj;
         }
 
-        var obj = _inactive.Pop();
+        var obj = _inactive[0];
+        _inactive.RemoveAt(0);
+        if(_active.Contains(obj)){
+            Debug.LogError("Active already has " + obj.name);
+        }
         _active.Add(obj);
         obj.SetActive(true);
         return obj;
     }
 
-    public void Stage(int num){
-        for(int i = 0; i < num; i++){
-            var obj = Request();
-        }
-        RetireAll();
+    public bool IsObjectActive(GameObject gameObject){
+        return _active.Contains(gameObject);
     }
-
+    
 }

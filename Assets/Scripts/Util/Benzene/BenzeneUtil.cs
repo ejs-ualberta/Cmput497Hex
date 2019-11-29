@@ -15,6 +15,7 @@ public static class BenzeneUtil
     private static readonly string _pathSuffix = "-mac";     
 #endif
 
+    private static readonly string _jingyangPatternsPath = Application.streamingAssetsPath + "/hex44.txt";
     private static readonly string _jingyangPath = Application.streamingAssetsPath + "/jingyang" + _pathSuffix;
     private static readonly string _moHexPath = Application.streamingAssetsPath + "/mohex" + _pathSuffix;
     private static Process _jingyang;
@@ -23,7 +24,7 @@ public static class BenzeneUtil
     public static Process JingYang{ 
         get{
             if(_jingyang == null)
-                _jingyang = LaunchProcess(_jingyangPath);
+                _jingyang = LaunchProcess(_jingyangPath,_jingyangPatternsPath);
             return _jingyang;
         }
     }
@@ -38,7 +39,7 @@ public static class BenzeneUtil
 
     public static string ProcessOutput {get;set;}
 
-    private static Process LaunchProcess(string processPath){
+    private static Process LaunchProcess(string processPath, string args=""){
         
         if(!File.Exists(processPath))
             UnityEngine.Debug.LogError("Couldn't find process executable.");
@@ -49,6 +50,8 @@ public static class BenzeneUtil
         proc.StartInfo.RedirectStandardInput = true;
         proc.StartInfo.CreateNoWindow = true;
         proc.StartInfo.FileName = processPath;
+        if(args != "")
+            proc.StartInfo.Arguments = args;
         proc.Start();
         return proc;
     }
@@ -60,15 +63,17 @@ public static class BenzeneUtil
         stdIn.Flush();
 
         string result = "";
-
+        int tries = 0;
         while (!process.StandardOutput.EndOfStream) {
             var line = process.StandardOutput.ReadLine (); 
             //Sometimes the process believes it never reachers the EndOfStream so in the case that line is nonempty and we have results then escape.
-            if(result != "" && line == "")    
+            if(result != "" && line == "" && tries < 1000)    
                 break;
             
             result += line;            
+            tries ++;
         }
+
 
         return result.Trim();
     }

@@ -9,6 +9,7 @@ public class BotsDisplay : Display
     
 
     [SerializeField] private JingYangPlayer _jingYangPlayer;
+    [SerializeField] private Vector2Int _jyBoardSize;
     [SerializeField] private JingYangOpponent _jingYangOpponent;
     [SerializeField] private MoHexPlayer _moHexPlayer;
     [SerializeField] private Player _moHexOpponent;
@@ -24,6 +25,7 @@ public class BotsDisplay : Display
             _inBotGame = false;
         }
         if(_gameManager.AgentOne == _jingYangPlayer || _gameManager.AgentOne == _moHexPlayer){
+            Settings.BoardDimensions = _jyBoardSize;
             _gameManager.ResetGameWithNewAgents(_gameManager.DefaultAgents);
             return;
         }
@@ -32,7 +34,7 @@ public class BotsDisplay : Display
 
     public void JingYang(){
         StartBotGame();
-        Settings.BoardDimensions = new Vector2Int(9,9);
+        Settings.BoardDimensions = _jyBoardSize;
         _gameManager.ResetGameWithNewAgents(new Agent[]{_jingYangPlayer,_jingYangOpponent});
     }
 

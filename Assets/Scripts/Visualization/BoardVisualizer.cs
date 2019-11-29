@@ -142,16 +142,16 @@ public class BoardVisualizer : MonoBehaviour
                 }
                 else{
                     if(y == 0){
-                        newTileComp.Text = string.Format("{0}",x);
+                        newTileComp.Text = string.Format("{0}",(char) ('a' + x - 1));
                     }
                     else if(x == 0){
-                        newTileComp.Text = string.Format("{0}",(char) ('a' + y - 1)); 
+                        newTileComp.Text = string.Format("{0}",y); 
                     }
                     else if(y == _dimensionsWithBorders.y - 1){
-                        newTileComp.Text = string.Format("{0}",x);
+                        newTileComp.Text = string.Format("{0}",(char) ('a' + x - 1));
                     }
                     else if(x == _dimensionsWithBorders.x - 1){
-                        newTileComp.Text = string.Format("{0}",(char) ('a' + y - 1)); 
+                        newTileComp.Text = string.Format("{0}",y); 
                     }
                     newTileComp.TextColor = Color.black;
                 }
@@ -177,11 +177,35 @@ public class BoardVisualizer : MonoBehaviour
         newPiece.GetComponent<Piece>().PlayerColours =
             (tileState == TileState.Black) ? PlayerColours.Black : PlayerColours.White;
         newPiece.GetComponent<Piece>().Location = location;
+        newPiece.transform.localScale = _hexPiecePrefab.transform.localScale;
 
 
         return newPiece;
     }
 
+    internal void PlayMove(Vector2Int location, TileState tileState){
+
+        GameObject newPiece;
+        if(_selectedMoves.ContainsKey(location)){
+            newPiece = _selectedMoves[location];
+            _selectedMoves.Remove(location);
+            newPiece.SetActive(true);
+            Debug.Log(_piecesPool.IsObjectActive(newPiece));
+        }
+        else{
+            newPiece = _piecesPool.Request();
+        }
+        newPiece.GetComponent<MeshRenderer>().material =
+            (tileState == TileState.Black) ? _blackPieceMaterial : _whitePieceMaterial;
+        newPiece.transform.position = GetWorldPositionFromGridLocation(location + Vector2Int.one) + _upPieceDistance;
+        newPiece.GetComponent<Piece>().PlayerColours =
+            (tileState == TileState.Black) ? PlayerColours.Black : PlayerColours.White;
+        newPiece.GetComponent<Piece>().Location = location;
+        newPiece.transform.localScale = _hexPiecePrefab.transform.localScale;
+
+
+
+    }
     internal void RemovePiece(Vector2Int location)
     {
         foreach (Transform piece in _piecesRoot)
@@ -190,7 +214,6 @@ public class BoardVisualizer : MonoBehaviour
             if (pieceComp.Location.x == location.x && pieceComp.Location.y == location.y)
             {
                 _piecesPool.Retire(pieceComp.gameObject);
-                Debug.Log(pieceComp.Location);
                 //return;
             }
         }
