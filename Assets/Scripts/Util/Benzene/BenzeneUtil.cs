@@ -13,6 +13,8 @@ public static class BenzeneUtil
     private static readonly string _pathSuffix = "-linux"; 
 #elif UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
     private static readonly string _pathSuffix = "-mac";     
+#elif UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+    private static readonly string _pathSuffix = "-win.exe";
 #endif
 
     private static readonly string _jingyangPatternsPath = Application.streamingAssetsPath + "/hex99-3.txt";

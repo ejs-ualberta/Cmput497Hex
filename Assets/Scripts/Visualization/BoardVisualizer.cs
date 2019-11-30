@@ -213,7 +213,8 @@ public class BoardVisualizer : MonoBehaviour
             var pieceComp = piece.GetComponent<Piece>();
             if (pieceComp.Location.x == location.x && pieceComp.Location.y == location.y)
             {
-                _piecesPool.Retire(pieceComp.gameObject);
+                pieceComp.gameObject.SetActive(false);
+                _selectedMoves[location] = pieceComp.gameObject;
                 //return;
             }
         }

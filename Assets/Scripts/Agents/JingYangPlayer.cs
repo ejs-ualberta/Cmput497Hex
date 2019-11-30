@@ -60,8 +60,4 @@ public class JingYangPlayer : Agent
     public override void OnUndoEvent(){
         BenzeneUtil.IssueCommand(BenzeneUtil.JingYang, BenzeneCommands.undo);
     }
-
-    private void OnApplicationExit(){
-        BenzeneUtil.JingYang.Kill();
-    }
 }

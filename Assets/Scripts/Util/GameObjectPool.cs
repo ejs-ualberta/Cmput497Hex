@@ -17,10 +17,13 @@ public class GameObjectPool
     }
 
     public void Retire(GameObject gameObject){
+
         gameObject.SetActive(false);
         _active.Remove(gameObject);
-        if(_inactive.Contains(gameObject))   
+        if(_inactive.Contains(gameObject)){   
+           Debug.LogError("_inactive already has " + gameObject.name);
            return;
+        }
         
         _inactive.Add(gameObject);
         
@@ -39,16 +42,18 @@ public class GameObjectPool
         if(_inactive.Count == 0){
             var newObj = UnityEngine.Transform.Instantiate(BaseObject,Parent);
             _active.Add(newObj);
+ 
             return newObj;
         }
 
         var obj = _inactive[0];
-        _inactive.RemoveAt(0);
+        _inactive.Remove(obj);
         if(_active.Contains(obj)){
             Debug.LogError("Active already has " + obj.name);
         }
         _active.Add(obj);
         obj.SetActive(true);
+
         return obj;
     }
 

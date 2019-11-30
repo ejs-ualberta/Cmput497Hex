@@ -30,4 +30,8 @@ public class ApplicationManager : MonoBehaviour
         _splashScreenDisplay.Show();        
     }
 
+    private void OnApplicationExit(){
+        BenzeneUtil.JingYang.Kill();
+    }
+
 }
