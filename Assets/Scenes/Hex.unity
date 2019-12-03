@@ -9019,7 +9019,6 @@ MonoBehaviour:
   - {fileID: 827603606}
   - {fileID: 1818978712}
   - {fileID: 1644330868}
-  _moHexPlayer: {fileID: 0}
   _jingYangOpponent: {fileID: 2051872755}
   _jingYangPlayer: {fileID: 1764359469}
   _gameManager: {fileID: 485847675}
@@ -12364,8 +12363,6 @@ MonoBehaviour:
   _gameManager: {fileID: 485847675}
   _jingYangPlayer: {fileID: 1764359469}
   _jingYangOpponent: {fileID: 2051872755}
-  _moHexPlayer: {fileID: 0}
-  _moHexOpponent: {fileID: 1696827174}
 --- !u!1 &972244795
 GameObject:
   m_ObjectHideFlags: 0
@@ -22012,6 +22009,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isUsingStandaloneExecutable: 1
+  _defaultStrategyFile: hex44.txt
 --- !u!114 &1764359470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22660,6 +22658,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VirtualChildren: []
+  _isShowing: 0
   _moHexPlayer: {fileID: 0}
   _icon: {fileID: 773217222}
   _gameManager: {fileID: 485847675}
@@ -29167,6 +29166,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _boardsize.y
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8167469806986900369, guid: 3685e25408f61e167afefb20cc932fc9,
+        type: 3}
+      propertyPath: _defaultStrategyFile
+      value: hex44.txt
       objectReference: {fileID: 0}
     - target: {fileID: 8167469806986900370, guid: 3685e25408f61e167afefb20cc932fc9,
         type: 3}

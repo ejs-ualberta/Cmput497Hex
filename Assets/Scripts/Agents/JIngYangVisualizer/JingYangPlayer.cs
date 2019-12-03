@@ -6,22 +6,23 @@ public class JingYangPlayer : Agent
 {
     //True if using benzene integrated jingyang player, false if using standalone 'main.cxx' executable
     [SerializeField] private bool _isUsingStandaloneExecutable = false;
-
+    [SerializeField] private string _defaultStrategyFile;
     private int _wins = 0;
     private int _games = 0;
     private void Awake(){
-        var name = BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.name);
+        SolverParser.Main(Application.streamingAssetsPath + "/" + _defaultStrategyFile);
+        var name = SolverParser.IssueCommand(BenzeneCommands.name);
         var expectedName = (_isUsingStandaloneExecutable) ? "= jingyang" : "= JY"; 
         if(expectedName != name){
             Debug.LogError("Failed to start jingyang player. Instead got: " + name);
             return;
         }
         if(!_isUsingStandaloneExecutable)
-            BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.boardsize(new Vector2Int(9,9)));
+            SolverParser.IssueCommand(BenzeneCommands.boardsize(new Vector2Int(9,9)));
     }
 
     public override void Reset(){
-        BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.clear_board);
+        SolverParser.IssueCommand(BenzeneCommands.clear_board);
     }
 
 
@@ -49,15 +50,15 @@ public class JingYangPlayer : Agent
 
         //Ensure states are consistent
         if(board.LastMove != null){
-            BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.play(PlayerColours.White, board.LastMove));            
+            SolverParser.IssueCommand(BenzeneCommands.play(PlayerColours.White, board.LastMove));            
         }
 
-        var moveStr = BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.genmove(PlayerColours.Black));   
+        var moveStr = SolverParser.IssueCommand(BenzeneCommands.genmove(PlayerColours.Black));   
         var move = BenzeneUtil.TryToParseMove(moveStr);
         moveChoiceCallback(move);
     }
 
     public override void OnUndoEvent(){
-        BenzeneUtil.IssueCommand(BenzeneUtil.JingYang, BenzeneCommands.undo);
+        SolverParser.IssueCommand( BenzeneCommands.undo);
     }
 }

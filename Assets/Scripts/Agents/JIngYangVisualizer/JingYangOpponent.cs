@@ -17,7 +17,6 @@ public class JingYangOpponent : Player
     protected Move _visualizedPatternForMove = null;
     protected Move _visualizedCounterMove = null;
     public override void VisualizeMove(){
-        VisualizeVCs();
 
 
         if(!_isSelectingMove)
@@ -42,17 +41,15 @@ public class JingYangOpponent : Player
             VisualizeBrain();
             return;
         }
-        BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,
+        SolverParser.IssueCommand(
             BenzeneCommands.play(PlayerColours.White,_visualizedMove));
-        _visualizedCounterMove = BenzeneUtil.TryToParseMove(BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,
+        _visualizedCounterMove = BenzeneUtil.TryToParseMove(SolverParser.IssueCommand(
             BenzeneCommands.genmove(PlayerColours.Black)));
         VisualizeBrain();
-        if(Settings.JYSettings.VirtualConnections)
-            ParseVCs();
 
         //VisualizeWhiteMoveRegions(_visualizedCounterMove.Location);
         for(int i = 0; i < 2 ;i++)
-            BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,
+            SolverParser.IssueCommand(
                 BenzeneCommands.undo);
         _visualization.SelectMove(_visualizedCounterMove.Location,TileState.Black);
         _visualizedPatternForMove = _visualizedMove;
@@ -60,7 +57,7 @@ public class JingYangOpponent : Player
 
     private void VisualizePatterns(){
         _visualization.RemoveAllHighlights();
-        var patterns = BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.show_jypattern_list).Trim();     
+        var patterns = SolverParser.IssueCommand(BenzeneCommands.show_jypattern_list).Trim();     
         var points = patterns.Split(' ');
         var location = Vector2Int.zero;
         var patternIndex = 0;
@@ -91,7 +88,7 @@ public class JingYangOpponent : Player
 
     private void VisualizeBranches(){
         _visualization.RemoveAllHighlights();
-        var patterns = BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.show_jybranch_list).Trim();     
+        var patterns = SolverParser.IssueCommand(BenzeneCommands.show_jybranch_list).Trim();     
         var points = patterns.Split(' ');
         var location = Vector2Int.zero;
         var _seenLocals = new HashSet<int>();
@@ -131,48 +128,6 @@ public class JingYangOpponent : Player
         else{
             VisualizePatterns();
         }
-    }
-
-
-    private void ParseVCs(){
-
-        _virtualConnections.Clear();
-        _visualization.ClearAllVCs();
-        BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.vc_build(PlayerColours.Black));
-        var str = BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,
-            BenzeneCommands.vc_between_cells_full(PlayerColours.Black,_visualizedCounterMove,_visualizedCounterMove.Location.y >= 4 ? "South" : "North"));
-        var vcs = str.Split(new string[] {"black"},System.StringSplitOptions.None);
-        for(int j = 1; j < vcs.Length; j++){
-            var vcStr = vcs[j];
-            var len = vcStr.IndexOf("]") - vcStr.IndexOf("[") - 1;
-            if(len <= 0)
-                return;
-            var movesStr = vcStr.Substring(vcStr.IndexOf("[") + 1,len).Trim();
-            var points = movesStr.Split(' ');
-            var locations = new List<Vector2Int>();
-            for(int i = 0; i < points.Length; i++){
-                locations.Add(BenzeneUtil.HexPointToLocation(points[i]));
-            }
-            _virtualConnections.Add(locations);
-        }
-        if(_virtualConnections.Count >= 1){
-            _vcIndex = 0;
-            _visualization.SelectVC(_virtualConnections[_vcIndex],_vcIndex);
-        }
-    }
-
-    private void VisualizeVCs(){
-        if(_virtualConnections.Count == 0 || !Settings.JYSettings.VirtualConnections)
-            return;
-
-        int _newVCIndex = (int) Mathf.Floor(clockedIndex * _virtualConnections.Count);
-
-        if(_vcIndex == _newVCIndex)
-            return;
-
-        _vcIndex = _newVCIndex;
-        _visualization.ClearAllVCs();
-        _visualization.SelectVC(_virtualConnections[_vcIndex],_vcIndex);
     }
 
   

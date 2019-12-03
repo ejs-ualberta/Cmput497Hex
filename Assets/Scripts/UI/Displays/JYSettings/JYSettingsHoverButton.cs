@@ -71,7 +71,7 @@ public class JYSettingsHoverButton : MonoBehaviour, IPointerEnterHandler,IPointe
     }
 
     private void GetMoveInformation(){
-        _blackMovesStrings = BenzeneUtil.IssueCommand(BenzeneUtil.JingYang,BenzeneCommands.show_jyblackmoves_list).Trim().Split(' '); 
+        _blackMovesStrings = SolverParser.IssueCommand(BenzeneCommands.show_jyblackmoves_list).Trim().Split(' '); 
         _numBlackMoves = (_blackMovesStrings.Length - 1) / 2;
         if(Settings.JYSettings.BlackMovesIndex >= _numBlackMoves)
             Settings.JYSettings.BlackMovesIndex = 0;

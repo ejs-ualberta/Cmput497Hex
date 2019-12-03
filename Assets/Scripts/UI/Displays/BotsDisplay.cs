@@ -15,8 +15,7 @@ public class BotsDisplay : Display
     [SerializeField] private JingYangPlayer _jingYangPlayer;
 
     [SerializeField] private JingYangOpponent _jingYangOpponent;
-    [SerializeField] private MoHexPlayer _moHexPlayer;
-    [SerializeField] private Player _moHexOpponent;
+
     private Agent[] _agents = new Agent[0];
     private string _state = "";
     private bool _inBotGame = false;
@@ -28,7 +27,7 @@ public class BotsDisplay : Display
             RestoreState();
             _inBotGame = false;
         }
-        if(_gameManager.AgentOne == _jingYangPlayer || _gameManager.AgentOne == _moHexPlayer){
+        if(_gameManager.AgentOne == _jingYangPlayer){
             Settings.BoardDimensions = new Vector2Int(9,9);
             _gameManager.ResetGameWithNewAgents(_gameManager.DefaultAgents);
             return;
@@ -39,21 +38,21 @@ public class BotsDisplay : Display
     public void JingYang(){
         StartBotGame();
         Settings.BoardDimensions = new Vector2Int(9,9);
-        BenzeneUtil.RestartProcess(BenzeneUtil.JingYang,_9x9StrategyFile);
+        SolverParser.Main(_9x9StrategyFile);
         _gameManager.ResetGameWithNewAgents(new Agent[]{_jingYangPlayer,_jingYangOpponent});
     }
 
     public void FourByFour(){
         StartBotGame();
         Settings.BoardDimensions = new Vector2Int(4,4);
-        BenzeneUtil.RestartProcess(BenzeneUtil.JingYang,_4x4StrategyFile);
+        SolverParser.Main(_4x4StrategyFile);
         _gameManager.ResetGameWithNewAgents(new Agent[]{_jingYangPlayer,_jingYangOpponent});
     }
 
     public void ThreeByThree(){
         StartBotGame();
         Settings.BoardDimensions = new Vector2Int(3,3);
-        BenzeneUtil.RestartProcess(BenzeneUtil.JingYang,_3x3StrategyFile);
+        SolverParser.Main(_3x3StrategyFile);
         _gameManager.ResetGameWithNewAgents(new Agent[]{_jingYangPlayer,_jingYangOpponent});
     }
     public void Back()
@@ -62,8 +61,7 @@ public class BotsDisplay : Display
     }
 
     public void Quit()
-    {
-        BenzeneUtil.JingYang.Kill();
+    {   
         Application.Quit();
     }
 
