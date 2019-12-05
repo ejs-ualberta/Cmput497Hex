@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class BoardVisualizer : MonoBehaviour
 {
+
+    // This class handles the creation of the board representation and subsequent visualization modifiers to the board.
+    // I think it could be organized apart better, e.g. having TileVisualizer, PieceVisualizer for the actual visual effects and allow this class to be the broker of the interactions.
+    
     //discovered empricially
     private const float CameraYOffsetPerTileSquared = 0.075f;
     private const float CameraBaseHeight = 5f;
@@ -215,6 +219,7 @@ public class BoardVisualizer : MonoBehaviour
             {
                 pieceComp.gameObject.SetActive(false);
                 _selectedMoves[location] = pieceComp.gameObject;
+                pieceComp.gameObject.transform.position = GetWorldPositionFromGridLocation(location + Vector2Int.one) + _upPieceDistance;
                 //return;
             }
         }

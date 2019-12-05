@@ -7,6 +7,7 @@ using UnityEngine;
 
 public static class BenzeneUtil
 {   
+    //This class contains helper functions to convert benzene to/from the local move representation and from local color struct to string.
 
     public static Vector2Int HexPointToLocation(string hexpoint){
         return new Vector2Int(hexpoint[0] - 'a',int.Parse(hexpoint.Substring(1)) - 1);

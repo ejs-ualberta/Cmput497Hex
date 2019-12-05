@@ -15,12 +15,15 @@ public class BotsDisplay : Display
     [SerializeField] private JingYangPlayer _jingYangPlayer;
 
     [SerializeField] private JingYangOpponent _jingYangOpponent;
-
+    
     private Agent[] _agents = new Agent[0];
     private string _state = "";
     private bool _inBotGame = false;
 
     public override void Show(){
+
+
+
         base.Show();
 
         if(_inBotGame){

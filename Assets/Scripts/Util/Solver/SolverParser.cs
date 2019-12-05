@@ -7,8 +7,11 @@ using UnityEngine;
 
 public static class SolverParser
 {
-    //This is a faithful translation from c++ which means that information is communicated through strings.
-    //It would be a good idea to clean up the code by creating first class objects such as moves rather than hexpoints containing moves.
+    //This is a port from a c++ implentation to an static class emulating the behaviour of the executable.
+    //Therefore this file can be imported into a c# codebase and used in place of running an executable
+
+    //In principle it is the same but due to differences in how the languages handle List vs Vector the c++ implentation is more performant.
+    //The bottleneck of performance for 9x9 is loading the file and parsing the patterns so this performance difference is not yet significant.
 
 
     public static int BOARDSIZE;
@@ -427,47 +430,6 @@ public static class SolverParser
         return black_move;
     }
 
-    private static void showboard(List<string> board){
-        int boardsize = BOARDSIZE;
-        int i, j, k;
-        string cout = "";
-        for(i=0;i<boardsize;i++){
-           cout +=" " +('a' + i) + " ";            
-        }
-
-        cout += '\n';
-        for(i=0;i<=boardsize;i++)
-        {
-            if(i>=1)
-                cout += ' ';
-            for(k=0;k<i-1;k++)
-                cout += ' ';
-            if(i==boardsize){
-                cout += ' ' +' ';
-                for(j=0;j<boardsize;j++){                    
-                    cout += ('a' + j) +' ' +' ';
-                }
-
-                cout += '\n';
-                continue;
-            }
-            cout += (i+1) + "\\";
-            for(j=0;j<boardsize;j++){
-                if(j<=boardsize-2){
-                    char c = board[i][j];
-                    if(c>='a'&&c<='z') c -= (char)('a' - 'A');
-                    cout += c +' ' +' ';
-                }
-                if(j==boardsize-1){
-                    char c = board[i][j];
-                    if (c >= 'a' && c <= 'z') c -= (char)('a' - 'A');
-                    cout  += c +'\\' + (i+1);
-                }
-            }
-            Debug.Log(cout + '\n');
-        }
-    }
-
     private static void play(ref List<string> board, char color, string move)
     {
         int x = move[0] - 'a';
@@ -566,11 +528,7 @@ public static class SolverParser
             toplay = 1 - toplay;
             return "= \n";
         }
-        if (text.Contains("showboard") )
-        {            
-            showboard(board);
-            return "= \n";
-        }
+
         if (text.Contains("version") )
         {
             return "= 1.0";
@@ -666,14 +624,8 @@ public static class SolverParser
 
     public static void Main(string file_name)
     {
- 
 
 
-        if (!File.Exists(file_name))
-        {
-            Debug.LogError("Could not open file:"+file_name);
-            return;
-        }
         List<string> vc_str = new List<string>();
 
         //Add this behaviour to emulate killing and reoping an executable
@@ -687,7 +639,8 @@ public static class SolverParser
         board = new List<string>();
         reflect = false;
 
-        string[] lines = File.ReadAllLines(file_name);
+        string[] lines = SolverFileLoader.instance.GetFileContent(file_name);
+        Debug.Log(lines.Length);
         foreach(var line in lines)
         {
             if (line.Length == 0)

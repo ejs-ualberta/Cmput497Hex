@@ -5,6 +5,8 @@ using UnityEngine;
 
 public abstract class Display : MonoBehaviour
 {
+    //This class is the base unit of groups of UI elements. Currently DisplayManager assumes at most 1 display is shown at once but this assumption could be changed.
+
     //Treat other gameobjects as if they're children of this display so that they will be shown/hidden along with the actual children.
     //This is useful for UI objects that have different anchor constraints and therefore cannot be true children of the display object.
     [SerializeField] internal Transform[] VirtualChildren;

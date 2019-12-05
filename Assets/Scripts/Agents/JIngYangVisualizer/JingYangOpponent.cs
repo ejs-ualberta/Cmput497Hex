@@ -4,16 +4,12 @@ using UnityEngine;
 
 public class JingYangOpponent : Player
 {
+    //This class provides the bulk of the visualization, only the white hovered move is taken from the base human agent.
     //Highlight bridges(2) and 432s(5) in separate colours despite having same rule number. Simple patterns is mapping of rule number to rule size
-    private Dictionary<int,int> SimplePatterns = new Dictionary<int, int>(){{2,2},{5,9}};
+    
     
     private List<List<Vector2Int>> _virtualConnections = new List<List<Vector2Int>>();
-    private readonly Dictionary<Vector2Int,List<Vector2Int>> _blackResponses = new Dictionary<Vector2Int, List<Vector2Int>>();
-    private readonly List<Vector2Int> _blackMoves = new List<Vector2Int>();
-    private int _vcIndex = 0;
- 
 
-    public float clockedIndex = 0f;
     protected Move _visualizedPatternForMove = null;
     protected Move _visualizedCounterMove = null;
     public override void VisualizeMove(){
@@ -41,13 +37,14 @@ public class JingYangOpponent : Player
             VisualizeBrain();
             return;
         }
+        //To get the countermove visualization we must actually play the white move and then get the black respones then undo them.
         SolverParser.IssueCommand(
             BenzeneCommands.play(PlayerColours.White,_visualizedMove));
         _visualizedCounterMove = BenzeneUtil.TryToParseMove(SolverParser.IssueCommand(
             BenzeneCommands.genmove(PlayerColours.Black)));
+
         VisualizeBrain();
 
-        //VisualizeWhiteMoveRegions(_visualizedCounterMove.Location);
         for(int i = 0; i < 2 ;i++)
             SolverParser.IssueCommand(
                 BenzeneCommands.undo);

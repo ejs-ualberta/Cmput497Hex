@@ -6,9 +6,13 @@ using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-//This class holds the Hex game logic.
+
 public class Board
 {
+    //This class holds the Hex game logic. This is necessary for human vs human games and as it turns out also necessary for human vs bot games.
+    //The bots simply return 'invalid' in response to genmove when they know the game has ended so it is useful to track it here and avoid receiving invalid moves.
+    //This class should NOT be used to write a hex bot as c++ and heavily tested libraries like Benzene are much better suited to the task.
+
     private const int InvalidBoardPosition = -1;
 
     //Hex connections as defined on a grid.

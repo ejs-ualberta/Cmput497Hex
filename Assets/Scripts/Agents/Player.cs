@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : Agent
 {    
+    //This is the basic human player, it shows speculative moves determined by the mouse position as faded pieces.
+    //The human may commit a move by clicking 
+
     [SerializeField] protected Camera _camera;
     [SerializeField] protected BoardVisualizer _visualization;    
     [SerializeField] protected Board _board;
