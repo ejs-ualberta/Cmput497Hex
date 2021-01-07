@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class BotsDisplay : Display
 {
+    private readonly string _treeStrategyFile = Application.streamingAssetsPath + "/hex33-1.txt";
     private readonly string _3x3StrategyFile = Application.streamingAssetsPath + "/hex33.txt";
     private readonly string _4x4StrategyFile =  Application.streamingAssetsPath + "/hex44.txt";
     private readonly string _9x9StrategyFile =  Application.streamingAssetsPath + "/hex99-3.txt";
 
 
     [SerializeField] private GameManager _gameManager;
-    
-
     [SerializeField] private JingYangPlayer _jingYangPlayer;
-
     [SerializeField] private JingYangOpponent _jingYangOpponent;
+    [SerializeField] private MohexPlayer _mohexPlayer;
     
     private Agent[] _agents = new Agent[0];
     private string _state = "";
@@ -56,8 +55,19 @@ public class BotsDisplay : Display
         StartBotGame();
         Settings.BoardDimensions = new Vector2Int(3,3);
         SolverParser.Main(_3x3StrategyFile);
-        _gameManager.ResetGameWithNewAgents(new Agent[]{_jingYangPlayer,_jingYangOpponent});
+        _gameManager.ResetGameWithNewAgents(new Agent[]{_jingYangPlayer, _jingYangOpponent});
     }
+
+    public void TreeByTree(){
+        _inBotGame = true;
+        SaveState();
+        DisplaysManager.instance.ShowDisplay(DisplaysManager.instance.BotGameDisplay);
+        Settings.BoardDimensions = new Vector2Int(3,3);
+        SolverParser.Main(_treeStrategyFile);
+        _mohexPlayer.SetStrategyFile("hex33-1.txt");
+        _gameManager.ResetGameWithNewAgents(new Agent[]{_mohexPlayer,_jingYangOpponent});
+    }
+
     public void Back()
     {
         DisplaysManager.instance.ShowDisplay(DisplaysManager.instance.GameDisplay);
