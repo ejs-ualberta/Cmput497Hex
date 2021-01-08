@@ -42,7 +42,6 @@ public class JingYangOpponent : Player
             BenzeneCommands.play(PlayerColours.White,_visualizedMove));
         _visualizedCounterMove = BenzeneUtil.TryToParseMove(SolverParser.IssueCommand(
             BenzeneCommands.genmove(PlayerColours.Black)));
-
         VisualizeBrain();
 
         for(int i = 0; i < 2 ;i++)

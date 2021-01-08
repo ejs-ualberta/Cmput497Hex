@@ -6,8 +6,9 @@ public static class BenzeneCommands {
     //This class defines commands to interface with benzene/c++/c# backends.
 
     public static string boardsize(Vector2Int dimensions){ return string.Format("boardsize {0}x{1}",dimensions.x,dimensions.y);}
-    public readonly static string clear_board = "clear_board";    public static string play(PlayerColours colour, Move move){
-
+    public readonly static string clear_board = "clear_board";
+    
+    public static string play(PlayerColours colour, Move move){
         return string.Format("play {0} {1}", BenzeneUtil.PlayerColourToStr(colour),BenzeneUtil.MoveToHexPoint(move));
     } 
 

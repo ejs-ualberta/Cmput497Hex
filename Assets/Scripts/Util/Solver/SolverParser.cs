@@ -13,7 +13,9 @@ public static class SolverParser
     //In principle it is the same but due to differences in how the languages handle List vs Vector the c++ implentation is more performant.
     //The bottleneck of performance for 9x9 is loading the file and parsing the patterns so this performance difference is not yet significant.
 
-
+    // This should always be true as to not break things, unless it is set to false 
+    // directly before a call to Main and then set back to true. See BotsDisplay.cs for examples.
+    public static bool firstMoveInCentre = true;
     public static int BOARDSIZE;
     public static int Y_WIDTH;
 
@@ -260,7 +262,14 @@ public static class SolverParser
             if (tokens[0] == "RN")
             {
                 //a new pattern
-                Pattern pattern = new Pattern(){vc_BM = new List<PMOVE>(),vc_ND = new List<int>(),vc_PSs = new List<List<int>>(),vc_BN = new List<int>(),vc_WMs = new List<List<PMOVE>>(),vc_vc_PPs = new List<List<List<int>>>()};
+                Pattern pattern = new Pattern(){
+                    vc_BM = new List<PMOVE>(),
+                    vc_ND = new List<int>(),
+                    vc_PSs = new List<List<int>>(),
+                    vc_BN = new List<int>(),
+                    vc_WMs = new List<List<PMOVE>>(),
+                    vc_vc_PPs = new List<List<List<int>>>()
+                };
                 pattern.RN = int.Parse(tokens[1]);
                 int RN = pattern.RN;
                 next(vc_str,ref idx, ref tokens);
@@ -397,7 +406,7 @@ public static class SolverParser
         int BM = -1;
         string black_move = "";
         //cerr << "white move: " << white_move << " =>" << white << endl;
-        Pattern pattern = working_patterns[0]; ;
+        Pattern pattern = working_patterns[0];
         for (index = 0; index < working_patterns.Count; index++)
         {
             
@@ -432,11 +441,13 @@ public static class SolverParser
 
     private static void play(ref List<string> board, char color, string move)
     {
+        Debug.Log(System.String.Join("\n", board));
         int x = move[0] - 'a';
         int y = int.Parse(move.Substring(1)) - 1;
         StringBuilder sb = new StringBuilder(board[y]);
         sb[x] = color;
-        board[y] = sb.ToString();        
+        board[y] = sb.ToString();
+        Debug.Log(System.String.Join("\n", board));      
     }
 
 
@@ -493,6 +504,10 @@ public static class SolverParser
             List<string> tokens = split(text, ' ');
             if (tokens[1][0] == 'B' || tokens[1][0] == 'b')
             {
+                if (!firstMoveInCentre){
+                    play(ref board, 'b', tokens[2]);
+                    return "= " + tokens[2];
+                }
                 return "= \n";
             }
             white_move = tokens[2];
@@ -588,12 +603,14 @@ public static class SolverParser
             history.Clear();            
             reflect = false;
             point = 0;
-            play(ref board, 'b', point_to_cell(mid_point));
+            if (firstMoveInCentre){
+                play(ref board, 'b', point_to_cell(mid_point));
+            }
             toplay = 1;
             return "= \n";
         }
         if (text.Contains("undo") )
-        {
+        {   //Debug.LogError(System.String.Join("\n", board));
             if (history.Count > 0)
             {
                 if (toplay == 1)
@@ -616,7 +633,7 @@ public static class SolverParser
                     reflect = false;
                 }
             }
-
+            //Debug.LogError(System.String.Join("\n", board));
             return "= \n";
         }                
         return "Invalid Command";
@@ -679,7 +696,9 @@ public static class SolverParser
         }
         p = all_patterns[1];
         working_patterns.Add(p);
-        play(ref board, 'b', point_to_cell(mid_point));
+        if (firstMoveInCentre){
+           play(ref board, 'b', point_to_cell(mid_point));
+        }
         int toplay = 1;
 
     }

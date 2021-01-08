@@ -57,6 +57,7 @@ public class JingYangPlayer : Agent
 
     public override void OnMyMoveEvent(Board board, MoveChoiceCallback moveChoiceCallback)
     {
+        //Debug.Log(board);
         if(!_hasInitialized){
             _callback = moveChoiceCallback;
             return;

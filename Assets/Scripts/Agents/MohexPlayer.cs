@@ -28,8 +28,12 @@ public class MohexPlayer : Agent
     }
 
     public override void Reset(){
-        if(_hasInitialized)
-            SolverParser.IssueCommand(BenzeneCommands.clear_board);
+        if(_hasInitialized){
+            _hasInitialized = false;
+            _isSelectingMove = true;
+            _isFirstMove = true;
+        }
+        SolverParser.IssueCommand(BenzeneCommands.clear_board);
     }
 
 
@@ -44,17 +48,22 @@ public class MohexPlayer : Agent
         _isFirstMove = true;
         _isSelectingMove = true;
         _validMoves = _board.GetAllValidMoves();
+        _hasInitialized = false;
     }
 
     public virtual void VisualizeMove(){
         if (!_isSelectingMove)
 	        return;
 
-
 	    if (_visualizedMove != null)
 	    {
 	        if (InputManager.GetMouseButtonDown(0))
-	        {                
+	        {   Debug.Log("First Move");
+                SolverParser.firstMoveInCentre = false;
+                SolverParser.IssueCommand(BenzeneCommands.clear_board);
+                Debug.Log(SolverParser.IssueCommand(BenzeneCommands.play(PlayerColours.Black, _visualizedMove)));
+                SolverParser.firstMoveInCentre = true;
+                Debug.Log("After First Move");
 	            _callback(_visualizedMove);
 	            _isSelectingMove = false;
                 _visualization.ClearSelectedMove(_visualizedMove.Location);
@@ -87,7 +96,7 @@ public class MohexPlayer : Agent
 	        {	            
 	            if (move.Equals(candidateMove))
 	            {
-	                _visualization.SelectMove(candidateMove.Location,_board.IsLeftPlayerMove ? TileState.Black :TileState.White);
+	                _visualization.SelectMove(candidateMove.Location, TileState.Black);
 	                return;
 	            }
 	        }
@@ -114,17 +123,14 @@ public class MohexPlayer : Agent
             return;
         }
 
-        if(board.LastMove == null){      
-            return;            
-        }
-
         //Ensure states are consistent
         if(board.LastMove != null){
-            SolverParser.IssueCommand(BenzeneCommands.play(PlayerColours.White, board.LastMove));            
+            SolverParser.IssueCommand(BenzeneCommands.play(PlayerColours.White, board.LastMove));
         }
 
         var mv = BenzeneCommands.genmove(PlayerColours.Black);
-        var moveStr = SolverParser.IssueCommand(mv);   
+        Debug.Log(mv);
+        var moveStr = SolverParser.IssueCommand(mv);
         var move = BenzeneUtil.TryToParseMove(moveStr);
         moveChoiceCallback(move);
     }
@@ -138,7 +144,7 @@ public class MohexPlayer : Agent
             //In webgl and android it is possible that files are not available at application start so this condition must be met before the bot can initialize.
             Initialize();
         }
-        if (_isFirstMove){
+        if (_hasInitialized && _isFirstMove){
             VisualizeMove();
         }
     }
