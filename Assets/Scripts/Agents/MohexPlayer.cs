@@ -5,7 +5,6 @@ using UnityEngine;
 public class MohexPlayer : Agent
 {
     private string StrategyFile;
-    private bool _isFirstMove = true;
     private bool _hasInitialized = false;
     private MoveChoiceCallback _callback = null;
     [SerializeField] protected Camera _camera;
@@ -15,11 +14,18 @@ public class MohexPlayer : Agent
     protected List<Move> _validMoves = null;
     protected Move _visualizedMove = null;
 
+    private Dictionary<Vector2Int, string> valid_first_moves = new Dictionary<Vector2Int, string>();
+    private int n_moves = 0;
+
     protected bool _isSelectingMove = false;
 
 
     public void SetStrategyFile(string FileName){
         StrategyFile = FileName;
+    }
+
+    public void SetValidFirstMoves(Dictionary<Vector2Int, string> dict){
+        valid_first_moves = dict;
     }
 
     public void Initialize(){
@@ -31,7 +37,7 @@ public class MohexPlayer : Agent
         if(_hasInitialized){
             _hasInitialized = false;
             _isSelectingMove = true;
-            _isFirstMove = true;
+            n_moves = 0;
         }
     }
 
@@ -44,10 +50,10 @@ public class MohexPlayer : Agent
     public override void OnGameOverEvent(bool isWinner)
     {
         _visualizedMove = null;
-        _isFirstMove = true;
         _isSelectingMove = true;
         _validMoves = _board.GetAllValidMoves();
         _hasInitialized = false;
+        n_moves = 0;
     }
 
     public virtual void VisualizeMove(){
@@ -57,7 +63,10 @@ public class MohexPlayer : Agent
 	    if (_visualizedMove != null)
 	    {
 	        if (InputManager.GetMouseButtonDown(0)){
+                if (!valid_first_moves.ContainsKey(_visualizedMove.Location)){return;}
+                StrategyFile = valid_first_moves[_visualizedMove.Location];
                 SolverParser.firstMoveInCentre = false;
+                SolverParser.Main(Application.streamingAssetsPath + '/' + StrategyFile);
                 SolverParser.IssueCommand(BenzeneCommands.clear_board);
                 SolverParser.IssueCommand(BenzeneCommands.play(PlayerColours.Black, _visualizedMove));
                 SolverParser.firstMoveInCentre = true;
@@ -128,18 +137,25 @@ public class MohexPlayer : Agent
         var moveStr = SolverParser.IssueCommand(mv);
         var move = BenzeneUtil.TryToParseMove(moveStr);
         moveChoiceCallback(move);
+        n_moves += 1;
     }
 
+    //TODO: Fix undo functionality.
     public override void OnUndoEvent(){
-        SolverParser.IssueCommand(BenzeneCommands.undo);
+        if (n_moves > 0){
+            SolverParser.IssueCommand(BenzeneCommands.undo);
+            n_moves -= 1;
+        }
     }
 
     private void Update(){
-        if(!_hasInitialized && SolverFileLoader.instance.IsFileReady(Application.streamingAssetsPath + '/' + StrategyFile)){
+        if(!_hasInitialized){
             //In webgl and android it is possible that files are not available at application start so this condition must be met before the bot can initialize.
+            foreach(KeyValuePair<Vector2Int, string> kvp in valid_first_moves){
+                if (!SolverFileLoader.instance.IsFileReady(Application.streamingAssetsPath + '/' + kvp.Value)){return;}
+            }
             Initialize();
-        }
-        if (_hasInitialized && _isFirstMove){
+        }else if (n_moves == 0){
             VisualizeMove();
         }
     }

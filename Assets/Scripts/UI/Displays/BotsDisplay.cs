@@ -60,8 +60,12 @@ public class BotsDisplay : Display
         SaveState();
         DisplaysManager.instance.ShowDisplay(DisplaysManager.instance.BotGameDisplay);
         Settings.BoardDimensions = new Vector2Int(3,3);
-        SolverParser.Main(_treeStrategyFile);
-        _mohexPlayer.SetStrategyFile("hex33-1.txt");
+        //SolverParser.Main(_treeStrategyFile);
+        //TODO: make this automatic.
+        _mohexPlayer.SetValidFirstMoves(new Dictionary<Vector2Int, string>(){
+            [new Vector2Int(1, 1)] = "hex33.txt",
+            [new Vector2Int(0, 2)] = "hex33-1.txt"
+        });
         _gameManager.ResetGameWithNewAgents(new Agent[]{_mohexPlayer,_jingYangOpponent});
     }
 
