@@ -224,7 +224,7 @@ public class Board
         //If a new move is played it doesn't make sense to be able to redo moves                 
         _undoneMoves.Clear();
         
-
+        Debug.Log(move);
 
         ForceMove(move, (IsLeftPlayerMove ? TileState.Black : TileState.White));
 

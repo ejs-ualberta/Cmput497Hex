@@ -33,7 +33,6 @@ public class MohexPlayer : Agent
             _isSelectingMove = true;
             _isFirstMove = true;
         }
-        SolverParser.IssueCommand(BenzeneCommands.clear_board);
     }
 
 
@@ -57,13 +56,11 @@ public class MohexPlayer : Agent
 
 	    if (_visualizedMove != null)
 	    {
-	        if (InputManager.GetMouseButtonDown(0))
-	        {   Debug.Log("First Move");
+	        if (InputManager.GetMouseButtonDown(0)){
                 SolverParser.firstMoveInCentre = false;
                 SolverParser.IssueCommand(BenzeneCommands.clear_board);
-                Debug.Log(SolverParser.IssueCommand(BenzeneCommands.play(PlayerColours.Black, _visualizedMove)));
+                SolverParser.IssueCommand(BenzeneCommands.play(PlayerColours.Black, _visualizedMove));
                 SolverParser.firstMoveInCentre = true;
-                Debug.Log("After First Move");
 	            _callback(_visualizedMove);
 	            _isSelectingMove = false;
                 _visualization.ClearSelectedMove(_visualizedMove.Location);
@@ -114,11 +111,10 @@ public class MohexPlayer : Agent
 
     public override void OnMyMoveEvent(Board board, MoveChoiceCallback moveChoiceCallback)
     {
-        _isSelectingMove = true;
-        _validMoves = board.GetAllValidMoves();
-        _board = board;
-
         if(!_hasInitialized){
+            _isSelectingMove = true;
+            _validMoves = board.GetAllValidMoves();
+            _board = board;
             _callback = moveChoiceCallback;
             return;
         }
@@ -129,14 +125,13 @@ public class MohexPlayer : Agent
         }
 
         var mv = BenzeneCommands.genmove(PlayerColours.Black);
-        Debug.Log(mv);
         var moveStr = SolverParser.IssueCommand(mv);
         var move = BenzeneUtil.TryToParseMove(moveStr);
         moveChoiceCallback(move);
     }
 
     public override void OnUndoEvent(){
-        SolverParser.IssueCommand( BenzeneCommands.undo);
+        SolverParser.IssueCommand(BenzeneCommands.undo);
     }
 
     private void Update(){

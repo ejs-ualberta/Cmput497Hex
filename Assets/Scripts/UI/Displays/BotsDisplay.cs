@@ -20,9 +20,6 @@ public class BotsDisplay : Display
     private bool _inBotGame = false;
 
     public override void Show(){
-
-
-
         base.Show();
 
         if(_inBotGame){
@@ -63,11 +60,9 @@ public class BotsDisplay : Display
         SaveState();
         DisplaysManager.instance.ShowDisplay(DisplaysManager.instance.BotGameDisplay);
         Settings.BoardDimensions = new Vector2Int(3,3);
-        SolverParser.firstMoveInCentre = false;
         SolverParser.Main(_treeStrategyFile);
         _mohexPlayer.SetStrategyFile("hex33-1.txt");
         _gameManager.ResetGameWithNewAgents(new Agent[]{_mohexPlayer,_jingYangOpponent});
-        SolverParser.firstMoveInCentre = true;
     }
 
     public void Back()
