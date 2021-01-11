@@ -240,7 +240,6 @@ public static class SolverParser
             for (j = 1; j < cur_pattern.vc_vc_PPs[bn][i].Count; j++)
             {
                 int m = cur_pattern.vc_vc_PPs[bn][i][j];
-                Debug.LogError(m);
                 ch_pa[j] = local_global[m];
             }
             Pattern p = new Pattern(all_patterns[ch_id]);
@@ -314,13 +313,13 @@ public static class SolverParser
 
     private static void play(ref List<string> board, char color, string move)
     {
-        Debug.Log(System.String.Join("\n", board));
+        //Debug.Log(System.String.Join("\n", board));
         int x = move[0] - 'a';
         int y = int.Parse(move.Substring(1)) - 1;
         StringBuilder sb = new StringBuilder(board[y]);
         sb[x] = color;
         board[y] = sb.ToString();
-        Debug.Log(System.String.Join("\n", board));
+        //Debug.Log(System.String.Join("\n", board));
     }
 
 
@@ -398,7 +397,7 @@ public static class SolverParser
             //cerr << "white move: " << point << "\n" << endl;
             if (!empty(board, point))
             {
-                Debug.Log(System.String.Join("\n", board));
+                //Debug.Log(System.String.Join("\n", board));
                 Debug.LogError("occupied cell");
                 return "";
             }
