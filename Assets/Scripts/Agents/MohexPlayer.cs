@@ -74,6 +74,7 @@ public class MohexPlayer : Agent
 	            _isSelectingMove = false;
                 _visualization.ClearSelectedMove(_visualizedMove.Location);
 	            _visualizedMove = null;
+                ++n_moves;
 	        }
 	    }
 
@@ -128,9 +129,15 @@ public class MohexPlayer : Agent
             return;
         }
 
+        Debug.Log(n_moves);
+        if (n_moves <= 0){
+            return;
+        }
+
         //Ensure states are consistent
         if(board.LastMove != null){
             SolverParser.IssueCommand(BenzeneCommands.play(PlayerColours.White, board.LastMove));
+            n_moves += 1;
         }
 
         var mv = BenzeneCommands.genmove(PlayerColours.Black);
@@ -142,9 +149,14 @@ public class MohexPlayer : Agent
 
     //TODO: Fix undo functionality.
     public override void OnUndoEvent(){
-        if (n_moves > 0){
+        Debug.Log(n_moves);
+        if (n_moves > 1){
             SolverParser.IssueCommand(BenzeneCommands.undo);
             n_moves -= 1;
+        }else{
+            SolverParser.IssueCommand(BenzeneCommands.clear_board);
+            n_moves = 0;
+            _isSelectingMove = true;
         }
     }
 
@@ -155,7 +167,8 @@ public class MohexPlayer : Agent
                 if (!SolverFileLoader.instance.IsFileReady(Application.streamingAssetsPath + '/' + kvp.Value)){return;}
             }
             Initialize();
-        }else if (n_moves == 0){
+        }
+        if (n_moves == 0){
             VisualizeMove();
         }
     }
