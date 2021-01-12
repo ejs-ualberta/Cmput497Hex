@@ -7,5 +7,6 @@ public enum AgentType {
     Human = 0,
     Random = 1,
     JingYang = 2,
-    MoHex = 3
+    MoHex = 3,
+    Strategy = 4
 }

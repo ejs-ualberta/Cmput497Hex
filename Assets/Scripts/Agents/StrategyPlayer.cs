@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MohexPlayer : Agent
+public class StrategyPlayer : Agent
 {
     private string StrategyFile;
     private bool _hasInitialized = false;
@@ -44,7 +44,7 @@ public class MohexPlayer : Agent
 
     public override AgentType Type
     {
-        get { return AgentType.MoHex; }
+        get { return AgentType.Strategy; }
     }
 
     public override void OnGameOverEvent(bool isWinner)
@@ -129,7 +129,7 @@ public class MohexPlayer : Agent
             return;
         }
 
-        Debug.Log(n_moves);
+        //Debug.Log(n_moves);
         if (n_moves <= 0){
             return;
         }

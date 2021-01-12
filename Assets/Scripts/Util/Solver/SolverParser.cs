@@ -504,7 +504,7 @@ public static class SolverParser
         reflect = false;
 
         string[] lines = SolverFileLoader.instance.GetFileContent(file_name);
-        Debug.Log(lines.Length);
+        //Debug.Log(lines.Length);
         foreach(var line in lines)
         {
             if (line.Length == 0)

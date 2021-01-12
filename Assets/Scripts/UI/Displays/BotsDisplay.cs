@@ -13,7 +13,7 @@ public class BotsDisplay : Display
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private JingYangPlayer _jingYangPlayer;
     [SerializeField] private JingYangOpponent _jingYangOpponent;
-    [SerializeField] private MohexPlayer _mohexPlayer;
+    [SerializeField] private StrategyPlayer _strategyPlayer;
     
     private Agent[] _agents = new Agent[0];
     private string _state = "";
@@ -48,25 +48,23 @@ public class BotsDisplay : Display
         _gameManager.ResetGameWithNewAgents(new Agent[]{_jingYangPlayer,_jingYangOpponent});
     }
 
-    public void ThreeByThree(){
+/*    public void ThreeByThree(){
         StartBotGame();
         Settings.BoardDimensions = new Vector2Int(3,3);
         SolverParser.Main(_3x3StrategyFile);
         _gameManager.ResetGameWithNewAgents(new Agent[]{_jingYangPlayer, _jingYangOpponent});
     }
+*/
 
-    public void TreeByTree(){
-        _inBotGame = true;
-        SaveState();
-        DisplaysManager.instance.ShowDisplay(DisplaysManager.instance.BotGameDisplay);
+    public void ThreeByThree(){
+        StartBotGame();
         Settings.BoardDimensions = new Vector2Int(3,3);
-        //SolverParser.Main(_treeStrategyFile);
         //TODO: make this automatic.
-        _mohexPlayer.SetValidFirstMoves(new Dictionary<Vector2Int, string>(){
+        _strategyPlayer.SetValidFirstMoves(new Dictionary<Vector2Int, string>(){
             [new Vector2Int(1, 1)] = "hex33.txt",
             [new Vector2Int(0, 2)] = "hex33-1.txt"
         });
-        _gameManager.ResetGameWithNewAgents(new Agent[]{_mohexPlayer,_jingYangOpponent});
+        _gameManager.ResetGameWithNewAgents(new Agent[]{_strategyPlayer,_jingYangOpponent});
     }
 
     public void Back()
