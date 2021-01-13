@@ -45,7 +45,6 @@ public class SolverFileLoader : MonoBehaviour
             StartCoroutine(GetRequest(fileName));
 #else
             _fileContents[fileName] = File.ReadAllLines(fileName);
-            Debug.Log(_fileContents[fileName][0]);
             Debug.LogFormat("{0} {1}",fileName,_fileContents[fileName].Length);
 #endif
         }

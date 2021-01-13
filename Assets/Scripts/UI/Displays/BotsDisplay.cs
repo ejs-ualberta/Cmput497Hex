@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class BotsDisplay : Display
 {
-    private readonly string _4x4StrategyFile =  Application.streamingAssetsPath + "/4_4_c2.txt";
-    private readonly string _9x9StrategyFile =  Application.streamingAssetsPath + "/9_9_e5.txt";
-
-
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private JingYangPlayer _jingYangPlayer;
     [SerializeField] private JingYangOpponent _jingYangOpponent;
@@ -31,19 +27,16 @@ public class BotsDisplay : Display
         }
 
     }
-
-    public void JingYang(){
-        StartBotGame();
-        Settings.BoardDimensions = new Vector2Int(9,9);
-        SolverParser.Main(_9x9StrategyFile);
-        _gameManager.ResetGameWithNewAgents(new Agent[]{_jingYangPlayer,_jingYangOpponent});
+    public void SixBySix(){
+        NewStrategyGame(6);
     }
 
-     public void FourByFour(){
-        StartBotGame();
-        Settings.BoardDimensions = new Vector2Int(4,4);
-        _strategyPlayer.SetValidFirstMoves(GetStrategyFileDict(4));
-        _gameManager.ResetGameWithNewAgents(new Agent[]{_strategyPlayer,_jingYangOpponent});
+    public void FiveByFive(){
+        NewStrategyGame(5);
+    }
+
+    public void FourByFour(){
+        NewStrategyGame(4);
     }
 
 /*    public void ThreeByThree(){
@@ -55,10 +48,7 @@ public class BotsDisplay : Display
 */
 
     public void ThreeByThree(){
-        StartBotGame();
-        Settings.BoardDimensions = new Vector2Int(3,3);
-        _strategyPlayer.SetValidFirstMoves(GetStrategyFileDict(3));
-        _gameManager.ResetGameWithNewAgents(new Agent[]{_strategyPlayer,_jingYangOpponent});
+        NewStrategyGame(3);
     }
 
     public void Back()
@@ -76,6 +66,14 @@ public class BotsDisplay : Display
         SaveState();
         DisplaysManager.instance.ShowDisplay(DisplaysManager.instance.BotGameDisplay);
     }
+
+    private void NewStrategyGame(int board_size){
+        StartBotGame();
+        Settings.BoardDimensions = new Vector2Int(board_size, board_size);
+        _strategyPlayer.SetValidFirstMoves(GetStrategyFileDict((uint)board_size));
+        _gameManager.ResetGameWithNewAgents(new Agent[]{_strategyPlayer,_jingYangOpponent});
+    }
+
     private void SaveState(){
         _state = _gameManager.Board.ToString();
         _agents = _gameManager.Agents;
