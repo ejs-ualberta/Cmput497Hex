@@ -29,7 +29,7 @@ public class StrategyPlayer : Agent
     }
 
     public void Initialize(){
-        SolverParser.IssueCommand(BenzeneCommands.clear_board);
+        //SolverParser.IssueCommand(BenzeneCommands.clear_board);
         _hasInitialized = true;
     }
 
@@ -147,9 +147,8 @@ public class StrategyPlayer : Agent
         n_moves += 1;
     }
 
-    //TODO: Fix undo functionality.
     public override void OnUndoEvent(){
-        Debug.Log(n_moves);
+        //Debug.Log(n_moves);
         if (n_moves > 1){
             SolverParser.IssueCommand(BenzeneCommands.undo);
             n_moves -= 1;

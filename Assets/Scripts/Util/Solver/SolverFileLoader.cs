@@ -10,9 +10,12 @@ public class SolverFileLoader : MonoBehaviour
     //Therefore this class caches the contents of all files listed in _strategyFiles. This class can then be queried to request the status and data of a given file.
 
     public static SolverFileLoader instance;
-    [SerializeField] private string[] _strategyFiles;
+    private string[] _strategyFiles;
+    [SerializeField] private string sf_path = Application.streamingAssetsPath + "/strategy_files.txt";
 
-    private readonly Dictionary<string,string[]> _fileContents = new Dictionary<string, string[]>();
+    private static Dictionary<string,string[]> _fileContents = new Dictionary<string, string[]>();
+
+
     public string[] GetFileContent(string fileName){
         if(_fileContents.ContainsKey(fileName)){
             return _fileContents[fileName];
@@ -23,15 +26,26 @@ public class SolverFileLoader : MonoBehaviour
     public bool IsFileReady(string fileName ){
         return _fileContents.ContainsKey(fileName);
     }
+
     void Awake()
     {
         instance = this;
+#if UNITY_WEBGL
+        StartCoroutine(GetRequest(sf_path));
+        while (!_fileContents.ContainsKey(sf_path)){
+            Debug.Log("...");
+        }
+        _strategyFiles = _fileContents[sf_path];
+#else
+        _strategyFiles = File.ReadAllLines(sf_path);
+#endif
         foreach(var file in _strategyFiles){
             var fileName = Application.streamingAssetsPath + "/" + file;
 #if UNITY_WEBGL
             StartCoroutine(GetRequest(fileName));
 #else
             _fileContents[fileName] = File.ReadAllLines(fileName);
+            Debug.Log(_fileContents[fileName][0]);
             Debug.LogFormat("{0} {1}",fileName,_fileContents[fileName].Length);
 #endif
         }
@@ -58,5 +72,17 @@ public class SolverFileLoader : MonoBehaviour
                 _fileContents[uri] = webRequest.downloadHandler.text.Split('\n');
             }
         }
+    }
+
+    public static List<string> GetNxNStrategyFileNames(uint n){
+        List<string> fnames = new List<string>();
+        foreach(KeyValuePair<string, string[]> kvp in _fileContents){
+            string[] path = kvp.Key.Split('/');
+            string name = path[path.Length - 1];
+            if (name.Contains(string.Format("{0}_{1}", n, n))){
+                fnames.Add(name);
+            }
+        }
+        return fnames;
     }
 }

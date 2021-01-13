@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class BotsDisplay : Display
 {
-    private readonly string _treeStrategyFile = Application.streamingAssetsPath + "/hex33-1.txt";
-    private readonly string _3x3StrategyFile = Application.streamingAssetsPath + "/hex33.txt";
-    private readonly string _4x4StrategyFile =  Application.streamingAssetsPath + "/hex44.txt";
-    private readonly string _9x9StrategyFile =  Application.streamingAssetsPath + "/hex99-3.txt";
+    private readonly string _4x4StrategyFile =  Application.streamingAssetsPath + "/4_4_c2.txt";
+    private readonly string _9x9StrategyFile =  Application.streamingAssetsPath + "/9_9_e5.txt";
 
 
     [SerializeField] private GameManager _gameManager;
@@ -41,11 +39,11 @@ public class BotsDisplay : Display
         _gameManager.ResetGameWithNewAgents(new Agent[]{_jingYangPlayer,_jingYangOpponent});
     }
 
-    public void FourByFour(){
+     public void FourByFour(){
         StartBotGame();
         Settings.BoardDimensions = new Vector2Int(4,4);
-        SolverParser.Main(_4x4StrategyFile);
-        _gameManager.ResetGameWithNewAgents(new Agent[]{_jingYangPlayer,_jingYangOpponent});
+        _strategyPlayer.SetValidFirstMoves(GetStrategyFileDict(4));
+        _gameManager.ResetGameWithNewAgents(new Agent[]{_strategyPlayer,_jingYangOpponent});
     }
 
 /*    public void ThreeByThree(){
@@ -59,11 +57,7 @@ public class BotsDisplay : Display
     public void ThreeByThree(){
         StartBotGame();
         Settings.BoardDimensions = new Vector2Int(3,3);
-        //TODO: make this automatic.
-        _strategyPlayer.SetValidFirstMoves(new Dictionary<Vector2Int, string>(){
-            [new Vector2Int(1, 1)] = "hex33.txt",
-            [new Vector2Int(0, 2)] = "hex33-1.txt"
-        });
+        _strategyPlayer.SetValidFirstMoves(GetStrategyFileDict(3));
         _gameManager.ResetGameWithNewAgents(new Agent[]{_strategyPlayer,_jingYangOpponent});
     }
 
@@ -90,5 +84,17 @@ public class BotsDisplay : Display
     private void RestoreState(){
         _gameManager.ResetGameWithNewAgents(_agents);
         _gameManager.ImportGame(_state);
+    }
+
+    private Dictionary<Vector2Int, string> GetStrategyFileDict(uint n){
+        Dictionary<Vector2Int, string> dict = new Dictionary<Vector2Int, string>();
+        foreach (string name in SolverFileLoader.GetNxNStrategyFileNames(n)){
+            string[] components = name.Split('_');
+            string pos = components[components.Length - 1];
+            int x = pos[0] - 'a';
+            int y = pos[1] - '0' - 1;
+            dict.Add(new Vector2Int(x, y), name);
+        }
+        return dict;
     }
 }

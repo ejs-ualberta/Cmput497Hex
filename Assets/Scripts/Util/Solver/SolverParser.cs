@@ -115,9 +115,7 @@ public static class SolverParser
         p.global_move = -1;//will calculate later
         if (RN == 1)
         {
-            p.global_move = m;
-            if (m <= BOARDSIZE * BOARDSIZE / 2)
-                p.global_move = m - 1;
+            p.global_move = m - 1;
         }
         return p;
     }
