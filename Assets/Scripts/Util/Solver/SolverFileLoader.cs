@@ -27,28 +27,32 @@ public class SolverFileLoader : MonoBehaviour
         return _fileContents.ContainsKey(fileName);
     }
 
+    void Update(){
+    #if UNITY_WEBGL
+        if (_fileContents.ContainsKey(sf_path) || !IsFileReady(sf_path)){return;}
+        _strategyFiles = _fileContents[sf_path];
+        foreach(var file in _strategyFiles){
+            var fileName = Application.streamingAssetsPath + "/" + file;
+            _fileContents[fileName] = File.ReadAllLines(fileName);
+            Debug.LogFormat("{0} {1}",fileName,_fileContents[fileName].Length);
+        }
+    #endif
+    }
+
+
     void Awake()
     {
         instance = this;
 #if UNITY_WEBGL
         StartCoroutine(GetRequest(sf_path));
-        while (!_fileContents.ContainsKey(sf_path)){
-            Debug.Log("...");
-        }
-        _strategyFiles = _fileContents[sf_path];
 #else
         _strategyFiles = File.ReadAllLines(sf_path);
-#endif
         foreach(var file in _strategyFiles){
             var fileName = Application.streamingAssetsPath + "/" + file;
-#if UNITY_WEBGL
-            StartCoroutine(GetRequest(fileName));
-#else
             _fileContents[fileName] = File.ReadAllLines(fileName);
             Debug.LogFormat("{0} {1}",fileName,_fileContents[fileName].Length);
-#endif
         }
-
+#endif
     }
 
     private IEnumerator GetRequest(string uri)

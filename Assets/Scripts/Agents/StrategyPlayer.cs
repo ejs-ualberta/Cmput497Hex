@@ -14,6 +14,8 @@ public class StrategyPlayer : Agent
     protected List<Move> _validMoves = null;
     protected Move _visualizedMove = null;
 
+    protected int BoardSize = 9;
+
     private Dictionary<Vector2Int, string> valid_first_moves = new Dictionary<Vector2Int, string>();
     private int n_moves = 0;
 
@@ -28,8 +30,25 @@ public class StrategyPlayer : Agent
         valid_first_moves = dict;
     }
 
+    public void SetBoardSize(int size){
+        BoardSize = size;
+    }
+
+    private Dictionary<Vector2Int, string> GetStrategyFileDict(uint n){
+        Dictionary<Vector2Int, string> dict = new Dictionary<Vector2Int, string>();
+        foreach (string name in SolverFileLoader.GetNxNStrategyFileNames(n)){
+            string[] components = name.Split('_');
+            string pos = components[components.Length - 1];
+            int x = pos[0] - 'a';
+            int y = pos[1] - '0' - 1;
+            dict.Add(new Vector2Int(x, y), name);
+        }
+        return dict;
+    }
+
     public void Initialize(){
         //SolverParser.IssueCommand(BenzeneCommands.clear_board);
+        SetValidFirstMoves(GetStrategyFileDict((uint)BoardSize));
         _hasInitialized = true;
     }
 

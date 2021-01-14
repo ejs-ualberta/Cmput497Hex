@@ -69,8 +69,8 @@ public class BotsDisplay : Display
 
     private void NewStrategyGame(int board_size){
         StartBotGame();
+        _strategyPlayer.SetBoardSize(board_size);
         Settings.BoardDimensions = new Vector2Int(board_size, board_size);
-        _strategyPlayer.SetValidFirstMoves(GetStrategyFileDict((uint)board_size));
         _gameManager.ResetGameWithNewAgents(new Agent[]{_strategyPlayer,_jingYangOpponent});
     }
 
@@ -82,17 +82,5 @@ public class BotsDisplay : Display
     private void RestoreState(){
         _gameManager.ResetGameWithNewAgents(_agents);
         _gameManager.ImportGame(_state);
-    }
-
-    private Dictionary<Vector2Int, string> GetStrategyFileDict(uint n){
-        Dictionary<Vector2Int, string> dict = new Dictionary<Vector2Int, string>();
-        foreach (string name in SolverFileLoader.GetNxNStrategyFileNames(n)){
-            string[] components = name.Split('_');
-            string pos = components[components.Length - 1];
-            int x = pos[0] - 'a';
-            int y = pos[1] - '0' - 1;
-            dict.Add(new Vector2Int(x, y), name);
-        }
-        return dict;
     }
 }
