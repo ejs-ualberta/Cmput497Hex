@@ -85,7 +85,7 @@ public class StrategyPlayer : Agent
                 if (!valid_first_moves.ContainsKey(_visualizedMove.Location)){return;}
                 StrategyFile = valid_first_moves[_visualizedMove.Location];
                 SolverParser.firstMoveInCentre = false;
-                SolverParser.Main(Application.streamingAssetsPath + '/' + StrategyFile);
+                SolverParser.Main(SolverFileLoader.prefix + Application.streamingAssetsPath + '/' + StrategyFile);
                 SolverParser.IssueCommand(BenzeneCommands.clear_board);
                 SolverParser.IssueCommand(BenzeneCommands.play(PlayerColours.Black, _visualizedMove));
                 SolverParser.firstMoveInCentre = true;
@@ -182,7 +182,8 @@ public class StrategyPlayer : Agent
         if(!_hasInitialized){
             //In webgl and android it is possible that files are not available at application start so this condition must be met before the bot can initialize.
             foreach(KeyValuePair<Vector2Int, string> kvp in valid_first_moves){
-                if (!SolverFileLoader.instance.IsFileReady(Application.streamingAssetsPath + '/' + kvp.Value)){return;}
+                string path = SolverFileLoader.prefix + Application.streamingAssetsPath + '/' + kvp.Value;
+                if (!SolverFileLoader.instance.IsFileReady(path)){return;}
             }
             Initialize();
         }

@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
             CommitMove();
 	    }
 
-	    if (Time.time - _lastGameTime >= _minimumTimeBetweenGames && _currentBoard.IsGameOver)
+	    if (_currentBoard != null && Time.time - _lastGameTime >= _minimumTimeBetweenGames && _currentBoard.IsGameOver)
 	    {
             ResetGame();
 	    }

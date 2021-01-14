@@ -12,6 +12,11 @@ public class SolverFileLoader : MonoBehaviour
     public static SolverFileLoader instance;
     private string[] _strategyFiles;
     [SerializeField] private string sf_path = Application.streamingAssetsPath + "/strategy_files.txt";
+    #if UNITY_WEBGL
+    public static string prefix = "file://";
+    #else
+    public static string prefix = "";
+    #endif
 
     private static Dictionary<string,string[]> _fileContents = new Dictionary<string, string[]>();
 
@@ -27,16 +32,17 @@ public class SolverFileLoader : MonoBehaviour
         return _fileContents.ContainsKey(fileName);
     }
 
-    void Update(){
+    private IEnumerator GetFiles(){
     #if UNITY_WEBGL
-        if (_fileContents.ContainsKey(sf_path) || !IsFileReady(sf_path)){return;}
-        _strategyFiles = _fileContents[sf_path];
+        //Debug.Log("Waiting for file access...");
+        if (_fileContents.ContainsKey(prefix + sf_path) || !IsFileReady(prefix + sf_path)){yield return null;}
+        _strategyFiles = _fileContents[prefix + sf_path];
         foreach(var file in _strategyFiles){
-            var fileName = Application.streamingAssetsPath + "/" + file;
-            _fileContents[fileName] = File.ReadAllLines(fileName);
-            Debug.LogFormat("{0} {1}",fileName,_fileContents[fileName].Length);
+            var fileName = prefix + Application.streamingAssetsPath + "/" + file;
+            StartCoroutine(GetRequest(fileName));
         }
     #endif
+        yield return null;
     }
 
 
@@ -44,7 +50,8 @@ public class SolverFileLoader : MonoBehaviour
     {
         instance = this;
 #if UNITY_WEBGL
-        StartCoroutine(GetRequest(sf_path));
+        StartCoroutine(GetRequest(prefix + sf_path));
+        StartCoroutine(GetFiles());
 #else
         _strategyFiles = File.ReadAllLines(sf_path);
         foreach(var file in _strategyFiles){
