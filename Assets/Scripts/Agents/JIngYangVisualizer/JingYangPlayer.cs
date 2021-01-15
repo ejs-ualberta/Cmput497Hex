@@ -17,7 +17,7 @@ public class JingYangPlayer : Agent
 
 
     public void Initialize(){
-        SolverParser.Main(SolverFileLoader.prefix + Application.streamingAssetsPath + "/" + _defaultStrategyFile);
+        SolverParser.Main(Application.streamingAssetsPath + "/" + _defaultStrategyFile);
         var name = SolverParser.IssueCommand(BenzeneCommands.name);
         var expectedName = (_isUsingStandaloneExecutable) ? "= jingyang" : "= JY"; 
         if(expectedName != name){
@@ -85,7 +85,7 @@ public class JingYangPlayer : Agent
 
     private void Update(){
         
-        if(!_hasInitialized && SolverFileLoader.instance.IsFileReady(SolverFileLoader.prefix + Application.streamingAssetsPath + '/' + _defaultStrategyFile)){
+        if(!_hasInitialized && SolverFileLoader.instance.IsFileReady(Application.streamingAssetsPath + '/' + _defaultStrategyFile)){
             //In webgl and android it is possible that files are not available at application start so this condition must be met before the bot can initialize.
             Initialize();
             _hasInitialized = true;
