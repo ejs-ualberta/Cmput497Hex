@@ -70,6 +70,7 @@ public class BotsDisplay : Display
     private void NewStrategyGame(int board_size){
         StartBotGame();
         _strategyPlayer.SetBoardSize(board_size);
+        _gameManager.ResetGame();
         Settings.BoardDimensions = new Vector2Int(board_size, board_size);
         _gameManager.ResetGameWithNewAgents(new Agent[]{_strategyPlayer,_jingYangOpponent});
     }
