@@ -441,7 +441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5be80e3d398f92985a9d8c8cf6090882, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sf_path: /home/john/Desktop/Cmput497Hex/Assets/StreamingAssets/strategy_files.txt
+  strategy_files: strategy_files.txt
 --- !u!1 &18636958
 GameObject:
   m_ObjectHideFlags: 0
