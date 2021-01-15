@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,8 +13,7 @@ public static class SolverParser
     //In principle it is the same but due to differences in how the languages handle List vs Vector the c++ implentation is more performant.
     //The bottleneck of performance for 9x9 is loading the file and parsing the patterns so this performance difference is not yet significant.
 
-    // This should always be true as to not break things, unless it is set to false 
-    // directly before a call to Main and then set back to true. See BotsDisplay.cs for examples.
+
     public static bool firstMoveInCentre = true;
     public static int BOARDSIZE;
     public static int Y_WIDTH;
@@ -80,11 +79,12 @@ public static class SolverParser
 
     private static int reflect_point(int point)
     {
-        return BOARDSIZE * BOARDSIZE - point - 1;
+        return BOARDSIZE * BOARDSIZE - 1 - point;
     }
 
     private static string point_to_cell(int point)
     {
+
         string ret = "";
         int x, y;
         x = point % BOARDSIZE;
@@ -100,6 +100,129 @@ public static class SolverParser
         x = point % BOARDSIZE;
         y = point / BOARDSIZE;
         return board[y][x] == '.';
+    }
+
+    private static string PrintCurrentPatternList(List<string> board, List<Pattern> working_patterns, bool reflect)
+    {
+
+        //benzene local is 1 greater than main.cxx local
+        string os = "";
+        Pattern cur_pattern = working_patterns[working_patterns.Count - 1];
+        if (cur_pattern.RN == 1 && BOARDSIZE == 9)
+        {
+            //since RN=1 contains only half empty cells on board
+            int mid_point = (BOARDSIZE * BOARDSIZE) / 2;
+            for (int i = 0; i < BOARDSIZE * BOARDSIZE; i++)
+            {
+                string hexpoint = point_to_cell(i);
+                os += ' ' + hexpoint + ' ' + (i + 1) + "@1";
+            }
+            return os;
+        }
+
+
+        Pattern pattern;
+        for (int index = 0; index < working_patterns.Count; index++)
+        {
+            pattern = working_patterns[index];
+            for (int i = 0; i < pattern.vc_WMs.Count; i++)
+            {
+                for (int j = 1; j < pattern.vc_WMs[i].Count; j++)
+                {
+                    int global = pattern.vc_WMs[i][j].global_move;
+                    int local = pattern.vc_WMs[i][j].local_move;
+                    string hexPoint = point_to_cell((reflect) ? reflect_point(global) : global);
+                    os +=  ' ' + hexPoint + ' ' + local + '@' + pattern.RN;
+                }
+            }
+        }
+
+        return os;
+    }
+
+    private static string PrintCurrentBranchList(List<string> board, List<Pattern> working_patterns, bool reflect)
+    {
+        string os = "";
+        Pattern pattern;
+        for (int index = 0; index < working_patterns.Count; index++)
+        {
+            pattern = working_patterns[index];
+            for (int i = 0; i < pattern.BT; i++)
+            {
+                for (int j = 1; j < pattern.vc_WMs[i].Count; j++)
+                {
+                    int global = pattern.vc_WMs[i][j].global_move;
+                    int local = pattern.vc_WMs[i][j].local_move;
+                    string hexPoint = point_to_cell((reflect) ? reflect_point(global) : global);
+                    os += ' ' + hexPoint + ' ' + pattern.RN + "@" + pattern.vc_BN[i];
+                    //Could add if the strategy uses reflection as a flag in the first line of the solver file
+                    if (pattern.RN == 1 && BOARDSIZE == 9)
+                    {
+                        hexPoint = point_to_cell((!reflect) ? reflect_point(global) : global);
+                        os += ' ' + hexPoint + ' ' + pattern.RN + "@" + pattern.vc_BN[i];
+                    }
+                }
+            }
+        }
+
+        return os;
+    }
+
+    private static string PrintCurrentBlackMoves(List<string> board, List<Pattern> working_patterns, bool reflect)
+    {
+    //Create mapping from black hexpoint to all white hexpoints s.t. the black hexpoint is a winning response to all white hexpoints.
+
+    //First create the mapping to ensure it can be printed in order without repititions   
+    Dictionary<int, List<int>> bmToWM = new Dictionary<int, List<int>>();
+    string os = "";
+    Pattern pattern;
+    for (int index = 0; index < working_patterns.Count; index++)
+        {
+            pattern = working_patterns[index];
+            for (int i = 0; i < pattern.BT; i++)
+            {
+                for (int j = 1; j < pattern.vc_WMs[i].Count; j++)
+                {
+
+                    if (!bmToWM.ContainsKey(pattern.vc_BM[i].global_move))
+                    {
+                        bmToWM[pattern.vc_BM[i].global_move] = new List<int>();
+                        
+                    }
+                    bmToWM[pattern.vc_BM[i].global_move].Add(pattern.vc_WMs[i][j].global_move);                    
+                }
+        }
+    }
+    
+    //Format is = bm wm,...,wm .... bm wm,....,wm
+
+    foreach(KeyValuePair<int,List<int>> kvp in bmToWM){
+        var first = kvp.Key;
+        var second = kvp.Value;
+        
+        string hexPoint = point_to_cell((reflect) ? reflect_point(first) : first);
+
+        os += hexPoint;
+        
+
+        for(int i = 0; i<second.Count; i++){
+            hexPoint = point_to_cell((reflect) ? reflect_point(second[i]) : second[i]);
+            os += ((i == 0) ? ' ' : ',') + hexPoint;
+        }
+
+        os += ' ';
+        //Handle first move case
+        if (working_patterns[working_patterns.Count - 1].RN == 1 && BOARDSIZE == 9){
+            hexPoint=point_to_cell((!reflect) ? reflect_point(first) : first) ;
+            os += hexPoint;
+            for(int i = 0; i<second.Count; i++){
+                hexPoint = point_to_cell((!reflect) ? reflect_point(second[i]) : second[i]);
+                os += ((i == 0) ? ' ' : ',') + hexPoint;
+            }
+            os += ' ';
+        }
+    }
+    return os;
     }
 
     private static void next(List<string> vc_str, ref int idx, ref List<string> tokens)
@@ -134,14 +257,7 @@ public static class SolverParser
             if (tokens[0] == "RN")
             {
                 //a new pattern
-                Pattern pattern = new Pattern(){
-                    vc_BM = new List<PMOVE>(),
-                    vc_ND = new List<int>(),
-                    vc_PSs = new List<List<int>>(),
-                    vc_BN = new List<int>(),
-                    vc_WMs = new List<List<PMOVE>>(),
-                    vc_vc_PPs = new List<List<List<int>>>()
-                };
+                Pattern pattern = new Pattern(){vc_BM = new List<PMOVE>(),vc_ND = new List<int>(),vc_PSs = new List<List<int>>(),vc_BN = new List<int>(),vc_WMs = new List<List<PMOVE>>(),vc_vc_PPs = new List<List<List<int>>>()};
                 pattern.RN = int.Parse(tokens[1]);
                 int RN = pattern.RN;
                 next(vc_str,ref idx, ref tokens);
@@ -311,13 +427,11 @@ public static class SolverParser
 
     private static void play(ref List<string> board, char color, string move)
     {
-        //Debug.Log(System.String.Join("\n", board));
         int x = move[0] - 'a';
         int y = int.Parse(move.Substring(1)) - 1;
         StringBuilder sb = new StringBuilder(board[y]);
         sb[x] = color;
         board[y] = sb.ToString();
-        //Debug.Log(System.String.Join("\n", board));
     }
 
 
@@ -373,10 +487,9 @@ public static class SolverParser
         {
             List<string> tokens = split(text, ' ');
             if (tokens[1][0] == 'B' || tokens[1][0] == 'b')
-            {
+            {   
                 if (!firstMoveInCentre){
                     play(ref board, 'b', tokens[2]);
-                    return "= " + tokens[2];
                 }
                 return "= \n";
             }
@@ -395,7 +508,6 @@ public static class SolverParser
             //cerr << "white move: " << point << "\n" << endl;
             if (!empty(board, point))
             {
-                //Debug.Log(System.String.Join("\n", board));
                 Debug.LogError("occupied cell");
                 return "";
             }
@@ -431,6 +543,30 @@ public static class SolverParser
         {
             return "= " + BOARDSIZE;
         }
+        if (text.Contains("show_jypattern_list") )
+        {
+            if (working_patterns.Count == 0)
+            {
+                return "= \n";                
+            }                        
+            return "= " + PrintCurrentPatternList(board, working_patterns, reflect);
+        }
+        if (text.Contains("show_jybranch_list") )
+        {
+            if (working_patterns.Count == 0)
+            {
+                return "= \n";
+            }
+            return "= " + PrintCurrentBranchList(board, working_patterns, reflect);            
+        }
+        if (text.Contains("show_jyblackmoves_list") )
+        {
+            if (working_patterns.Count == 0)
+            {
+                return "= \n";
+            }
+            return "= " + PrintCurrentBlackMoves(board, working_patterns, reflect);
+        }
         if (text.Contains("clear_board") )
         {
             for (int i = 0; i < BOARDSIZE; i++)
@@ -457,7 +593,7 @@ public static class SolverParser
             return "= \n";
         }
         if (text.Contains("undo") )
-        {   //Debug.LogError(System.String.Join("\n", board));
+        {
             if (history.Count > 0)
             {
                 if (toplay == 1)
@@ -480,7 +616,7 @@ public static class SolverParser
                     reflect = false;
                 }
             }
-            //Debug.LogError(System.String.Join("\n", board));
+
             return "= \n";
         }                
         return "Invalid Command";
@@ -488,6 +624,8 @@ public static class SolverParser
 
     public static void Main(string file_name)
     {
+
+
         List<string> vc_str = new List<string>();
 
         //Add this behaviour to emulate killing and reoping an executable
@@ -502,7 +640,7 @@ public static class SolverParser
         reflect = false;
 
         string[] lines = SolverFileLoader.instance.GetFileContent(file_name);
-        //Debug.Log(lines.Length);
+        Debug.Log(lines.Length);
         foreach(var line in lines)
         {
             if (line.Length == 0)
@@ -542,7 +680,7 @@ public static class SolverParser
         p = all_patterns[1];
         working_patterns.Add(p);
         if (firstMoveInCentre){
-           play(ref board, 'b', point_to_cell(mid_point));
+            play(ref board, 'b', point_to_cell(mid_point));
         }
         int toplay = 1;
 
