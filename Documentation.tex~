@@ -1,0 +1,60 @@
+\documentclass{article}
+
+\newcommand{\hwtitle}{Documentation}
+
+\usepackage{graphicx}
+\newcommand{\mm}{\scalebox{0.65}[1.0]{$-$}}
+
+\usepackage{geometry}
+\geometry{margin=1in, headheight=17pt, includehead}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Emery Smith}
+\chead{\hwtitle}
+\rhead{\today}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[utf8]{inputenc}
+
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+\tdplotsetmaincoords{120}{50}
+
+\usepackage{pgfplots}
+\usetikzlibrary{arrows.meta}
+\pgfplotsset{width=11cm,compat=1.8}
+
+\begin{document}
+\title{HexViz Docs}
+\author{Emery Smith}
+\clearpage
+\maketitle
+\begin{tikzpicture}[remember picture, overlay]
+  \draw[line width = 4pt, color=blue]
+  ($(current page.north west) + (1cm, -1cm)$) rectangle
+  ($(current page.south east) + (-1cm, 1cm)$);
+\end{tikzpicture}
+\thispagestyle{empty}
+\newpage\null\thispagestyle{empty}%\newpage
+
+%\addtocounter{page}{-1}
+%\pagestyle{plain}
+\section{Adding New Strategies:}
+\label{Adding New Strategies}
+\begin{quote}
+If there is already a button for the desired board size, then adding a strategy is as simple as putting your strategy file in the StreamingAssets directory (inside Build) and appending the name of your strategy file to strategy\_files.txt. Note that the filename of your strategy file is significant. See \ref{Strategy Files} for more info. Do not leave empty lines or file names that no longer exist in strategy\_files.txt.  
+\end{quote}
+\begin{quote}
+  If there is no button for the board size you want, you will first need to edit the file Assets/Scripts/UI/Displays/BotsDisplay.cs and add a new function to bind to a button. For example, the ``6 by 6'' button is bound to the function ``BotsDisplay.SixBySix''. Then you need to open the project in the Unity editor, and add another button. This can be done by navigating to Canvas and then BotsDisplayVirtualChildTopLeft in the Heirarchy panel. Duplicate one of the buttons, then rename/reposition/rebind the button to your preferred name/position/function. Now you will need to rebuild the entire project. See README.md for instructions on installation and building. Read the previous paragraph for instructions on adding strategy files for your board size.
+\end{quote}
+
+
+\section{Strategy Files:}
+\label{Strategy Files}
+\begin{quote}
+  The name of a strategy file is important. It tells the player the board size and the starting position for black. Another descripion of the strategy files can be found here:\\ https://github.com/cgao3/benzene-vanilla-cmake/blob/master/share/JingYangInfo.txt\\ To create a strategy file, you need to know about Rules. the string ``RN X'' where X is the rule number denotes the beginning of a new rule. ``RN 1'' is special, because its local moves are global moves (more on this later). Within each rule there are branches. The number of branches is specified right under the rule number, with ``BT X'' where X is the total amount of branches in the rule. A branch is specified by ``BN X'' where X is the number of the current branch. Each branch responds to different moves by white, and only one will be taken. The string ``WM N X1 X2 ... XN'' denotes which white moves (X1 ... XN) it responds to, with N being the total number of white moves for that branch. Then ``BM X'' is black's response to any of the moves specified in the branch. The next string that should appear is ``ND N'' which denotes the number of subgames (N being that number) that now need to be solved. ``PS X1 ... XN'' stands for the rule numbers to go to next to solve any subgames. Where N is the particular rule number, ``PP N X1 ... XK'' means to go to rule N, which will consider local moves X1 ... XK. Global moves correspond to tiles numbered from 1 to BoardSize*BoardSize. Local moves can be understood as the positions passed to a rule from its parent rule. When a rule is entered, the moves passed to it will be renumbered from 1 to K where K is the total number of moves passed to the rule. Say for example that RN 1 has positions from 1 to 9. If it passes its local positions 2 and 5 to RN 2, then RN 2 refers to these positions by 1 and 2 respectively.
+\end{quote}
+\end{document}
