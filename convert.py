@@ -21,9 +21,7 @@ def increment(l):
 
 def next_line():
     global idx
-    if idx >= len(lines):
-        return
-    while lines[idx].strip() == '':
+    while idx < len(lines) and lines[idx].strip() == '':
         idx += 1;
 
 def get_moves(line, i):
